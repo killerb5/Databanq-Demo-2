@@ -1320,29 +1320,7 @@ const revealObs = new IntersectionObserver((entries) => {
 }, { threshold: 0.08 });
 revealEls.forEach(el => revealObs.observe(el));
 
-// CTA
-function submitCTA() {
-  const input = document.getElementById('ctaEmail');
-  const btn = document.querySelector('.cta-btn');
-  if (input.value && input.value.includes('@')) {
-    btn.textContent = "✓ You're on the list!";
-    btn.style.backgroundColor = '#2AF5A0';
-    btn.style.boxShadow = '0 0 28px rgba(42,245,160,0.5)';
-    input.value = '';
-    setTimeout(() => {
-      btn.textContent = 'Request Access →';
-      btn.style.backgroundColor = '';
-      btn.style.boxShadow = '';
-    }, 3500);
-  } else {
-    input.style.borderColor = '#FF4444';
-    input.placeholder = 'Please enter a valid email';
-    setTimeout(() => {
-      input.style.borderColor = '';
-      input.placeholder = 'your@company.com';
-    }, 1800);
-  }
-}
+
 </script>
 
 </body>
