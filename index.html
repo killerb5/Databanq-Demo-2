@@ -1,216 +1,824 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DataBanq Platform</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
+<title>DataBanq — Intelligent AI Governance</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
+  :root {
+    --emerald:     #10C37E;
+    --deep-emerald:#0B8F5A;
+    --dark-bg:     #0B1110;
+    --dark-card:   #0f1a18;
+    --dark-card2:  #111f1c;
+    --glow:        #2AF5A0;
+    --white:       #FFFFFF;
+    --muted:       rgba(255,255,255,0.45);
+    --border:      rgba(16,195,126,0.18);
+    --border-dim:  rgba(255,255,255,0.07);
+  }
 
-/* RESET */
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%;overflow:hidden}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
 
-/* 🔥 BRAND SYSTEM (FIXED + UPGRADED) */
-:root {
---g400:#00FFB2;
---g500:#00D49A;
---g600:#009E73;
---g900:#041f14;
---glow:#00FFB2;
---glow-dim:rgba(0,255,178,0.12);
-
---bg:#050807;
---bg1:#081110;
---bg2:#0B1F1C;
---bg3:#102823;
-
---b1:rgba(0,255,178,0.12);
---b2:rgba(255,255,255,0.06);
---b3:rgba(255,255,255,0.04);
-
---t1:#E6FFF6;
---t2:rgba(230,255,246,0.65);
---t3:rgba(230,255,246,0.35);
---t4:rgba(230,255,246,0.18);
-
---red:#FF6B6B;
---yel:#FFD166;
---blu:#7C8CFF;
-
---sw:216px;
---th:48px;
+body {
+font-family: ‘Inter’, sans-serif;
+background: var(–dark-bg);
+color: var(–white);
+overflow-x: hidden;
+line-height: 1.6;
 }
 
-/* 🌌 BACKGROUND GLOW */
-body{
-font-family:'Plus Jakarta Sans',sans-serif;
-color:var(--t1);
-background:
-radial-gradient(circle at 20% 10%, rgba(0,255,178,0.08), transparent 40%),
-radial-gradient(circle at 80% 90%, rgba(0,255,178,0.05), transparent 50%),
-var(--bg);
+.glow-text {
+color: var(–glow);
+text-shadow: 0 0 40px rgba(42,245,160,0.5);
 }
 
-/* SCROLL */
-::-webkit-scrollbar{width:4px}
-::-webkit-scrollbar-thumb{background:var(--b1)}
-
-/* LAYOUT */
-.shell{display:flex;flex-direction:column;height:100vh}
-.workspace{display:flex;flex:1}
-
-/* 🔥 TOPBAR UPGRADE */
-.topbar{
-height:var(--th);
-display:flex;align-items:center;
-background:linear-gradient(to right, rgba(5,8,7,0.95), rgba(0,255,178,0.03));
-border-bottom:1px solid var(--b2);
+/* NAV */
+nav {
+position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+display: flex; align-items: center; justify-content: space-between;
+padding: 18px 56px;
+background: rgba(11,17,16,0.88);
+backdrop-filter: blur(16px);
+border-bottom: 1px solid var(–border);
 }
 
-/* LOGO */
-.brand-logo{
-width:28px;height:28px;
-filter:drop-shadow(0 0 10px rgba(0,255,178,0.6));
+.nav-logo {
+font-family: ‘Montserrat’, sans-serif;
+font-weight: 900; font-size: 22px;
+color: var(–white); text-decoration: none;
+letter-spacing: -0.5px;
+display: flex; align-items: center; gap: 10px;
 }
 
-.tb-brand{
-width:var(--sw);
-display:flex;align-items:center;gap:10px;
-padding:0 16px;border-right:1px solid var(--b2);
+.nav-logo-icon {
+width: 32px; height: 32px;
+background: linear-gradient(135deg, var(–emerald), var(–deep-emerald));
+border-radius: 8px;
+display: flex; align-items: center; justify-content: center;
+font-size: 16px;
+box-shadow: 0 0 16px rgba(16,195,126,0.4);
 }
 
-.brand-wordmark{
-font-weight:700;
-font-size:15px;
+.nav-logo span { color: var(–emerald); }
+
+.nav-links { display: flex; align-items: center; gap: 36px; list-style: none; }
+
+.nav-links a {
+font-size: 14px; font-weight: 600;
+color: var(–muted); text-decoration: none;
+transition: color 0.2s;
+font-family: ‘Montserrat’, sans-serif;
 }
 
-/* BUTTON */
-.btn-primary{
-background:linear-gradient(135deg,var(--g500),var(--g400));
-color:black;
-padding:8px 16px;
-border:none;border-radius:8px;
-cursor:pointer;
-box-shadow:0 4px 20px rgba(0,255,178,.25);
-transition:.2s;
-}
-.btn-primary:hover{
-transform:translateY(-1px);
-box-shadow:0 8px 30px rgba(0,255,178,.4);
+.nav-links a:hover { color: var(–emerald); }
+
+.nav-cta {
+background: var(–emerald) !important;
+color: var(–dark-bg) !important;
+padding: 10px 24px; border-radius: 6px;
+font-weight: 700 !important;
+transition: box-shadow 0.2s, background 0.2s !important;
 }
 
-/* SIDEBAR */
-.sidebar{
-width:var(--sw);
-background:var(--bg1);
-border-right:1px solid var(--b2);
-padding:10px;
+.nav-cta:hover { background: var(–glow) !important; box-shadow: 0 0 24px rgba(42,245,160,0.4) !important; }
+
+/* HERO */
+.hero {
+min-height: 100vh;
+display: flex; flex-direction: column; justify-content: center;
+padding: 140px 56px 80px;
+position: relative; overflow: hidden;
 }
 
-.nav-item{
-padding:10px;
-border-radius:8px;
-cursor:pointer;
-color:var(--t2);
-}
-.nav-item.active{
-background:rgba(0,255,178,0.1);
-color:var(--g400);
+.hero-grid {
+position: absolute; inset: 0; pointer-events: none;
+background-image:
+linear-gradient(rgba(16,195,126,0.05) 1px, transparent 1px),
+linear-gradient(90deg, rgba(16,195,126,0.05) 1px, transparent 1px);
+background-size: 64px 64px;
 }
 
-/* MAIN */
-.main{flex:1;padding:20px;overflow:auto}
-
-/* CARDS */
-.card{
-background:var(--bg1);
-border:1px solid var(--b2);
-border-radius:12px;
-padding:16px;
-transition:.2s;
-}
-.card:hover{
-box-shadow:0 0 25px rgba(0,255,178,0.08);
+.hero-blob {
+position: absolute; top: -10%; right: -5%;
+width: 700px; height: 700px;
+background: radial-gradient(circle, rgba(16,195,126,0.12) 0%, transparent 65%);
+pointer-events: none;
+animation: blobPulse 6s ease-in-out infinite;
 }
 
-/* KPI */
-.kpi{
-font-size:28px;
-font-weight:800;
-color:var(--g400);
+@keyframes blobPulse {
+0%, 100% { transform: scale(1); opacity: 1; }
+50% { transform: scale(1.08); opacity: 0.7; }
 }
 
-/* TITLE */
-.title{
-font-size:22px;
-font-weight:800;
-text-shadow:0 0 12px rgba(0,255,178,0.25);
-margin-bottom:10px;
+.hero-badge {
+display: inline-flex; align-items: center; gap: 8px;
+background: rgba(16,195,126,0.1);
+border: 1px solid var(–border);
+border-radius: 100px; padding: 7px 18px;
+font-size: 12px; font-weight: 600; color: var(–emerald);
+margin-bottom: 36px; width: fit-content;
+font-family: ‘Montserrat’, sans-serif; letter-spacing: 0.5px;
+animation: fadeUp 0.6s ease both;
 }
 
+.pulse-dot {
+width: 7px; height: 7px; background: var(–glow);
+border-radius: 50%; box-shadow: 0 0 8px var(–glow);
+animation: dotPulse 2s infinite;
+}
+
+@keyframes dotPulse {
+0%, 100% { opacity: 1; transform: scale(1); }
+50% { opacity: 0.4; transform: scale(1.4); }
+}
+
+.hero h1 {
+font-family: ‘Montserrat’, sans-serif;
+font-size: clamp(44px, 6.5vw, 88px);
+font-weight: 900; line-height: 1.0;
+letter-spacing: -2px; max-width: 860px;
+animation: fadeUp 0.7s 0.1s ease both;
+}
+
+.hero h1 .line-accent {
+color: var(–emerald);
+text-shadow: 0 0 60px rgba(16,195,126,0.35);
+}
+
+.hero-sub {
+font-size: clamp(16px, 1.8vw, 19px); color: var(–muted);
+max-width: 520px; margin-top: 28px;
+font-weight: 300; line-height: 1.75;
+animation: fadeUp 0.7s 0.2s ease both;
+}
+
+.hero-actions {
+display: flex; align-items: center; gap: 16px;
+margin-top: 44px;
+animation: fadeUp 0.7s 0.3s ease both;
+}
+
+.btn-primary {
+background: var(–emerald); color: var(–dark-bg);
+padding: 15px 32px; border-radius: 8px;
+font-size: 15px; font-weight: 700; text-decoration: none;
+font-family: ‘Montserrat’, sans-serif;
+transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+box-shadow: 0 4px 24px rgba(16,195,126,0.3);
+}
+
+.btn-primary:hover { background: var(–glow); transform: translateY(-2px); box-shadow: 0 8px 36px rgba(42,245,160,0.4); }
+
+.btn-ghost {
+color: var(–emerald); padding: 14px 28px; border-radius: 8px;
+font-size: 15px; font-weight: 600; text-decoration: none;
+border: 1.5px solid var(–border);
+font-family: ‘Montserrat’, sans-serif;
+transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.btn-ghost:hover { border-color: var(–emerald); box-shadow: 0 0 20px rgba(16,195,126,0.15); }
+
+.hero-stats {
+display: flex; gap: 56px; margin-top: 72px;
+padding-top: 48px; border-top: 1px solid var(–border-dim);
+animation: fadeUp 0.7s 0.4s ease both;
+}
+
+.stat-val {
+font-family: ‘Montserrat’, sans-serif;
+font-size: 32px; font-weight: 900; letter-spacing: -1px;
+}
+
+.stat-val span { color: var(–emerald); }
+.stat-label { font-size: 13px; color: var(–muted); margin-top: 4px; }
+
+@keyframes fadeUp {
+from { opacity: 0; transform: translateY(28px); }
+to { opacity: 1; transform: translateY(0); }
+}
+
+/* PROBLEM */
+.problem-band {
+padding: 80px 56px;
+background: var(–dark-card);
+border-top: 1px solid var(–border);
+border-bottom: 1px solid var(–border);
+display: flex; align-items: flex-start; gap: 80px;
+position: relative; overflow: hidden;
+}
+
+.problem-band::after {
+content: ‘’;
+position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+background: linear-gradient(180deg, var(–emerald), transparent);
+}
+
+.section-label {
+font-family: ‘Montserrat’, sans-serif;
+font-size: 11px; font-weight: 700; letter-spacing: 3px;
+color: var(–emerald); text-transform: uppercase; margin-bottom: 16px;
+}
+
+.problem-band h2 {
+font-family: ‘Montserrat’, sans-serif;
+font-size: clamp(26px, 3.5vw, 42px);
+font-weight: 800; line-height: 1.2;
+max-width: 380px; flex-shrink: 0;
+}
+
+.problem-items { display: flex; flex-direction: column; gap: 16px; flex: 1; }
+
+.problem-item {
+display: flex; align-items: flex-start; gap: 16px;
+padding: 20px 24px;
+background: rgba(16,195,126,0.04);
+border: 1px solid var(–border-dim);
+border-radius: 10px; transition: border-color 0.2s;
+}
+
+.problem-item:hover { border-color: var(–border); }
+.problem-icon { font-size: 22px; flex-shrink: 0; margin-top: 2px; }
+
+.problem-item strong {
+display: block; font-family: ‘Montserrat’, sans-serif;
+font-weight: 700; font-size: 14px; margin-bottom: 4px;
+}
+
+.problem-item p { font-size: 13px; color: var(–muted); line-height: 1.55; }
+
+/* FEATURES */
+.features-section { padding: 100px 56px; }
+
+.section-title {
+font-family: ‘Montserrat’, sans-serif;
+font-size: clamp(30px, 4vw, 50px);
+font-weight: 900; letter-spacing: -1.5px; line-height: 1.1;
+max-width: 580px; margin-bottom: 60px;
+}
+
+.features-grid {
+display: grid; grid-template-columns: repeat(3, 1fr);
+gap: 1px; background: var(–border-dim);
+border: 1px solid var(–border-dim);
+border-radius: 16px; overflow: hidden;
+}
+
+.feature-card {
+background: var(–dark-card); padding: 40px 32px;
+transition: background 0.25s;
+}
+
+.feature-card:hover { background: var(–dark-card2); }
+
+.feature-card.hero-card {
+background: linear-gradient(135deg, #0d2820 0%, #0a1f18 100%);
+position: relative; overflow: hidden;
+}
+
+.feature-card.hero-card::before {
+content: ‘’;
+position: absolute; inset: 0;
+background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(16,195,126,0.15) 0%, transparent 70%);
+}
+
+.feat-num {
+font-family: ‘Montserrat’, sans-serif;
+font-size: 10px; font-weight: 700; letter-spacing: 2.5px;
+color: rgba(255,255,255,0.2); margin-bottom: 24px;
+}
+
+.hero-card .feat-num { color: rgba(16,195,126,0.5); }
+
+.feat-icon {
+width: 48px; height: 48px;
+background: rgba(16,195,126,0.1);
+border: 1px solid rgba(16,195,126,0.2);
+border-radius: 12px;
+display: flex; align-items: center; justify-content: center;
+font-size: 22px; margin-bottom: 20px;
+}
+
+.hero-card .feat-icon {
+background: rgba(16,195,126,0.2);
+border-color: rgba(16,195,126,0.4);
+box-shadow: 0 0 20px rgba(16,195,126,0.15);
+}
+
+.feature-card h3 {
+font-family: ‘Montserrat’, sans-serif;
+font-size: 17px; font-weight: 800; margin-bottom: 12px;
+}
+
+.feature-card p { font-size: 13px; color: var(–muted); line-height: 1.65; }
+
+.wedge-tag {
+display: inline-block; margin-top: 20px;
+background: var(–emerald); color: var(–dark-bg);
+font-size: 10px; font-weight: 800; letter-spacing: 1.5px;
+text-transform: uppercase; padding: 5px 14px; border-radius: 100px;
+font-family: ‘Montserrat’, sans-serif;
+}
+
+/* HOW IT WORKS */
+.how-section {
+padding: 100px 56px;
+background: var(–dark-card);
+border-top: 1px solid var(–border-dim);
+border-bottom: 1px solid var(–border-dim);
+}
+
+.steps { display: grid; grid-template-columns: repeat(4, 1fr); position: relative; margin-top: 20px; }
+
+.steps::before {
+content: ‘’;
+position: absolute; top: 34px; left: 8%; right: 8%;
+height: 1px;
+background: linear-gradient(90deg, transparent, var(–border), transparent);
+}
+
+.step { padding-right: 40px; }
+
+.step-circle {
+width: 68px; height: 68px; border-radius: 50%;
+border: 1.5px solid var(–border-dim);
+display: flex; align-items: center; justify-content: center;
+font-family: ‘Montserrat’, sans-serif;
+font-size: 20px; font-weight: 900; color: var(–muted);
+margin-bottom: 28px; background: var(–dark-bg);
+position: relative; z-index: 1;
+}
+
+.step:first-child .step-circle {
+border-color: var(–emerald); color: var(–emerald);
+box-shadow: 0 0 20px rgba(16,195,126,0.2);
+}
+
+.step h4 { font-family: ‘Montserrat’, sans-serif; font-size: 15px; font-weight: 800; margin-bottom: 10px; }
+.step p { font-size: 13px; color: var(–muted); line-height: 1.6; }
+
+/* ICP */
+.icp-section { padding: 100px 56px; }
+.icp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+.icp-card {
+background: var(–dark-card);
+border: 1px solid var(–border-dim);
+border-radius: 16px; padding: 36px;
+display: flex; gap: 24px; align-items: flex-start;
+transition: border-color 0.2s, background 0.2s;
+}
+
+.icp-card:hover { border-color: var(–border); background: var(–dark-card2); }
+
+.icp-emoji { font-size: 34px; flex-shrink: 0; }
+
+.icp-card h4 { font-family: ‘Montserrat’, sans-serif; font-size: 16px; font-weight: 800; margin-bottom: 8px; }
+.icp-card p { font-size: 13px; color: var(–muted); line-height: 1.65; }
+
+.icp-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+
+.icp-tag {
+background: rgba(16,195,126,0.08);
+border: 1px solid rgba(16,195,126,0.2);
+color: var(–emerald); font-size: 11px; font-weight: 600;
+padding: 4px 12px; border-radius: 100px;
+font-family: ‘Montserrat’, sans-serif;
+}
+
+/* PRICING */
+.pricing-section {
+padding: 100px 56px;
+background: var(–dark-card);
+border-top: 1px solid var(–border-dim);
+}
+
+.pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; max-width: 960px; }
+
+.price-card {
+background: var(–dark-bg);
+border: 1px solid var(–border-dim);
+border-radius: 16px; padding: 36px 32px;
+position: relative; transition: border-color 0.2s;
+}
+
+.price-card:hover { border-color: var(–border); }
+
+.price-card.popular {
+border-color: var(–emerald);
+background: #0a201a;
+box-shadow: 0 0 40px rgba(16,195,126,0.12);
+}
+
+.popular-badge {
+position: absolute; top: -13px; left: 50%; transform: translateX(-50%);
+background: var(–emerald); color: var(–dark-bg);
+font-size: 10px; font-weight: 800; letter-spacing: 1.5px;
+text-transform: uppercase; padding: 4px 16px; border-radius: 100px;
+font-family: ‘Montserrat’, sans-serif; white-space: nowrap;
+}
+
+.price-tier {
+font-family: ‘Montserrat’, sans-serif;
+font-size: 11px; font-weight: 700; letter-spacing: 2px;
+color: var(–emerald); text-transform: uppercase; margin-bottom: 12px;
+}
+
+.price-amount { font-family: ‘Montserrat’, sans-serif; font-size: 42px; font-weight: 900; letter-spacing: -1px; margin-bottom: 4px; }
+.price-period { font-size: 13px; color: var(–muted); margin-bottom: 28px; }
+
+.price-features { list-style: none; display: flex; flex-direction: column; gap: 12px; margin-bottom: 32px; }
+
+.price-features li { font-size: 13px; display: flex; align-items: center; gap: 10px; color: var(–muted); }
+.price-features li::before { content: ‘✓’; color: var(–emerald); font-weight: 700; flex-shrink: 0; }
+
+.price-btn {
+display: block; text-align: center; padding: 13px; border-radius: 8px;
+font-size: 14px; font-weight: 700; text-decoration: none;
+font-family: ‘Montserrat’, sans-serif; transition: all 0.2s;
+border: 1.5px solid var(–border); color: var(–emerald);
+}
+
+.price-btn:hover { border-color: var(–emerald); box-shadow: 0 0 16px rgba(16,195,126,0.2); }
+
+.price-card.popular .price-btn { background: var(–emerald); border-color: var(–emerald); color: var(–dark-bg); }
+.price-card.popular .price-btn:hover { background: var(–glow); border-color: var(–glow); box-shadow: 0 0 24px rgba(42,245,160,0.35); }
+
+/* CTA */
+.cta-section {
+padding: 120px 56px; text-align: center;
+position: relative; overflow: hidden; background: var(–dark-bg);
+}
+
+.cta-section::before {
+content: ‘’; position: absolute; inset: 0;
+background: radial-gradient(ellipse 70% 60% at 50% 50%, rgba(16,195,126,0.1) 0%, transparent 70%);
+pointer-events: none;
+}
+
+.cta-section h2 {
+font-family: ‘Montserrat’, sans-serif;
+font-size: clamp(34px, 5vw, 62px);
+font-weight: 900; letter-spacing: -2px; line-height: 1.05;
+max-width: 680px; margin: 0 auto 20px; position: relative;
+}
+
+.cta-section p { font-size: 17px; color: var(–muted); max-width: 460px; margin: 0 auto 48px; font-weight: 300; position: relative; }
+
+.cta-form { display: flex; gap: 12px; justify-content: center; position: relative; flex-wrap: wrap; }
+
+.cta-input {
+background: rgba(255,255,255,0.05);
+border: 1px solid var(–border); border-radius: 8px;
+padding: 15px 20px; font-size: 15px; color: var(–white);
+width: 300px; font-family: ‘Inter’, sans-serif;
+outline: none; transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.cta-input::placeholder { color: rgba(255,255,255,0.3); }
+.cta-input:focus { border-color: var(–emerald); box-shadow: 0 0 16px rgba(16,195,126,0.15); }
+
+.cta-submit {
+background: var(–emerald); color: var(–dark-bg);
+border: none; padding: 15px 32px; border-radius: 8px;
+font-size: 15px; font-weight: 800; cursor: pointer;
+font-family: ‘Montserrat’, sans-serif;
+transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+box-shadow: 0 4px 24px rgba(16,195,126,0.3);
+}
+
+.cta-submit:hover { background: var(–glow); transform: translateY(-2px); box-shadow: 0 8px 36px rgba(42,245,160,0.4); }
+.cta-note { margin-top: 20px; font-size: 12px; color: rgba(255,255,255,0.25); position: relative; }
+
+/* FOOTER */
+footer {
+background: #060d0c; color: rgba(255,255,255,0.3);
+padding: 36px 56px; display: flex; justify-content: space-between; align-items: center;
+font-size: 13px; border-top: 1px solid var(–border-dim);
+}
+
+.footer-logo { font-family: ‘Montserrat’, sans-serif; font-weight: 900; font-size: 18px; color: rgba(255,255,255,0.6); }
+.footer-logo span { color: var(–emerald); }
+.footer-tagline { font-size: 10px; color: rgba(255,255,255,0.2); margin-top: 3px; letter-spacing: 2px; text-transform: uppercase; }
+.footer-links { display: flex; gap: 24px; }
+.footer-links a { color: rgba(255,255,255,0.3); text-decoration: none; transition: color 0.2s; }
+.footer-links a:hover { color: var(–emerald); }
+
+/* REVEAL */
+.reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.75s ease, transform 0.75s ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+nav { padding: 16px 24px; }
+.nav-links { display: none; }
+.hero, .features-section, .icp-section, .pricing-section, .cta-section,
+.problem-band, .how-section { padding-left: 24px; padding-right: 24px; }
+.hero-stats { flex-wrap: wrap; gap: 28px; }
+.problem-band { flex-direction: column; gap: 40px; }
+.features-grid { grid-template-columns: 1fr; }
+.steps { grid-template-columns: 1fr 1fr; gap: 40px; }
+.steps::before { display: none; }
+.icp-grid { grid-template-columns: 1fr; }
+.pricing-grid { grid-template-columns: 1fr; max-width: 400px; }
+.cta-input { width: 100%; }
+footer { flex-direction: column; gap: 20px; text-align: center; padding: 28px 24px; }
+}
 </style>
-</head>
 
+</head>
 <body>
 
-<div class="shell">
+<nav>
+  <a href="#" class="nav-logo">
+    <div class="nav-logo-icon">🔐</div>
+    Data<span>Banq</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#features">Features</a></li>
+    <li><a href="#how">How It Works</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#contact" class="nav-cta">Request Demo</a></li>
+  </ul>
+</nav>
 
-<!-- TOPBAR -->
-<div class="topbar">
-  <div class="tb-brand">
-    <img src="logo.png" class="brand-logo">
-    <div class="brand-wordmark">DataBanq</div>
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-blob"></div>
+  <div class="hero-badge">
+    <span class="pulse-dot"></span>
+    Now accepting design partners — limited spots
   </div>
-</div>
+  <h1>AI Governance<br>for the<br><span class="line-accent">Compliance Era.</span></h1>
+  <p class="hero-sub">DataBanq gives fintech and healthtech teams a complete AI governance layer — consent management, shadow AI detection, model lineage tracking, and audit-ready reporting. All in one platform.</p>
+  <div class="hero-actions">
+    <a href="#contact" class="btn-primary">Request a Demo →</a>
+    <a href="#features" class="btn-ghost">Explore Features</a>
+  </div>
+  <div class="hero-stats">
+    <div><div class="stat-val">11<span>-Layer</span></div><div class="stat-label">Governance Architecture</div></div>
+    <div><div class="stat-val">100<span>%</span></div><div class="stat-label">AI-Native Platform</div></div>
+    <div><div class="stat-val"><span>EU AI Act</span></div><div class="stat-label">+ SOC 2 Aligned</div></div>
+    <div><div class="stat-val">0<span> Blind Spots</span></div><div class="stat-label">Shadow AI Detection</div></div>
+  </div>
+</section>
 
-<div class="workspace">
+<section class="problem-band reveal">
+  <div>
+    <div class="section-label">The Problem</div>
+    <h2>Your AI stack is growing faster than compliance can track.</h2>
+  </div>
+  <div class="problem-items">
+    <div class="problem-item">
+      <div class="problem-icon">👤</div>
+      <div>
+        <strong>No consent layer for AI data use</strong>
+        <p>Customer data flows into AI models with no audit trail or revocation mechanism — a ticking liability.</p>
+      </div>
+    </div>
+    <div class="problem-item">
+      <div class="problem-icon">👻</div>
+      <div>
+        <strong>Shadow AI running unchecked</strong>
+        <p>Employees use unauthorized AI tools daily. You don't know what data they're sharing or with which vendors.</p>
+      </div>
+    </div>
+    <div class="problem-item">
+      <div class="problem-icon">📋</div>
+      <div>
+        <strong>Audits with no documentation</strong>
+        <p>When regulators ask how you govern AI, you're scrambling across 10 different systems to piece together evidence.</p>
+      </div>
+    </div>
+  </div>
+</section>
 
-<!-- SIDEBAR -->
-<div class="sidebar">
-  <div class="nav-item active">Dashboard</div>
-  <div class="nav-item">Integrations</div>
-  <div class="nav-item">Shadow AI</div>
-  <div class="nav-item">Consent</div>
-  <div class="nav-item">Audit</div>
-</div>
+<section class="features-section" id="features">
+  <div class="section-label">Core Platform</div>
+  <div class="section-title">Everything your compliance team has been asking for.</div>
+  <div class="features-grid reveal">
+    <div class="feature-card hero-card">
+      <div class="feat-num">01 — LEAD FEATURE</div>
+      <div class="feat-icon">🔦</div>
+      <h3>Shadow AI Monitor</h3>
+      <p>Detect unauthorized AI tools being used across your organization in real time — before they become a breach or a fine.</p>
+      <span class="wedge-tag">Wedge Feature</span>
+    </div>
+    <div class="feature-card">
+      <div class="feat-num">02</div>
+      <div class="feat-icon">🔐</div>
+      <h3>AI Consent Registry</h3>
+      <p>Capture, store, and enforce data subject consent for AI use cases — with automated revocation cascades when consent is withdrawn.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feat-num">03</div>
+      <div class="feat-icon">🗺️</div>
+      <h3>Model Lineage Graph</h3>
+      <p>Visualize which models touched which data, when, and why. Full provenance for every inference event across your AI stack.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feat-num">04</div>
+      <div class="feat-icon">⚙️</div>
+      <h3>Policy Engine</h3>
+      <p>Define and enforce governance rules across AI vendors and internal models — automatically blocking non-compliant usage.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feat-num">05</div>
+      <div class="feat-icon">📊</div>
+      <h3>Usage Logging & Ledger</h3>
+      <p>Tamper-evident, hash-verified logs of every AI inference event. An immutable audit trail your legal team will love.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feat-num">06</div>
+      <div class="feat-icon">📦</div>
+      <h3>One-Click Audit Pack</h3>
+      <p>Generate pre-formatted compliance reports for SOC 2, EU AI Act, and regulator reviews in minutes — not weeks.</p>
+    </div>
+  </div>
+</section>
 
-<!-- MAIN -->
-<div class="main">
+<section class="how-section" id="how">
+  <div class="section-label">How It Works</div>
+  <div class="section-title">Up and running in days, not months.</div>
+  <div class="steps reveal">
+    <div class="step">
+      <div class="step-circle">1</div>
+      <h4>Connect Your Stack</h4>
+      <p>Integrate via API proxy, SDK, or log ingestion. Works with OpenAI, Azure AI, AWS Bedrock, Anthropic, and more.</p>
+    </div>
+    <div class="step">
+      <div class="step-circle">2</div>
+      <h4>Discover & Map</h4>
+      <p>DataBanq scans your environment, surfaces shadow AI, and maps every vendor and data flow automatically.</p>
+    </div>
+    <div class="step">
+      <div class="step-circle">3</div>
+      <h4>Set Policies</h4>
+      <p>Define governance rules, consent requirements, and alerting thresholds from a clean policy dashboard.</p>
+    </div>
+    <div class="step">
+      <div class="step-circle">4</div>
+      <h4>Audit-Ready</h4>
+      <p>Export comprehensive audit packs on demand. Walk into any compliance review fully prepared.</p>
+    </div>
+  </div>
+</section>
 
-<div class="title">Dashboard</div>
+<section class="icp-section" id="who">
+  <div class="section-label">Ideal Customer</div>
+  <div class="section-title">Built for teams facing their first AI compliance audit.</div>
+  <div class="icp-grid reveal">
+    <div class="icp-card">
+      <div class="icp-emoji">🏦</div>
+      <div>
+        <h4>Fintech Companies</h4>
+        <p>Using AI for underwriting, fraud detection, or customer service? You're already under regulatory scrutiny. DataBanq gives you the paper trail regulators demand.</p>
+        <div class="icp-tags">
+          <span class="icp-tag">150–1,500 employees</span>
+          <span class="icp-tag">2+ AI vendors</span>
+          <span class="icp-tag">SOC 2 / FFIEC</span>
+        </div>
+      </div>
+    </div>
+    <div class="icp-card">
+      <div class="icp-emoji">🏥</div>
+      <div>
+        <h4>Healthtech Companies</h4>
+        <p>HIPAA + AI is a compliance minefield. DataBanq tracks exactly what PHI touches which AI model, with consent at the core.</p>
+        <div class="icp-tags">
+          <span class="icp-tag">HIPAA Aligned</span>
+          <span class="icp-tag">PHI Tracking</span>
+          <span class="icp-tag">EU AI Act Ready</span>
+        </div>
+      </div>
+    </div>
+    <div class="icp-card">
+      <div class="icp-emoji">⚖️</div>
+      <div>
+        <h4>CCO / VP Legal</h4>
+        <p>You own the risk. DataBanq gives you visibility, control, and audit-ready documentation — without needing engineering to pull everything together.</p>
+        <div class="icp-tags">
+          <span class="icp-tag">No-Code Dashboard</span>
+          <span class="icp-tag">Export Ready</span>
+          <span class="icp-tag">Regulator-Friendly</span>
+        </div>
+      </div>
+    </div>
+    <div class="icp-card">
+      <div class="icp-emoji">🛠️</div>
+      <div>
+        <h4>CTO / Engineering</h4>
+        <p>REST API, Python & JS SDKs, webhook alerting, and a sandbox environment. DataBanq integrates into your stack without friction.</p>
+        <div class="icp-tags">
+          <span class="icp-tag">REST API</span>
+          <span class="icp-tag">Python & JS SDKs</span>
+          <span class="icp-tag">Webhook Alerts</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px">
+<section class="pricing-section" id="pricing">
+  <div class="section-label">Pricing</div>
+  <div class="section-title">Transparent, annual SaaS pricing.</div>
+  <div class="pricing-grid reveal">
+    <div class="price-card">
+      <div class="price-tier">Tier 1 — Starter</div>
+      <div class="price-amount">$12K</div>
+      <div class="price-period">per year</div>
+      <ul class="price-features">
+        <li>Consent Registry</li>
+        <li>Usage Logging</li>
+        <li>Hash Ledger</li>
+        <li>Basic Audit Export</li>
+        <li>Up to 2 AI vendors</li>
+      </ul>
+      <a href="#contact" class="price-btn">Get Started</a>
+    </div>
+    <div class="price-card popular">
+      <div class="popular-badge">MOST POPULAR</div>
+      <div class="price-tier">Tier 2 — Growth</div>
+      <div class="price-amount">$25K</div>
+      <div class="price-period">per year</div>
+      <ul class="price-features">
+        <li>Everything in Starter</li>
+        <li>Shadow AI Monitor</li>
+        <li>Policy Engine</li>
+        <li>Model Lineage Graph</li>
+        <li>Up to 5 AI vendors</li>
+      </ul>
+      <a href="#contact" class="price-btn">Get Started</a>
+    </div>
+    <div class="price-card">
+      <div class="price-tier">Tier 3 — Scale</div>
+      <div class="price-amount">$50K</div>
+      <div class="price-period">per year</div>
+      <ul class="price-features">
+        <li>Everything in Growth</li>
+        <li>Vendor Chain Intelligence</li>
+        <li>One-Click Audit Pack</li>
+        <li>Enterprise Vault</li>
+        <li>Unlimited AI vendors</li>
+      </ul>
+      <a href="#contact" class="price-btn">Get Started</a>
+    </div>
+  </div>
+</section>
 
-<div class="card">
-  <div>Active Vendors</div>
-  <div class="kpi">7</div>
-</div>
+<section class="cta-section" id="contact">
+  <h2>Join Our<br><span class="glow-text">Design Partner Program</span></h2>
+  <p>We're onboarding 3–5 early partners for free or discounted access in exchange for feedback and a case study.</p>
+  <div class="cta-form">
+    <input type="email" class="cta-input" placeholder="your@company.com" id="emailInput">
+    <button class="cta-submit" onclick="handleSubmit()">Request Access →</button>
+  </div>
+  <p class="cta-note">No commitment required. We'll reach out within 48 hours.</p>
+</section>
 
-<div class="card">
-  <div>Alerts</div>
-  <div class="kpi" style="color:red">3</div>
-</div>
+<footer>
+  <div>
+    <div class="footer-logo">Data<span>Banq</span></div>
+    <div class="footer-tagline">Intelligent Data Solutions</div>
+  </div>
+  <div>© 2025 DataBanq. All rights reserved.</div>
+  <div class="footer-links">
+    <a href="#">Privacy</a>
+    <a href="#">Terms</a>
+    <a href="#">Contact</a>
+  </div>
+</footer>
 
-<div class="card">
-  <div>Consent</div>
-  <div class="kpi" style="color:gold">84%</div>
-</div>
+<script>
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); }
+    });
+  }, { threshold: 0.08 });
+  reveals.forEach(el => observer.observe(el));
 
-<div class="card">
-  <div>Audit Ready</div>
-  <div class="kpi">72%</div>
-</div>
-
-</div>
-
-<button class="btn-primary">Generate Audit Pack</button>
-
-</div>
-</div>
-</div>
+  function handleSubmit() {
+    const input = document.getElementById('emailInput');
+    const btn = document.querySelector('.cta-submit');
+    if (input.value && input.value.includes('@')) {
+      btn.textContent = "✓ You're on the list!";
+      btn.style.background = '#2AF5A0';
+      btn.style.boxShadow = '0 0 32px rgba(42,245,160,0.5)';
+      input.value = '';
+      setTimeout(() => { btn.textContent = 'Request Access →'; btn.style.background = ''; btn.style.boxShadow = ''; }, 3500);
+    } else {
+      input.style.borderColor = '#ff4500';
+      input.placeholder = 'Please enter a valid email';
+      setTimeout(() => { input.style.borderColor = ''; input.placeholder = 'your@company.com'; }, 1800);
+    }
+  }
+</script>
 
 </body>
 </html>
