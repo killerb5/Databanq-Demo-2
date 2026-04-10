@@ -1526,3 +1526,85 @@ border-top: 1px solid var(--border) !important;
 .footer-logo span {
 color: var(--primary) !important;
 }
+
+/* ══════════════════════════════════════
+   DATABANQ VISUAL REFINEMENT OVERRIDE
+   ══════════════════════════════════════ */
+
+:root {
+    --em: #10C37E;
+    --deep: #0B8F5A;
+    --glow: #2AF5A0;
+    --bg: #0B1110;
+    --card: #0f1a18;
+    --card2: #111f1c;
+    --white: #FFFFFF;
+    --muted: rgba(255, 255, 255, 0.45);
+    --border: rgba(16, 195, 126, 0.18);
+    --border-dim: rgba(255, 255, 255, 0.07);
+}
+
+/* Fixes for the broken font strings in the original code */
+body {
+    font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+    background-color: var(--bg) !important;
+}
+
+.nav-logo-text, .hero h1, .section-title, .feature-card h3, .price-amount {
+    font-family: 'Montserrat', sans-serif !important;
+}
+
+/* Smooth out the containers without changing content */
+.hero {
+    display: flex !important;
+    align-items: flex-start !important;
+    justify-content: center !important;
+    padding-top: 160px !important;
+}
+
+/* Ensure the logos you pasted are sized correctly */
+.nav-logo-mark {
+    background: linear-gradient(135deg, var(--em), var(--deep)) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 18px !important;
+}
+
+/* Refine the card spacing for the 1300-line layout */
+.feature-card, .problem-item, .icp-card, .price-card {
+    border: 1px solid var(--border-dim) !important;
+    transition: all 0.3s ease !important;
+}
+
+.feature-card:hover, .price-card:hover {
+    border-color: var(--em) !important;
+    background-color: var(--card2) !important;
+    transform: translateY(-4px);
+}
+
+/* Fix the glowing accent text */
+.accent {
+    color: var(--em) !important;
+    text-shadow: 0 0 30px rgba(16, 195, 126, 0.2) !important;
+}
+
+/* Clean up the button interaction */
+.btn-primary, .cta-btn, .nav-cta {
+    background-color: var(--em) !important;
+    border: none !important;
+    color: var(--bg) !important;
+    cursor: pointer;
+}
+
+.btn-primary:hover, .cta-btn:hover {
+    background-color: var(--glow) !important;
+}
+
+/* Responsive fix for your specific grid */
+@media (max-width: 900px) {
+    .hero h1 { font-size: 48px !important; }
+    .features-grid, .pricing-grid, .steps-grid {
+        grid-template-columns: 1fr !important;
+    }
+}
