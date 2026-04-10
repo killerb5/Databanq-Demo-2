@@ -5,231 +5,276 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>DataBanq — Platform Demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=DM+Serif+Display&display=swap" rel="stylesheet">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800;900&family=Inter:wght@300;400;500;600&display=swap');
-html,body { background-color:#070c0b!important; color:#e8f0ec!important; margin:0!important; padding:0!important; height:100%!important; overflow:hidden!important; }
+html,body { background-color:#0a0f0e!important; color:#e8ede9!important; margin:0!important; padding:0!important; height:100%!important; overflow:hidden!important; }
 *,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
-:root {
-  --g400:#10C37E; --g500:#0BA86C; --g600:#0B8F5A; --glow:#2AF5A0;
-  --bg:#070c0b; --bg1:#0c1512; --bg2:#101a17; --bg3:#14201c;
-  --t1:#e8f0ec; --t2:rgba(232,240,236,0.52); --t3:rgba(232,240,236,0.28); --t4:rgba(232,240,236,0.16);
-  --b1:rgba(16,195,126,0.12); --b2:rgba(255,255,255,0.055); --b3:rgba(255,255,255,0.03);
-  --red:#f87171; --redbg:rgba(248,113,113,0.08); --redb:rgba(248,113,113,0.18);
-  --yel:#fbbf24; --yelbg:rgba(251,191,36,0.08); --yelb:rgba(251,191,36,0.2);
-  --blu:#818cf8; --sw:214px; --th:48px;
-}
-body { font-family:'Montserrat',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; -webkit-font-smoothing:antialiased; }
-::-webkit-scrollbar { width:3px; height:3px; } ::-webkit-scrollbar-track { background:transparent; } ::-webkit-scrollbar-thumb { background:rgba(16,195,126,0.2); border-radius:3px; }
-.shell { display:flex; flex-direction:column; height:100vh; overflow:hidden; background-color:#070c0b; }
+body { font-family:'DM Sans',-apple-system,BlinkMacSystemFont,sans-serif; -webkit-font-smoothing:antialiased; font-size:13px; font-weight:400; }
+::-webkit-scrollbar { width:3px; height:3px; } ::-webkit-scrollbar-track { background:transparent; } ::-webkit-scrollbar-thumb { background:rgba(16,195,126,0.18); border-radius:3px; }
+
+/* ── LAYOUT ── */
+.shell { display:flex; flex-direction:column; height:100vh; overflow:hidden; background:#0a0f0e; }
 .workspace { display:flex; flex:1; overflow:hidden; min-height:0; }
-.topbar { height:var(--th); display:flex; align-items:center; background-color:rgba(7,12,11,0.97); border-bottom:1px solid rgba(255,255,255,0.055); flex-shrink:0; position:relative; z-index:60; }
-.tb-brand { width:var(--sw); height:100%; display:flex; align-items:center; gap:9px; padding:0 16px; border-right:1px solid rgba(255,255,255,0.055); flex-shrink:0; text-decoration:none; }
+
+/* ── TOPBAR ── */
+.topbar { height:50px; display:flex; align-items:center; background:rgba(10,15,14,0.97); border-bottom:1px solid rgba(255,255,255,0.055); flex-shrink:0; position:relative; z-index:60; }
+.tb-brand { width:220px; height:100%; display:flex; align-items:center; gap:9px; padding:0 18px; border-right:1px solid rgba(255,255,255,0.055); flex-shrink:0; text-decoration:none; }
 .brand-icon { width:26px; height:26px; border-radius:7px; overflow:hidden; flex-shrink:0; }
 .brand-icon img { width:26px; height:26px; object-fit:contain; }
-.brand-name { font-family:'Montserrat',sans-serif; font-weight:900; font-size:15px; color:#e8f0ec; letter-spacing:-0.3px; }
+.brand-name { font-family:‘DM Sans’,sans-serif; font-weight:600; font-size:15px; color:#e8ede9; letter-spacing:-0.2px; }
 .brand-name em { color:#10C37E; font-style:normal; }
-.tb-mid { flex:1; display:flex; align-items:center; padding:0 16px; gap:10px; }
-.ws-tag { display:flex; align-items:center; gap:5px; padding:3px 10px; border-radius:5px; background-color:rgba(16,195,126,0.08); border:1px solid rgba(16,195,126,0.14); font-size:11px; font-weight:700; color:#10C37E; letter-spacing:0.3px; }
-.live-dot { width:5px; height:5px; border-radius:50%; background-color:#2AF5A0; box-shadow:0 0 7px #2AF5A0; animation:livePulse 2s ease-in-out infinite; flex-shrink:0; }
-@keyframes livePulse { 0%,100% { opacity:1; transform:scale(1); } 50% { opacity:0.35; transform:scale(1.5); } }
-.sep { color:rgba(232,240,236,0.16); font-size:16px; }
-.breadcrumb { display:flex; align-items:center; gap:5px; font-size:12px; font-weight:500; }
-.bc-dim { color:rgba(232,240,236,0.28); } .bc-active { color:#e8f0ec; font-weight:700; }
-.tb-right { display:flex; align-items:center; gap:7px; padding:0 16px; }
-.tb-icon { width:30px; height:30px; border-radius:7px; display:flex; align-items:center; justify-content:center; background-color:#101a17; border:1px solid rgba(255,255,255,0.055); cursor:pointer; transition:border-color 0.15s; position:relative; }
-.tb-icon:hover { border-color:rgba(16,195,126,0.2); }
-.notif-dot { position:absolute; top:5px; right:5px; width:7px; height:7px; border-radius:50%; background-color:#f87171; border:1.5px solid #070c0b; animation:notifPulse 2s infinite; }
+.tb-mid { flex:1; display:flex; align-items:center; padding:0 18px; gap:10px; }
+.ws-tag { display:flex; align-items:center; gap:5px; padding:3px 11px; border-radius:5px; background:rgba(16,195,126,0.07); border:1px solid rgba(16,195,126,0.12); font-size:11.5px; font-weight:500; color:#10C37E; }
+.live-dot { width:5px; height:5px; border-radius:50%; background:#2AF5A0; box-shadow:0 0 6px #2AF5A0; animation:livePulse 2s ease-in-out infinite; flex-shrink:0; }
+@keyframes livePulse { 0%,100% { opacity:1; } 50% { opacity:0.3; } }
+.sep { color:rgba(232,237,233,0.16); font-size:16px; }
+.breadcrumb { display:flex; align-items:center; gap:5px; font-size:12px; font-weight:400; }
+.bc-dim { color:rgba(232,237,233,0.28); } .bc-active { color:#e8ede9; font-weight:500; }
+.tb-right { display:flex; align-items:center; gap:8px; padding:0 18px; }
+.tb-icon { width:30px; height:30px; border-radius:7px; display:flex; align-items:center; justify-content:center; background:#0d1513; border:1px solid rgba(255,255,255,0.055); cursor:pointer; transition:border-color 0.15s; position:relative; }
+.tb-icon:hover { border-color:rgba(16,195,126,0.12); }
+.notif-dot { position:absolute; top:5px; right:5px; width:6px; height:6px; border-radius:50%; background:#f87171; border:1.5px solid #0a0f0e; animation:notifPulse 2s infinite; }
 @keyframes notifPulse { 0%,100% { box-shadow:0 0 0 0 rgba(248,113,113,0.5); } 50% { box-shadow:0 0 0 4px rgba(248,113,113,0); } }
-.tb-avatar { width:28px; height:28px; border-radius:50%; background:linear-gradient(145deg,#0B8F5A,#021409); border:1.5px solid rgba(16,195,126,0.18); display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:800; color:#10C37E; cursor:pointer; }
-.tb-cta { display:flex; align-items:center; gap:5px; padding:5px 12px; border-radius:6px; background-color:#10C37E; color:#070c0b; font-size:11px; font-weight:800; cursor:pointer; border:none; font-family:'Montserrat',sans-serif; transition:all 0.15s; box-shadow:0 2px 10px rgba(16,195,126,0.25); }
-.tb-cta:hover { background-color:#2AF5A0; }
-.sidebar { width:var(--sw); background-color:#0c1512; border-right:1px solid rgba(255,255,255,0.055); display:flex; flex-direction:column; flex-shrink:0; overflow-y:auto; overflow-x:hidden; padding-bottom:16px; }
+.tb-avatar { width:28px; height:28px; border-radius:50%; background:linear-gradient(145deg,#10C37E,#021409); border:1px solid rgba(16,195,126,0.12); display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:600; color:#10C37E; cursor:pointer; }
+.tb-cta { display:flex; align-items:center; gap:5px; padding:5px 13px; border-radius:6px; background:#10C37E; color:#0a0f0e; font-size:11.5px; font-weight:500; cursor:pointer; border:none; font-family:‘DM Sans’,sans-serif; transition:all 0.15s; }
+.tb-cta:hover { background:#2AF5A0; }
+
+/* ── SIDEBAR ── */
+.sidebar { width:220px; background:#0d1513; border-right:1px solid rgba(255,255,255,0.055); display:flex; flex-direction:column; flex-shrink:0; overflow-y:auto; padding-bottom:16px; }
 .nav-grp { padding:14px 10px 3px; }
-.nav-grp-lbl { font-size:9px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:rgba(232,240,236,0.18); padding:0 6px; margin-bottom:3px; }
-.nav-item { display:flex; align-items:center; gap:8px; padding:7px 8px; border-radius:7px; font-size:12.5px; font-weight:600; color:rgba(232,240,236,0.45); cursor:pointer; transition:all 0.12s; position:relative; user-select:none; margin-bottom:1px; }
-.nav-item:hover { background-color:rgba(255,255,255,0.03); color:#e8f0ec; }
-.nav-item.active { background-color:rgba(16,195,126,0.1); color:#10C37E; }
-.nav-item.active::before { content:''; position:absolute; left:-10px; top:22%; bottom:22%; width:2px; background-color:#10C37E; border-radius:0 2px 2px 0; }
-.nav-icon { width:18px; height:18px; display:flex; align-items:center; justify-content:center; flex-shrink:0; opacity:0.65; }
+.nav-grp-lbl { font-size:9.5px; font-weight:500; letter-spacing:2px; text-transform:uppercase; color:rgba(232,237,233,0.2); padding:0 7px; margin-bottom:3px; }
+.nav-item { display:flex; align-items:center; gap:8px; padding:7px 9px; border-radius:7px; font-size:12.5px; font-weight:400; color:rgba(232,237,233,0.28); cursor:pointer; transition:all 0.12s; position:relative; user-select:none; margin-bottom:1px; }
+.nav-item:hover { background:rgba(255,255,255,0.03); color:#e8ede9; }
+.nav-item.active { background:rgba(16,195,126,0.08); color:#10C37E; font-weight:500; }
+.nav-item.active::before { content:’’; position:absolute; left:-10px; top:22%; bottom:22%; width:2px; background:#10C37E; border-radius:0 2px 2px 0; }
+.nav-icon { width:18px; height:18px; display:flex; align-items:center; justify-content:center; flex-shrink:0; opacity:0.6; }
 .nav-item.active .nav-icon { opacity:1; }
-.nav-chip { margin-left:auto; padding:2px 7px; border-radius:100px; font-size:10px; font-weight:700; }
-.chip-r { background-color:rgba(248,113,113,0.12); color:#f87171; border:1px solid rgba(248,113,113,0.2); }
-.chip-g { background-color:rgba(16,195,126,0.1); color:#10C37E; border:1px solid rgba(16,195,126,0.18); }
-.nav-div { height:1px; background-color:rgba(255,255,255,0.055); margin:8px 10px; }
-.sb-foot { margin-top:auto; padding:12px 16px 0; font-size:10px; color:rgba(232,240,236,0.18); font-family:'SF Mono','Fira Code','Courier New',monospace; }
-.main { flex:1; overflow-y:auto; overflow-x:hidden; background-color:#070c0b; min-width:0; }
-.screen { display:none; padding:22px 26px 36px; animation:screenIn 0.2s ease; min-height:100%; background-color:#070c0b; }
+.nav-chip { margin-left:auto; padding:2px 7px; border-radius:100px; font-size:10px; font-weight:500; }
+.chip-r { background:rgba(248,113,113,0.1); color:#f87171; border:1px solid rgba(248,113,113,0.18); }
+.chip-g { background:rgba(16,195,126,0.08); color:#10C37E; border:1px solid rgba(16,195,126,0.12); }
+.nav-div { height:1px; background:rgba(255,255,255,0.055); margin:8px 10px; }
+.sb-foot { margin-top:auto; padding:12px 16px 0; font-size:10px; color:rgba(232,237,233,0.18); font-family:‘SF Mono’,‘Fira Code’,monospace; }
+
+/* ── MAIN ── */
+.main { flex:1; overflow-y:auto; background:#0a0f0e; min-width:0; }
+.screen { display:none; padding:22px 26px 36px; animation:fadeIn 0.2s ease; background:#0a0f0e; min-height:100%; }
 .screen.active { display:block; }
-@keyframes screenIn { from { opacity:0; transform:translateY(5px); } to { opacity:1; transform:translateY(0); } }
+@keyframes fadeIn { from { opacity:0; transform:translateY(5px); } to { opacity:1; transform:translateY(0); } }
+
+/* ── PAGE HEADER ── */
 .ph { display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:18px; padding-bottom:14px; border-bottom:1px solid rgba(255,255,255,0.055); }
-.ph-ey { display:flex; align-items:center; gap:5px; font-size:9.5px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:#10C37E; margin-bottom:5px; }
-.ph-ey-dot { width:4px; height:4px; border-radius:50%; background-color:#10C37E; flex-shrink:0; }
-.ph-title { font-size:19px; font-weight:900; letter-spacing:-0.4px; color:#e8f0ec; line-height:1; }
-.ph-desc { font-size:12px; color:rgba(232,240,236,0.45); margin-top:4px; font-family:'Inter',sans-serif; font-weight:400; }
+.ph-ey { display:flex; align-items:center; gap:5px; font-size:9.5px; font-weight:500; letter-spacing:2px; text-transform:uppercase; color:rgba(16,195,126,0.8); margin-bottom:5px; }
+.ph-ey-dot { width:4px; height:4px; border-radius:50%; background:#10C37E; }
+.ph-title { font-family:‘DM Serif Display’,Georgia,serif; font-size:20px; font-weight:400; letter-spacing:-0.3px; color:#e8ede9; line-height:1; }
+.ph-desc { font-size:12px; color:rgba(232,237,233,0.28); margin-top:4px; font-weight:300; }
 .ph-acts { display:flex; gap:7px; align-items:center; flex-shrink:0; padding-top:2px; }
-.btn { display:inline-flex; align-items:center; gap:5px; padding:7px 13px; border-radius:7px; font-size:12px; font-weight:700; cursor:pointer; border:none; font-family:'Montserrat',sans-serif; transition:all 0.14s; white-space:nowrap; }
-.btn-p { background-color:#10C37E; color:#070c0b; box-shadow:0 2px 10px rgba(16,195,126,0.22); }
-.btn-p:hover { background-color:#2AF5A0; transform:translateY(-1px); }
-.btn-s { background-color:#101a17; color:#e8f0ec; border:1px solid rgba(255,255,255,0.055); }
-.btn-s:hover { border-color:rgba(16,195,126,0.2); }
-.btn-g { background-color:transparent; color:#10C37E; border:1px solid rgba(16,195,126,0.2); }
-.btn-g:hover { background-color:rgba(16,195,126,0.07); }
-.btn-d { background-color:rgba(248,113,113,0.08); color:#f87171; border:1px solid rgba(248,113,113,0.2); }
-.btn-d:hover { background-color:rgba(248,113,113,0.14); }
+
+/* ── BUTTONS ── */
+.btn { display:inline-flex; align-items:center; gap:5px; padding:7px 14px; border-radius:7px; font-size:12px; font-weight:500; cursor:pointer; border:none; font-family:‘DM Sans’,sans-serif; transition:all 0.14s; white-space:nowrap; }
+.btn-p { background:#10C37E; color:#0a0f0e; }
+.btn-p:hover { background:#2AF5A0; transform:translateY(-1px); }
+.btn-s { background:#101a17; color:#e8ede9; border:1px solid rgba(255,255,255,0.055); }
+.btn-s:hover { border-color:rgba(16,195,126,0.12); }
+.btn-g { background:transparent; color:#10C37E; border:1px solid rgba(16,195,126,0.12); }
+.btn-g:hover { background:rgba(16,195,126,0.06); }
+.btn-d { background:rgba(248,113,113,0.07); color:#f87171; border:1px solid rgba(248,113,113,0.18); }
+.btn-d:hover { background:rgba(248,113,113,0.13); }
+
+/* ── KPI ── */
 .kpi-row { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-bottom:14px; }
-.kpi { background-color:#0c1512; border:1px solid rgba(255,255,255,0.055); border-radius:10px; padding:15px 17px; transition:border-color 0.18s,transform 0.14s; position:relative; overflow:hidden; }
-.kpi::before { content:''; position:absolute; top:0; left:0; right:0; height:1px; background:linear-gradient(90deg,transparent,rgba(16,195,126,0.12),transparent); }
-.kpi:hover { border-color:rgba(16,195,126,0.15); transform:translateY(-1px); }
-.kpi.warn { border-color:rgba(248,113,113,0.22); background-color:rgba(248,113,113,0.03); }
-.kpi.good { border-color:rgba(16,195,126,0.2); background-color:rgba(16,195,126,0.03); }
-.kpi-lbl { font-size:10px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:rgba(232,240,236,0.3); margin-bottom:9px; }
-.kpi-val { font-size:27px; font-weight:900; letter-spacing:-0.8px; line-height:1; color:#e8f0ec; }
+.kpi { background:#0d1513; border:1px solid rgba(255,255,255,0.055); border-radius:10px; padding:15px 17px; transition:border-color 0.18s,transform 0.14s; position:relative; overflow:hidden; }
+.kpi::before { content:’’; position:absolute; top:0; left:0; right:0; height:1px; background:linear-gradient(90deg,transparent,rgba(16,195,126,0.12),transparent); }
+.kpi:hover { border-color:rgba(16,195,126,0.12); transform:translateY(-1px); }
+.kpi.warn { border-color:rgba(248,113,113,0.2); background:rgba(248,113,113,0.03); }
+.kpi.good { border-color:rgba(16,195,126,0.18); background:rgba(16,195,126,0.03); }
+.kpi-lbl { font-size:10px; font-weight:500; letter-spacing:1px; text-transform:uppercase; color:rgba(232,237,233,0.16); margin-bottom:9px; }
+.kpi-val { font-family:‘DM Serif Display’,Georgia,serif; font-size:28px; font-weight:400; letter-spacing:-0.5px; line-height:1; color:#e8ede9; }
 .kpi-val.red { color:#f87171; } .kpi-val.green { color:#10C37E; } .kpi-val.yellow { color:#fbbf24; }
-.kpi-foot { display:flex; align-items:center; gap:4px; margin-top:8px; font-size:11px; color:rgba(232,240,236,0.3); font-family:'Inter',sans-serif; }
-.trend-up { color:#10C37E; font-weight:600; } .trend-dn { color:#f87171; font-weight:600; }
-.card { background-color:#0c1512; border:1px solid rgba(255,255,255,0.055); border-radius:10px; overflow:hidden; }
+.kpi-foot { display:flex; align-items:center; gap:4px; margin-top:8px; font-size:11px; color:rgba(232,237,233,0.16); font-weight:300; }
+.trend-up { color:#10C37E; font-weight:500; } .trend-dn { color:#f87171; font-weight:500; }
+
+/* ── CARD ── */
+.card { background:#0d1513; border:1px solid rgba(255,255,255,0.055); border-radius:10px; overflow:hidden; }
 .card-hd { display:flex; align-items:center; justify-content:space-between; padding:12px 16px; border-bottom:1px solid rgba(255,255,255,0.055); }
-.card-title { font-size:13px; font-weight:700; color:#e8f0ec; display:flex; align-items:center; gap:7px; }
-.card-meta { font-size:11px; color:rgba(232,240,236,0.3); display:flex; align-items:center; gap:5px; font-family:'Inter',sans-serif; }
+.card-title { font-size:13px; font-weight:500; color:#e8ede9; display:flex; align-items:center; gap:7px; }
+.card-meta { font-size:11px; color:rgba(232,237,233,0.28); display:flex; align-items:center; gap:5px; font-weight:300; }
 .card-body { padding:14px 16px; }
 .g2 { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
 .mb10 { margin-bottom:10px; } .mb14 { margin-bottom:14px; }
+
+/* ── TABLE ── */
 .tbl { width:100%; border-collapse:collapse; }
-.tbl thead th { padding:9px 13px; text-align:left; font-size:9.5px; font-weight:700; letter-spacing:1.2px; text-transform:uppercase; color:rgba(232,240,236,0.25); background-color:rgba(255,255,255,0.018); border-bottom:1px solid rgba(255,255,255,0.055); white-space:nowrap; font-family:'Montserrat',sans-serif; }
-.tbl tbody td { padding:11px 13px; font-size:12.5px; color:#e8f0ec; border-bottom:1px solid rgba(255,255,255,0.03); vertical-align:middle; font-family:'Inter',sans-serif; }
+.tbl thead th { padding:9px 13px; text-align:left; font-size:9.5px; font-weight:500; letter-spacing:1.2px; text-transform:uppercase; color:rgba(232,237,233,0.22); background:rgba(255,255,255,0.015); border-bottom:1px solid rgba(255,255,255,0.055); white-space:nowrap; }
+.tbl tbody td { padding:11px 13px; font-size:12.5px; color:#e8ede9; border-bottom:1px solid rgba(255,255,255,0.03); vertical-align:middle; font-weight:300; }
 .tbl tbody tr:last-child td { border-bottom:none; }
-.tbl tbody tr { transition:background-color 0.1s; cursor:default; }
-.tbl tbody tr:hover td { background-color:rgba(16,195,126,0.025); }
-.tbl tbody tr.blocked td { opacity:0.35; }
-.badge { display:inline-flex; align-items:center; gap:4px; padding:2px 8px; border-radius:100px; font-size:10.5px; font-weight:700; white-space:nowrap; font-family:'Montserrat',sans-serif; }
-.b-g { background-color:rgba(16,195,126,0.1); color:#10C37E; border:1px solid rgba(16,195,126,0.2); }
-.b-r { background-color:rgba(248,113,113,0.08); color:#f87171; border:1px solid rgba(248,113,113,0.2); }
-.b-y { background-color:rgba(251,191,36,0.08); color:#fbbf24; border:1px solid rgba(251,191,36,0.2); }
-.b-u { background-color:rgba(129,140,248,0.08); color:#818cf8; border:1px solid rgba(129,140,248,0.2); }
-.b-d { background-color:rgba(255,255,255,0.04); color:rgba(232,240,236,0.5); border:1px solid rgba(255,255,255,0.055); }
-.sd { width:6px; height:6px; border-radius:50%; display:inline-block; flex-shrink:0; }
-.sd-g { background-color:#10C37E; box-shadow:0 0 6px #10C37E; }
-.sd-r { background-color:#f87171; animation:sdBlink 1.8s infinite; }
-.sd-y { background-color:#fbbf24; }
+.tbl tbody tr { transition:background 0.1s; cursor:default; }
+.tbl tbody tr:hover td { background:rgba(16,195,126,0.02); }
+.tbl tbody tr.blocked td { opacity:0.32; }
+
+/* ── BADGE ── */
+.badge { display:inline-flex; align-items:center; gap:4px; padding:2px 8px; border-radius:100px; font-size:10.5px; font-weight:500; white-space:nowrap; }
+.b-g { background:rgba(16,195,126,0.08); color:#10C37E; border:1px solid rgba(16,195,126,0.12); }
+.b-r { background:rgba(248,113,113,0.07); color:#f87171; border:1px solid rgba(248,113,113,0.18); }
+.b-y { background:rgba(251,191,36,0.07); color:#fbbf24; border:1px solid rgba(251,191,36,0.18); }
+.b-u { background:rgba(129,140,248,0.07); color:#818cf8; border:1px solid rgba(129,140,248,0.18); }
+.b-d { background:rgba(255,255,255,0.04); color:rgba(232,237,233,0.52); border:1px solid rgba(255,255,255,0.055); }
+.sd { width:5px; height:5px; border-radius:50%; display:inline-block; flex-shrink:0; }
+.sd-g { background:#10C37E; box-shadow:0 0 5px #10C37E; }
+.sd-r { background:#f87171; animation:sdBlink 1.8s infinite; }
+.sd-y { background:#fbbf24; }
 @keyframes sdBlink { 0%,100% { opacity:1; } 50% { opacity:0.3; } }
+
+/* ── ALERT STRIP ── */
 .astrip { display:flex; align-items:center; gap:11px; padding:11px 15px; border-radius:9px; margin-bottom:12px; }
-.astrip.red { background-color:rgba(248,113,113,0.06); border:1px solid rgba(248,113,113,0.2); }
-.astrip.green { background-color:rgba(16,195,126,0.05); border:1px solid rgba(16,195,126,0.18); }
-.as-ico { display:flex; align-items:center; justify-content:center; flex-shrink:0; width:22px; height:22px; }
+.astrip.red { background:rgba(248,113,113,0.05); border:1px solid rgba(248,113,113,0.18); }
+.astrip.green { background:rgba(16,195,126,0.04); border:1px solid rgba(16,195,126,0.15); }
+.as-ico { display:flex; align-items:center; flex-shrink:0; }
 .as-bd { flex:1; }
-.as-title { font-size:12.5px; font-weight:700; }
-.as-desc { font-size:11px; color:rgba(232,240,236,0.45); margin-top:1px; font-family:'Inter',sans-serif; }
+.as-title { font-size:12.5px; font-weight:500; }
+.as-desc { font-size:11.5px; color:rgba(232,237,233,0.28); margin-top:2px; font-weight:300; }
 .as-act { flex-shrink:0; }
+
+/* ── PROGRESS ── */
 .prog-group { display:flex; flex-direction:column; gap:11px; }
-.prog-row { display:flex; justify-content:space-between; margin-bottom:4px; font-size:12px; }
-.prog-lbl { color:rgba(232,240,236,0.45); font-family:'Inter',sans-serif; }
-.prog-val { color:#e8f0ec; font-weight:600; font-family:'Montserrat',sans-serif; }
-.prog-track { height:3px; background-color:rgba(255,255,255,0.06); border-radius:3px; overflow:hidden; }
-.prog-fill { height:100%; border-radius:3px; transition:width 1.3s cubic-bezier(0.4,0,0.2,1); }
+.prog-row { display:flex; justify-content:space-between; margin-bottom:5px; font-size:12px; }
+.prog-lbl { color:rgba(232,237,233,0.52); font-weight:300; }
+.prog-val { color:#e8ede9; font-weight:500; }
+.prog-track { height:2px; background:rgba(255,255,255,0.06); border-radius:2px; overflow:hidden; }
+.prog-fill { height:100%; border-radius:2px; transition:width 1.3s cubic-bezier(0.4,0,0.2,1); }
 .pf-g { background:linear-gradient(90deg,#0B8F5A,#10C37E); }
 .pf-y { background:linear-gradient(90deg,#a16207,#fbbf24); }
-.mc-wrap { display:flex; align-items:flex-end; gap:4px; height:54px; }
-.mc-bar { flex:1; border-radius:3px 3px 0 0; background-color:rgba(16,195,126,0.15); transition:background-color 0.14s; cursor:pointer; }
-.mc-bar:hover { background-color:rgba(16,195,126,0.42); }
-.mc-bar.hi { background-color:rgba(16,195,126,0.42); }
-.mc-bar.danger { background-color:rgba(248,113,113,0.25); }
-.mc-bar.danger:hover { background-color:rgba(248,113,113,0.48); }
+
+/* ── CHART ── */
+.mc-wrap { display:flex; align-items:flex-end; gap:4px; height:52px; }
+.mc-bar { flex:1; border-radius:2px 2px 0 0; background:rgba(16,195,126,0.13); transition:background 0.14s; cursor:pointer; }
+.mc-bar:hover { background:rgba(16,195,126,0.38); }
+.mc-bar.hi { background:rgba(16,195,126,0.38); }
+.mc-bar.danger { background:rgba(248,113,113,0.2); }
+.mc-bar.danger:hover { background:rgba(248,113,113,0.4); }
 .mc-labels { display:flex; gap:4px; margin-top:5px; }
-.mc-label { flex:1; font-size:9px; color:rgba(232,240,236,0.28); text-align:center; letter-spacing:0.2px; }
+.mc-label { flex:1; font-size:9px; color:rgba(232,237,233,0.25); text-align:center; }
+
+/* ── TIMELINE ── */
 .tl { display:flex; flex-direction:column; }
 .tl-item { display:flex; gap:10px; padding-bottom:12px; position:relative; }
-.tl-item::before { content:''; position:absolute; left:12px; top:26px; bottom:0; width:1px; background-color:rgba(255,255,255,0.055); }
+.tl-item::before { content:’’; position:absolute; left:12px; top:26px; bottom:0; width:1px; background:rgba(255,255,255,0.055); }
 .tl-item:last-child::before { display:none; }
-.tl-dot { width:25px; height:25px; border-radius:50%; flex-shrink:0; display:flex; align-items:center; justify-content:center; background-color:#101a17; border:1px solid rgba(255,255,255,0.055); }
-.tl-dot.alert { background-color:rgba(248,113,113,0.1); border-color:rgba(248,113,113,0.22); }
-.tl-body { padding-top:2px; }
-.tl-title { font-size:12.5px; font-weight:500; color:#e8f0ec; font-family:'Inter',sans-serif; }
-.tl-time { font-size:11px; color:rgba(232,240,236,0.3); margin-top:1px; font-family:'Inter',sans-serif; }
-.vname { display:flex; align-items:center; gap:8px; font-weight:600; font-size:12.5px; }
-.vico { width:23px; height:23px; border-radius:6px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.tl-dot { width:25px; height:25px; border-radius:50%; flex-shrink:0; display:flex; align-items:center; justify-content:center; background:#101a17; border:1px solid rgba(255,255,255,0.055); }
+.tl-dot.alert { background:rgba(248,113,113,0.08); border-color:rgba(248,113,113,0.2); }
+.tl-body { padding-top:3px; }
+.tl-title { font-size:12.5px; font-weight:400; color:#e8ede9; }
+.tl-time { font-size:11px; color:rgba(232,237,233,0.28); margin-top:1px; font-weight:300; }
+
+/* ── VENDOR ── */
+.vname { display:flex; align-items:center; gap:8px; font-weight:400; font-size:12.5px; }
+.vico { width:22px; height:22px; border-radius:6px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+
+/* ── ROW ACTIONS ── */
 .ra { display:flex; gap:5px; }
-.ra-btn { padding:4px 9px; border-radius:5px; font-size:10.5px; font-weight:700; cursor:pointer; font-family:'Montserrat',sans-serif; border:none; transition:all 0.12s; }
-.ra-block { background-color:rgba(248,113,113,0.08); color:#f87171; border:1px solid rgba(248,113,113,0.18); }
-.ra-block:hover { background-color:rgba(248,113,113,0.16); }
-.ra-ok { background-color:rgba(16,195,126,0.08); color:#10C37E; border:1px solid rgba(16,195,126,0.18); }
-.ra-ok:hover { background-color:rgba(16,195,126,0.16); }
-.ra-rev { background-color:rgba(248,113,113,0.08); color:#f87171; border:1px solid rgba(248,113,113,0.18); }
-.ra-rev:hover { background-color:rgba(248,113,113,0.16); }
-.ra-renew { background-color:rgba(251,191,36,0.08); color:#fbbf24; border:1px solid rgba(251,191,36,0.18); }
-.ra-renew:hover { background-color:rgba(251,191,36,0.15); }
-.ra-view { background-color:#101a17; color:rgba(232,240,236,0.5); border:1px solid rgba(255,255,255,0.055); }
-.ra-view:hover { border-color:rgba(16,195,126,0.2); color:#e8f0ec; }
-.mono { font-family:'SF Mono','Fira Code','Courier New',monospace; font-size:11px; color:rgba(232,240,236,0.35); }
-.code { background-color:rgba(0,0,0,0.4); border:1px solid rgba(255,255,255,0.055); border-radius:8px; padding:13px 15px; font-family:'SF Mono','Fira Code','Courier New',monospace; font-size:11.5px; line-height:2; color:rgba(232,240,236,0.45); }
-.c-em { color:#10C37E; } .c-str { color:#fbbf24; } .c-cmt { color:rgba(232,240,236,0.22); } .c-dim { color:rgba(255,255,255,0.28); }
+.ra-btn { padding:4px 9px; border-radius:5px; font-size:10.5px; font-weight:500; cursor:pointer; font-family:‘DM Sans’,sans-serif; border:none; transition:all 0.12s; }
+.ra-block { background:rgba(248,113,113,0.07); color:#f87171; border:1px solid rgba(248,113,113,0.15); }
+.ra-block:hover { background:rgba(248,113,113,0.14); }
+.ra-ok { background:rgba(16,195,126,0.07); color:#10C37E; border:1px solid rgba(16,195,126,0.12); }
+.ra-ok:hover { background:rgba(16,195,126,0.14); }
+.ra-rev { background:rgba(248,113,113,0.07); color:#f87171; border:1px solid rgba(248,113,113,0.15); }
+.ra-rev:hover { background:rgba(248,113,113,0.14); }
+.ra-renew { background:rgba(251,191,36,0.07); color:#fbbf24; border:1px solid rgba(251,191,36,0.15); }
+.ra-renew:hover { background:rgba(251,191,36,0.14); }
+.ra-view { background:#101a17; color:rgba(232,237,233,0.52); border:1px solid rgba(255,255,255,0.055); }
+.ra-view:hover { border-color:rgba(16,195,126,0.12); color:#e8ede9; }
+
+/* ── MONO ── */
+.mono { font-family:‘SF Mono’,‘Fira Code’,‘Courier New’,monospace; font-size:11px; color:rgba(232,237,233,0.28); }
+
+/* ── CODE ── */
+.code { background:rgba(0,0,0,0.35); border:1px solid rgba(255,255,255,0.055); border-radius:8px; padding:14px 16px; font-family:‘SF Mono’,‘Fira Code’,monospace; font-size:11.5px; line-height:2.1; color:rgba(232,237,233,0.52); }
+.c-em { color:#10C37E; } .c-str { color:#fbbf24; } .c-cmt { color:rgba(232,237,233,0.2); } .c-dim { color:rgba(255,255,255,0.25); }
+
+/* ── INT TABS ── */
 .itabs { display:flex; gap:5px; margin-bottom:12px; }
-.itab { padding:5px 12px; border-radius:6px; font-size:11px; font-weight:700; cursor:pointer; font-family:'Montserrat',sans-serif; transition:all 0.12s; border:1px solid rgba(255,255,255,0.055); color:rgba(232,240,236,0.45); background-color:transparent; }
-.itab:hover { color:#e8f0ec; border-color:rgba(16,195,126,0.15); }
-.itab.active { background-color:rgba(16,195,126,0.1); border-color:rgba(16,195,126,0.18); color:#10C37E; }
+.itab { padding:5px 13px; border-radius:6px; font-size:11.5px; font-weight:400; cursor:pointer; font-family:‘DM Sans’,sans-serif; transition:all 0.12s; border:1px solid rgba(255,255,255,0.055); color:rgba(232,237,233,0.28); background:transparent; }
+.itab:hover { color:#e8ede9; border-color:rgba(16,195,126,0.12); }
+.itab.active { background:rgba(16,195,126,0.08); border-color:rgba(16,195,126,0.12); color:#10C37E; font-weight:500; }
+
+/* ── FLOW ── */
 .flow-row { display:flex; align-items:center; gap:10px; padding:14px 0; }
-.flow-box { flex:1; text-align:center; padding:13px 10px; background-color:#101a17; border:1px solid rgba(255,255,255,0.055); border-radius:9px; transition:border-color 0.18s; }
-.flow-box:hover { border-color:rgba(16,195,126,0.18); }
-.flow-box.hl { border-color:#10C37E; background-color:rgba(16,195,126,0.06); box-shadow:0 0 20px rgba(16,195,126,0.1); }
-.flow-ico { display:flex; align-items:center; justify-content:center; margin-bottom:6px; }
-.flow-name { font-size:12px; font-weight:700; color:#e8f0ec; }
-.flow-sub { font-size:10.5px; color:rgba(232,240,236,0.35); margin-top:2px; font-family:'Inter',sans-serif; }
+.flow-box { flex:1; text-align:center; padding:14px 12px; background:#101a17; border:1px solid rgba(255,255,255,0.055); border-radius:9px; transition:border-color 0.18s; }
+.flow-box:hover { border-color:rgba(16,195,126,0.12); }
+.flow-box.hl { border-color:rgba(16,195,126,0.35); background:rgba(16,195,126,0.05); }
+.flow-ico { display:flex; align-items:center; justify-content:center; margin-bottom:7px; }
+.flow-name { font-size:12px; font-weight:500; color:#e8ede9; }
+.flow-sub { font-size:10.5px; color:rgba(232,237,233,0.28); margin-top:3px; font-weight:300; }
 .flow-arrow { display:flex; align-items:center; color:rgba(16,195,126,0.3); flex-shrink:0; }
-.lg-canvas { display:flex; align-items:center; justify-content:center; padding:24px 14px 18px; gap:0; overflow-x:auto; }
+
+/* ── LINEAGE ── */
+.lg-canvas { display:flex; align-items:center; justify-content:center; padding:26px 16px 18px; overflow-x:auto; }
 .lg-node { display:flex; flex-direction:column; align-items:center; flex-shrink:0; }
-.lg-circle { width:72px; height:72px; border-radius:50%; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px; border:1.5px solid; cursor:pointer; transition:all 0.18s; }
-.lg-circle:hover { transform:scale(1.1); }
-.lg-src { border-color:rgba(255,255,255,0.12); background-color:rgba(255,255,255,0.03); }
-.lg-ven { border-color:#10C37E; background-color:rgba(16,195,126,0.08); }
-.lg-int { border-color:#818cf8; background-color:rgba(129,140,248,0.08); }
-.lg-out { border-color:#fbbf24; background-color:rgba(251,191,36,0.08); }
+.lg-circle { width:70px; height:70px; border-radius:50%; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px; border:1px solid; cursor:pointer; transition:all 0.2s; }
+.lg-circle:hover { transform:scale(1.08); }
+.lg-src { border-color:rgba(255,255,255,0.1); background:rgba(255,255,255,0.02); }
+.lg-ven { border-color:rgba(16,195,126,0.4); background:rgba(16,195,126,0.06); }
+.lg-int { border-color:rgba(129,140,248,0.4); background:rgba(129,140,248,0.06); }
+.lg-out { border-color:rgba(251,191,36,0.4); background:rgba(251,191,36,0.06); }
 .lg-ico { display:flex; align-items:center; justify-content:center; }
-.lg-lbl { font-size:8.5px; font-weight:800; text-align:center; line-height:1.2; letter-spacing:0.3px; }
+.lg-lbl { font-size:8.5px; font-weight:500; text-align:center; line-height:1.3; letter-spacing:0.3px; }
 .lg-meta { margin-top:9px; text-align:center; }
-.lg-meta-n { font-size:11px; font-weight:500; color:rgba(232,240,236,0.45); font-family:'Inter',sans-serif; }
-.lg-meta-t { font-family:'SF Mono','Fira Code',monospace; font-size:9.5px; color:rgba(232,240,236,0.22); margin-top:2px; }
+.lg-meta-n { font-size:11px; font-weight:400; color:rgba(232,237,233,0.52); }
+.lg-meta-t { font-family:‘SF Mono’,‘Fira Code’,monospace; font-size:9px; color:rgba(232,237,233,0.16); margin-top:2px; }
 .lg-arrow { display:flex; flex-direction:column; align-items:center; padding:0 4px; margin-bottom:21px; flex-shrink:0; }
-.lg-step { font-size:9px; color:rgba(232,240,236,0.22); margin-bottom:2px; white-space:nowrap; font-family:'SF Mono','Fira Code',monospace; }
-.lg-line { width:44px; height:1px; background:linear-gradient(90deg,rgba(255,255,255,0.055),rgba(16,195,126,0.3)); position:relative; }
-.lg-line::after { content:''; position:absolute; right:-5px; top:-3.5px; border:4px solid transparent; border-left-color:rgba(16,195,126,0.3); }
+.lg-step { font-size:9px; color:rgba(232,237,233,0.16); margin-bottom:2px; white-space:nowrap; font-family:‘SF Mono’,‘Fira Code’,monospace; font-weight:300; }
+.lg-line { width:44px; height:1px; background:linear-gradient(90deg,rgba(255,255,255,0.055),rgba(16,195,126,0.25)); position:relative; }
+.lg-line::after { content:’’; position:absolute; right:-5px; top:-3.5px; border:4px solid transparent; border-left-color:rgba(16,195,126,0.25); }
+
+/* ── CONSENT METHODS ── */
 .cm-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:9px; }
-.cm-card { padding:13px 15px; background-color:#101a17; border:1px solid rgba(255,255,255,0.055); border-radius:9px; transition:border-color 0.18s; }
-.cm-card:hover { border-color:rgba(16,195,126,0.15); }
-.cm-card.hl { border-color:rgba(16,195,126,0.2); background-color:rgba(16,195,126,0.05); }
-.cm-ico { display:flex; align-items:center; margin-bottom:7px; }
-.cm-title { font-size:12.5px; font-weight:700; color:#e8f0ec; margin-bottom:5px; }
-.cm-body { font-size:11.5px; color:rgba(232,240,236,0.45); line-height:1.6; font-family:'Inter',sans-serif; }
+.cm-card { padding:14px 16px; background:#101a17; border:1px solid rgba(255,255,255,0.055); border-radius:9px; transition:border-color 0.18s; }
+.cm-card:hover { border-color:rgba(16,195,126,0.12); }
+.cm-card.hl { border-color:rgba(16,195,126,0.12); background:rgba(16,195,126,0.04); }
+.cm-ico { display:flex; align-items:center; margin-bottom:8px; }
+.cm-title { font-size:12.5px; font-weight:500; color:#e8ede9; margin-bottom:5px; }
+.cm-body { font-size:11.5px; color:rgba(232,237,233,0.28); line-height:1.65; font-weight:300; }
+
+/* ── POLICY LIST ── */
 .pol-list { display:flex; flex-direction:column; gap:5px; }
-.pol-row { display:flex; align-items:center; justify-content:space-between; padding:9px 11px; background-color:#101a17; border-radius:7px; border:1px solid rgba(255,255,255,0.055); }
-.pol-name { font-size:12.5px; font-weight:500; color:#e8f0ec; font-family:'Inter',sans-serif; }
-.toggle { width:32px; height:17px; border-radius:100px; background-color:#10C37E; position:relative; cursor:pointer; transition:background-color 0.2s; flex-shrink:0; }
-.toggle.off { background-color:rgba(255,255,255,0.1); }
-.toggle::after { content:''; position:absolute; top:2px; left:2px; width:13px; height:13px; border-radius:50%; background-color:#fff; transition:transform 0.2s; }
+.pol-row { display:flex; align-items:center; justify-content:space-between; padding:9px 12px; background:#101a17; border-radius:7px; border:1px solid rgba(255,255,255,0.055); }
+.pol-name { font-size:12.5px; font-weight:400; color:#e8ede9; }
+.toggle { width:32px; height:17px; border-radius:100px; background:#10C37E; position:relative; cursor:pointer; transition:background 0.2s; flex-shrink:0; }
+.toggle.off { background:rgba(255,255,255,0.1); }
+.toggle::after { content:’’; position:absolute; top:2px; left:2px; width:13px; height:13px; border-radius:50%; background:#fff; transition:transform 0.2s; }
 .toggle.off::after { transform:translateX(0); }
 .toggle:not(.off)::after { transform:translateX(15px); }
+
+/* ── AUDIT ── */
 .audit-list { display:flex; flex-direction:column; gap:8px; margin-bottom:14px; }
-.audit-item { display:flex; align-items:center; gap:12px; padding:13px 15px; border-radius:9px; }
-.audit-item.done { background-color:rgba(16,195,126,0.04); border:1px solid rgba(16,195,126,0.14); }
-.audit-item.pend { background-color:rgba(251,191,36,0.04); border:1px solid rgba(251,191,36,0.14); }
+.audit-item { display:flex; align-items:center; gap:12px; padding:13px 16px; border-radius:9px; }
+.audit-item.done { background:rgba(16,195,126,0.03); border:1px solid rgba(16,195,126,0.12); }
+.audit-item.pend { background:rgba(251,191,36,0.03); border:1px solid rgba(251,191,36,0.12); }
 .audit-ico { width:34px; height:34px; border-radius:8px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
-.audit-ico.done { background-color:rgba(16,195,126,0.12); }
-.audit-ico.pend { background-color:rgba(251,191,36,0.1); }
+.audit-ico.done { background:rgba(16,195,126,0.1); }
+.audit-ico.pend { background:rgba(251,191,36,0.08); }
 .audit-info { flex:1; }
-.audit-name { font-size:13px; font-weight:700; color:#e8f0ec; }
-.audit-desc { font-size:11px; color:rgba(232,240,236,0.35); margin-top:2px; font-family:'Inter',sans-serif; }
+.audit-name { font-size:13px; font-weight:500; color:#e8ede9; }
+.audit-desc { font-size:11.5px; color:rgba(232,237,233,0.28); margin-top:2px; font-weight:300; }
 .audit-right { text-align:right; flex-shrink:0; }
-.audit-status { font-size:11.5px; font-weight:700; font-family:'Montserrat',sans-serif; }
-.audit-count { font-size:10.5px; color:rgba(232,240,236,0.3); margin-top:2px; font-family:'Inter',sans-serif; }
-.export-cta { width:100%; padding:15px; background:linear-gradient(135deg,#0B8F5A 0%,#10C37E 55%,#2AF5A0 100%); border:none; border-radius:10px; cursor:pointer; font-family:'Montserrat',sans-serif; font-size:14px; font-weight:900; color:#070c0b; letter-spacing:0.2px; display:flex; align-items:center; justify-content:center; gap:8px; transition:all 0.22s; box-shadow:0 4px 20px rgba(16,195,126,0.28); }
-.export-cta:hover { transform:translateY(-2px); box-shadow:0 8px 30px rgba(16,195,126,0.42); }
-.export-cta:disabled { opacity:0.65; transform:none; cursor:default; }
-.toast { position:fixed; bottom:18px; right:18px; z-index:9999; background-color:#0c1512; border:1px solid rgba(16,195,126,0.2); border-radius:10px; padding:11px 14px; display:flex; align-items:flex-start; gap:9px; min-width:230px; max-width:300px; box-shadow:0 16px 40px rgba(0,0,0,0.6); transform:translateY(60px) scale(0.97); opacity:0; pointer-events:none; transition:all 0.28s cubic-bezier(0.34,1.4,0.64,1); }
+.audit-status { font-size:11.5px; font-weight:500; }
+.audit-count { font-size:10.5px; color:rgba(232,237,233,0.28); margin-top:2px; font-weight:300; }
+
+/* ── EXPORT CTA ── */
+.export-cta { width:100%; padding:14px; background:linear-gradient(135deg,#0B8F5A,#10C37E 60%,#2AF5A0); border:none; border-radius:9px; cursor:pointer; font-family:‘DM Sans’,sans-serif; font-size:14px; font-weight:500; color:#0a0f0e; display:flex; align-items:center; justify-content:center; gap:8px; transition:all 0.22s; box-shadow:0 4px 20px rgba(16,195,126,0.22); }
+.export-cta:hover { transform:translateY(-2px); box-shadow:0 8px 28px rgba(16,195,126,0.36); }
+.export-cta:disabled { opacity:0.6; transform:none; cursor:default; }
+
+/* ── TOAST ── */
+.toast { position:fixed; bottom:18px; right:18px; z-index:9999; background:#0d1513; border:1px solid rgba(16,195,126,0.12); border-radius:10px; padding:12px 15px; display:flex; align-items:flex-start; gap:9px; min-width:230px; max-width:300px; box-shadow:0 16px 40px rgba(0,0,0,0.55); transform:translateY(60px) scale(0.97); opacity:0; pointer-events:none; transition:all 0.28s cubic-bezier(0.34,1.4,0.64,1); }
 .toast.show { transform:translateY(0) scale(1); opacity:1; pointer-events:auto; }
 .t-ico { display:flex; align-items:center; flex-shrink:0; margin-top:1px; }
-.t-title { font-size:12px; font-weight:700; color:#e8f0ec; font-family:'Montserrat',sans-serif; }
-.t-desc { font-size:11px; color:rgba(232,240,236,0.35); margin-top:2px; font-family:'Inter',sans-serif; }
+.t-title { font-size:12px; font-weight:500; color:#e8ede9; }
+.t-desc { font-size:11px; color:rgba(232,237,233,0.28); margin-top:2px; font-weight:300; }
 .t-bar { position:absolute; bottom:0; left:0; height:2px; border-radius:0 0 10px 10px; background:linear-gradient(90deg,#0B8F5A,#10C37E); animation:tbar 3.5s linear forwards; }
 @keyframes tbar { from { width:100%; } to { width:0%; } }
 </style>
+
 </head>
 <body>
 <div class="shell">
@@ -246,10 +291,9 @@ body { font-family:'Montserrat',-apple-system,BlinkMacSystemFont,'Segoe UI',sans
   </div>
   <div class="tb-right">
     <div class="tb-icon" onclick="toast('3 unresolved Shadow AI alerts','Review in Shadow AI Monitor','<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#f87171" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>')">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(232,240,236,0.6)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
-      <div class="notif-dot"></div>
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(232,237,233,0.5)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg><div class="notif-dot"></div>
     </div>
-    <button class="tb-cta" onclick="go(5)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#070c0b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg> Audit Pack</button>
+    <button class="tb-cta" onclick="go(5)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#0a0f0e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg> Audit Pack</button>
     <div class="tb-avatar">JR</div>
   </div>
 </div>
@@ -262,15 +306,15 @@ body { font-family:'Montserrat',-apple-system,BlinkMacSystemFont,'Segoe UI',sans
   </div>
   <div class="nav-grp">
     <div class="nav-grp-lbl">Governance</div>
-    <div class="nav-item" id="ni1" onclick="go(1)"><div class="nav-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(232,240,236,0.45)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18"/><path d="M6 6l12 12"/></svg></div>Integrations</div>
-    <div class="nav-item" id="ni2" onclick="go(2)"><div class="nav-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(232,240,236,0.45)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg></div>Shadow AI<span class="nav-chip chip-r">3</span></div>
-    <div class="nav-item" id="ni3" onclick="go(3)"><div class="nav-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(232,240,236,0.45)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>Consent Registry</div>
-    <div class="nav-item" id="ni4" onclick="go(4)"><div class="nav-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(232,240,236,0.45)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></div>Lineage Graph</div>
+    <div class="nav-item" id="ni1" onclick="go(1)"><div class="nav-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(232,237,233,0.28)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="3" x2="6" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/></svg></div>Integrations</div>
+    <div class="nav-item" id="ni2" onclick="go(2)"><div class="nav-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(232,237,233,0.28)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg></div>Shadow AI<span class="nav-chip chip-r">3</span></div>
+    <div class="nav-item" id="ni3" onclick="go(3)"><div class="nav-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(232,237,233,0.28)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>Consent Registry</div>
+    <div class="nav-item" id="ni4" onclick="go(4)"><div class="nav-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(232,237,233,0.28)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></div>Lineage Graph</div>
   </div>
   <div class="nav-div"></div>
   <div class="nav-grp">
     <div class="nav-grp-lbl">Compliance</div>
-    <div class="nav-item" id="ni5" onclick="go(5)"><div class="nav-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(232,240,236,0.45)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div>Audit Pack<span class="nav-chip chip-g">Ready</span></div>
+    <div class="nav-item" id="ni5" onclick="go(5)"><div class="nav-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(232,237,233,0.28)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div>Audit Pack<span class="nav-chip chip-g">Ready</span></div>
   </div>
   <div class="sb-foot">v1.0.0 · Demo</div>
 </div>
@@ -288,7 +332,7 @@ body { font-family:'Montserrat',-apple-system,BlinkMacSystemFont,'Segoe UI',sans
     </div>
     <div class="ph-acts">
       <button class="btn btn-s" onclick="go(2)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#f87171" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Alerts (3)</button>
-      <button class="btn btn-p" onclick="go(5)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#070c0b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg> Generate Audit Pack</button>
+      <button class="btn btn-p" onclick="go(5)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#0a0f0e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg> Generate Audit Pack</button>
     </div>
   </div>
   <div class="kpi-row">
@@ -301,11 +345,7 @@ body { font-family:'Montserrat',-apple-system,BlinkMacSystemFont,'Segoe UI',sans
     <div class="card">
       <div class="card-hd"><div class="card-title"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#10C37E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg> AI Usage by Department</div><div class="card-meta">Last 30 days</div></div>
       <div class="card-body">
-        <div class="mc-wrap">
-          <div class="mc-bar" style="height:42%"></div><div class="mc-bar hi" style="height:78%"></div>
-          <div class="mc-bar" style="height:55%"></div><div class="mc-bar" style="height:30%"></div>
-          <div class="mc-bar danger" style="height:92%"></div><div class="mc-bar" style="height:47%"></div><div class="mc-bar" style="height:34%"></div>
-        </div>
+        <div class="mc-wrap"><div class="mc-bar" style="height:42%"></div><div class="mc-bar hi" style="height:78%"></div><div class="mc-bar" style="height:55%"></div><div class="mc-bar" style="height:30%"></div><div class="mc-bar danger" style="height:92%"></div><div class="mc-bar" style="height:47%"></div><div class="mc-bar" style="height:34%"></div></div>
         <div class="mc-labels"><div class="mc-label">Legal</div><div class="mc-label">Eng</div><div class="mc-label">Sales</div><div class="mc-label">HR</div><div class="mc-label">Risk</div><div class="mc-label">Ops</div><div class="mc-label">Fin</div></div>
       </div>
     </div>
@@ -315,8 +355,8 @@ body { font-family:'Montserrat',-apple-system,BlinkMacSystemFont,'Segoe UI',sans
         <div class="tl">
           <div class="tl-item"><div class="tl-dot alert"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#f87171" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div><div class="tl-body"><div class="tl-title">Shadow AI detected — Notion AI</div><div class="tl-time">12 min ago · Risk dept · 4 employees</div></div></div>
           <div class="tl-item"><div class="tl-dot"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#10C37E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div class="tl-body"><div class="tl-title">Consent auto-renewed — 142 records</div><div class="tl-time">1 hr ago · Policy Engine trigger</div></div></div>
-          <div class="tl-item"><div class="tl-dot"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="rgba(232,240,236,0.5)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><div class="tl-body"><div class="tl-title">Policy updated — PII to GPT-4 blocked</div><div class="tl-time">3 hr ago · J. Roberts</div></div></div>
-          <div class="tl-item"><div class="tl-dot"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="rgba(232,240,236,0.5)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div><div class="tl-body"><div class="tl-title">SOC 2 audit pack generated</div><div class="tl-time">Yesterday · 847 events exported</div></div></div>
+          <div class="tl-item"><div class="tl-dot"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="rgba(232,237,233,0.28)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><div class="tl-body"><div class="tl-title">Policy updated — PII to GPT-4 blocked</div><div class="tl-time">3 hr ago · J. Roberts</div></div></div>
+          <div class="tl-item"><div class="tl-dot"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="rgba(232,237,233,0.28)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div><div class="tl-body"><div class="tl-title">SOC 2 audit pack generated</div><div class="tl-time">Yesterday · 847 events exported</div></div></div>
         </div>
       </div>
     </div>
@@ -326,10 +366,10 @@ body { font-family:'Montserrat',-apple-system,BlinkMacSystemFont,'Segoe UI',sans
     <table class="tbl">
       <thead><tr><th>Vendor</th><th>Type</th><th>Data Processed</th><th>Consent</th><th>Risk</th><th>Status</th><th></th></tr></thead>
       <tbody>
-        <tr><td><div class="vname"><div class="vico" style="background:rgba(16,195,126,0.12)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#10C37E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="14" x2="23" y2="14"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="14" x2="4" y2="14"/></svg></div>OpenAI GPT-4</div></td><td><span class="badge b-d">LLM</span></td><td>Financial Records</td><td><span style="color:#10C37E;font-size:12px;font-weight:600">Active</span></td><td><span class="badge b-y">Medium</span></td><td><span class="badge b-g"><span class="sd sd-g"></span>&nbsp;Approved</span></td><td><button class="ra-btn ra-view" onclick="toast('OpenAI GPT-4 · 1,204 calls · Avg 312ms','No violations · Last call 4 min ago','<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#10C37E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="14" x2="23" y2="14"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="14" x2="4" y2="14"/></svg>')">View</button></td></tr>
-        <tr><td><div class="vname"><div class="vico" style="background:rgba(129,140,248,0.12)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#818cf8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg></div>AWS Bedrock</div></td><td><span class="badge b-d">Cloud AI</span></td><td>Transaction Logs</td><td><span style="color:#10C37E;font-size:12px;font-weight:600">Active</span></td><td><span class="badge b-g">Low</span></td><td><span class="badge b-g"><span class="sd sd-g"></span>&nbsp;Approved</span></td><td><button class="ra-btn ra-view" onclick="toast('AWS Bedrock · 847 calls · Fully compliant','Zero policy violations this week','<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#818cf8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg>')">View</button></td></tr>
-        <tr><td><div class="vname"><div class="vico" style="background:rgba(248,113,113,0.12)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#f87171" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="14" x2="23" y2="14"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="14" x2="4" y2="14"/></svg></div>Azure OpenAI</div></td><td><span class="badge b-d">LLM</span></td><td>Customer PII</td><td><span style="color:#fbbf24;font-size:12px;font-weight:600">Expiring</span></td><td><span class="badge b-r">High</span></td><td><span class="badge b-y"><span class="sd sd-y"></span>&nbsp;Review</span></td><td><button class="ra-btn ra-renew" onclick="toast('Renewal notice sent · Azure OpenAI','Expires in 6 days · 318 subjects affected','<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>')">Renew</button></td></tr>
-        <tr><td><div class="vname"><div class="vico" style="background:rgba(16,195,126,0.12)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#10C37E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="14" x2="23" y2="14"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="14" x2="4" y2="14"/></svg></div>Anthropic Claude</div></td><td><span class="badge b-d">LLM</span></td><td>Internal Docs</td><td><span style="color:#10C37E;font-size:12px;font-weight:600">Active</span></td><td><span class="badge b-g">Low</span></td><td><span class="badge b-g"><span class="sd sd-g"></span>&nbsp;Approved</span></td><td><button class="ra-btn ra-view" onclick="toast('Anthropic Claude · 312 calls · Clean','All within approved policy scope','<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#10C37E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>')">View</button></td></tr>
+        <tr><td><div class="vname"><div class="vico" style="background:rgba(16,195,126,0.1)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#10C37E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="14" x2="23" y2="14"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="14" x2="4" y2="14"/></svg></div>OpenAI GPT-4</div></td><td><span class="badge b-d">LLM</span></td><td>Financial Records</td><td><span style="color:#10C37E;font-size:12px;font-weight:500">Active</span></td><td><span class="badge b-y">Medium</span></td><td><span class="badge b-g"><span class="sd sd-g"></span>&nbsp;Approved</span></td><td><button class="ra-btn ra-view" onclick="toast('OpenAI GPT-4 · 1,204 calls · Avg 312ms','No violations · Last call 4 min ago','')">View</button></td></tr>
+        <tr><td><div class="vname"><div class="vico" style="background:rgba(129,140,248,0.1)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#818cf8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg></div>AWS Bedrock</div></td><td><span class="badge b-d">Cloud AI</span></td><td>Transaction Logs</td><td><span style="color:#10C37E;font-size:12px;font-weight:500">Active</span></td><td><span class="badge b-g">Low</span></td><td><span class="badge b-g"><span class="sd sd-g"></span>&nbsp;Approved</span></td><td><button class="ra-btn ra-view" onclick="toast('AWS Bedrock · 847 calls · Fully compliant','Zero policy violations this week','')">View</button></td></tr>
+        <tr><td><div class="vname"><div class="vico" style="background:rgba(248,113,113,0.1)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#f87171" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="14" x2="23" y2="14"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="14" x2="4" y2="14"/></svg></div>Azure OpenAI</div></td><td><span class="badge b-d">LLM</span></td><td>Customer PII</td><td><span style="color:#fbbf24;font-size:12px;font-weight:500">Expiring</span></td><td><span class="badge b-r">High</span></td><td><span class="badge b-y"><span class="sd sd-y"></span>&nbsp;Review</span></td><td><button class="ra-btn ra-renew" onclick="toast('Renewal notice sent · Azure OpenAI','Expires in 6 days · 318 subjects affected','')">Renew</button></td></tr>
+        <tr><td><div class="vname"><div class="vico" style="background:rgba(16,195,126,0.1)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#10C37E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="14" x2="23" y2="14"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="14" x2="4" y2="14"/></svg></div>Anthropic Claude</div></td><td><span class="badge b-d">LLM</span></td><td>Internal Docs</td><td><span style="color:#10C37E;font-size:12px;font-weight:500">Active</span></td><td><span class="badge b-g">Low</span></td><td><span class="badge b-g"><span class="sd sd-g"></span>&nbsp;Approved</span></td><td><button class="ra-btn ra-view" onclick="toast('Anthropic Claude · 312 calls · Clean','All within approved policy scope','')">View</button></td></tr>
       </tbody>
     </table>
   </div>
@@ -346,21 +386,21 @@ body { font-family:'Montserrat',-apple-system,BlinkMacSystemFont,'Segoe UI',sans
     </div>
   </div>
   <div class="itabs">
-    <button class="itab active" onclick="setTab(this,'tp')"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#10C37E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg> API Proxy</button>
-    <button class="itab" onclick="setTab(this,'ts')"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="rgba(232,240,236,0.45)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg> SDK</button>
-    <button class="itab" onclick="setTab(this,'tl')"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="rgba(232,240,236,0.45)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg> Log Ingestion</button>
+    <button class="itab active" onclick="setTab(this,'tp')">API Proxy</button>
+    <button class="itab" onclick="setTab(this,'ts')">SDK</button>
+    <button class="itab" onclick="setTab(this,'tl')">Log Ingestion</button>
   </div>
   <div id="tp">
     <div class="card mb10">
       <div class="card-hd"><div class="card-title">API Proxy — Recommended</div><span class="badge b-g">Most Complete</span></div>
       <div class="card-body">
-        <p style="font-size:12.5px;color:rgba(232,240,236,0.45);line-height:1.7;margin-bottom:14px;font-family:'Inter',sans-serif">Route all AI calls through DataBanq's proxy endpoint. One URL change captures every request — zero latency, zero other code changes.</p>
+        <p style="font-size:13px;color:rgba(232,237,233,0.28);line-height:1.75;margin-bottom:14px;font-weight:300">Route all AI calls through DataBanq's proxy endpoint. One URL change captures every request — zero latency, zero other code changes.</p>
         <div class="flow-row">
-          <div class="flow-box"><div class="flow-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(232,240,236,0.5)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><div class="flow-name">Your App</div><div class="flow-sub">Makes AI calls</div></div>
-          <div class="flow-arrow"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(16,195,126,0.4)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+          <div class="flow-box"><div class="flow-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(232,237,233,0.52)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></div><div class="flow-name">Your App</div><div class="flow-sub">Makes AI calls</div></div>
+          <div class="flow-arrow"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(16,195,126,0.35)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
           <div class="flow-box hl"><div class="flow-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10C37E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><div class="flow-name">DataBanq Proxy</div><div class="flow-sub">Logs · Enforces · Alerts</div></div>
-          <div class="flow-arrow"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(16,195,126,0.4)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
-          <div class="flow-box"><div class="flow-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(232,240,236,0.5)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="14" x2="23" y2="14"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="14" x2="4" y2="14"/></svg></div><div class="flow-name">AI Vendors</div><div class="flow-sub">OpenAI · Azure · Bedrock</div></div>
+          <div class="flow-arrow"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(16,195,126,0.35)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
+          <div class="flow-box"><div class="flow-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(232,237,233,0.52)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="14" x2="23" y2="14"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="14" x2="4" y2="14"/></svg></div><div class="flow-name">AI Vendors</div><div class="flow-sub">OpenAI · Azure · Bedrock</div></div>
         </div>
         <div class="code"><span class="c-cmt"># Before DataBanq</span><br>POST <span class="c-dim">https://api.openai.com/v1/chat/completions</span><br><br><span class="c-cmt"># After — one line change</span><br>POST <span class="c-em">https://proxy.databanq.com/v1/chat/completions</span></div>
       </div>
@@ -370,7 +410,7 @@ body { font-family:'Montserrat',-apple-system,BlinkMacSystemFont,'Segoe UI',sans
     <div class="card mb10">
       <div class="card-hd"><div class="card-title">SDK Integration</div><span class="badge b-y">2 Lines of Code</span></div>
       <div class="card-body">
-        <p style="font-size:12.5px;color:rgba(232,240,236,0.45);line-height:1.7;margin-bottom:14px;font-family:'Inter',sans-serif">Drop the DataBanq SDK into your codebase. Wrap existing AI calls — every inference is automatically logged and policy-checked.</p>
+        <p style="font-size:13px;color:rgba(232,237,233,0.28);line-height:1.75;margin-bottom:14px;font-weight:300">Drop the DataBanq SDK into your codebase. Wrap existing AI calls — every inference is automatically logged and policy-checked.</p>
         <div class="code"><span class="c-cmt">// npm install @databanq/sdk</span><br><span class="c-dim">import</span> <span class="c-em">DataBanq</span> <span class="c-dim">from</span> <span class="c-str">'@databanq/sdk'</span><br><span class="c-dim">const</span> dbq = DataBanq.init({ apiKey: <span class="c-str">'dbq_live_...'</span> })<br><br><span class="c-cmt">// Wrap your existing call</span><br><span class="c-dim">const</span> res = <span class="c-dim">await</span> <span class="c-em">dbq.track</span>(openai.chat.completions.create({ ... }))</div>
       </div>
     </div>
@@ -379,12 +419,12 @@ body { font-family:'Montserrat',-apple-system,BlinkMacSystemFont,'Segoe UI',sans
     <div class="card mb10">
       <div class="card-hd"><div class="card-title">Log Ingestion</div><span class="badge b-d">Zero Code Changes</span></div>
       <div class="card-body">
-        <p style="font-size:12.5px;color:rgba(232,240,236,0.45);line-height:1.7;margin-bottom:14px;font-family:'Inter',sans-serif">Already using Datadog or Splunk? DataBanq connects to your existing log pipeline and extracts AI events automatically.</p>
+        <p style="font-size:13px;color:rgba(232,237,233,0.28);line-height:1.75;margin-bottom:14px;font-weight:300">Already using Datadog or Splunk? DataBanq connects to your existing log pipeline and extracts AI events automatically.</p>
         <div class="flow-row" style="justify-content:center">
-          <div class="flow-box" style="max-width:110px"><div class="flow-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(232,240,236,0.5)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><div class="flow-name">Datadog</div></div>
-          <div class="flow-box" style="max-width:110px"><div class="flow-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(232,240,236,0.5)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><div class="flow-name">Splunk</div></div>
-          <div class="flow-box" style="max-width:110px"><div class="flow-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(232,240,236,0.5)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg></div><div class="flow-name">CloudWatch</div></div>
-          <div class="flow-arrow"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(16,195,126,0.4)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+          <div class="flow-box" style="max-width:110px"><div class="flow-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(232,237,233,0.52)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div><div class="flow-name">Datadog</div></div>
+          <div class="flow-box" style="max-width:110px"><div class="flow-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(232,237,233,0.52)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div><div class="flow-name">Splunk</div></div>
+          <div class="flow-box" style="max-width:110px"><div class="flow-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(232,237,233,0.52)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg></div><div class="flow-name">CloudWatch</div></div>
+          <div class="flow-arrow"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(16,195,126,0.35)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
           <div class="flow-box hl" style="max-width:130px"><div class="flow-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#10C37E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><div class="flow-name">DataBanq</div><div class="flow-sub">Full governance</div></div>
         </div>
       </div>
@@ -392,7 +432,7 @@ body { font-family:'Montserrat',-apple-system,BlinkMacSystemFont,'Segoe UI',sans
   </div>
   <div class="card">
     <div class="card-hd"><div class="card-title">Shadow AI Detection — Network Layer</div><span class="badge b-r"><span class="sd sd-r"></span>&nbsp;Always On</span></div>
-    <div class="card-body"><p style="font-size:12.5px;color:rgba(232,240,236,0.45);line-height:1.7;font-family:'Inter',sans-serif">Regardless of integration method, DataBanq's passive network monitor scans DNS traffic and outbound API calls to detect unauthorized AI tools. Detections surface within minutes. No agent required on employee devices.</p></div>
+    <div class="card-body"><p style="font-size:13px;color:rgba(232,237,233,0.28);line-height:1.75;font-weight:300">Regardless of integration method, DataBanq's passive network monitor scans DNS traffic and outbound API calls to detect unauthorized AI tools. Detections surface within minutes. No agent required on employee devices.</p></div>
   </div>
 </div>
 
@@ -406,7 +446,7 @@ body { font-family:'Montserrat',-apple-system,BlinkMacSystemFont,'Segoe UI',sans
       <div class="ph-desc">Unauthorized AI tools detected across your organization in real time</div>
     </div>
     <div class="ph-acts">
-      <button class="btn btn-s" onclick="toast('Report sent to compliance@acme.com','PDF + CSV · 3 tools · Jan 2025','<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(232,240,236,0.6)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>')">Export Report</button>
+      <button class="btn btn-s" onclick="toast('Report sent to compliance@acme.com','PDF + CSV · 3 tools · Jan 2025','')">Export Report</button>
       <button class="btn btn-g"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#10C37E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> Policy Rules</button>
     </div>
   </div>
@@ -420,9 +460,9 @@ body { font-family:'Montserrat',-apple-system,BlinkMacSystemFont,'Segoe UI',sans
     <table class="tbl">
       <thead><tr><th>Tool</th><th>Category</th><th>Employees</th><th>Department</th><th>Data Risk</th><th>Detected</th><th>Status</th><th>Actions</th></tr></thead>
       <tbody>
-        <tr id="sr0"><td><strong>ChatGPT (Personal)</strong></td><td><span class="badge b-d">LLM</span></td><td>14</td><td>Risk, Legal</td><td><span class="badge b-r"><span class="sd sd-r"></span>&nbsp;High</span></td><td><span class="mono">Jan 12, 2025</span></td><td id="ss0"><span class="badge b-r">Unreviewed</span></td><td><div class="ra"><button class="ra-btn ra-block" onclick="blockRow(0)">Block</button><button class="ra-btn ra-ok" onclick="approveRow(0)">Approve</button></div></td></tr>
-        <tr id="sr1"><td><strong>Grammarly Business</strong></td><td><span class="badge b-d">Writing AI</span></td><td>8</td><td>Marketing</td><td><span class="badge b-y">Medium</span></td><td><span class="mono">Jan 18, 2025</span></td><td id="ss1"><span class="badge b-r">Unreviewed</span></td><td><div class="ra"><button class="ra-btn ra-block" onclick="blockRow(1)">Block</button><button class="ra-btn ra-ok" onclick="approveRow(1)">Approve</button></div></td></tr>
-        <tr id="sr2"><td><strong>Notion AI</strong></td><td><span class="badge b-d">Productivity</span></td><td>4</td><td>Operations</td><td><span class="badge b-y">Medium</span></td><td><span class="mono">Jan 22, 2025</span></td><td id="ss2"><span class="badge b-r">Unreviewed</span></td><td><div class="ra"><button class="ra-btn ra-block" onclick="blockRow(2)">Block</button><button class="ra-btn ra-ok" onclick="approveRow(2)">Approve</button></div></td></tr>
+        <tr id="sr0"><td><strong style="font-weight:500">ChatGPT (Personal)</strong></td><td><span class="badge b-d">LLM</span></td><td>14</td><td>Risk, Legal</td><td><span class="badge b-r"><span class="sd sd-r"></span>&nbsp;High</span></td><td><span class="mono">Jan 12, 2025</span></td><td id="ss0"><span class="badge b-r">Unreviewed</span></td><td><div class="ra"><button class="ra-btn ra-block" onclick="blockRow(0)">Block</button><button class="ra-btn ra-ok" onclick="approveRow(0)">Approve</button></div></td></tr>
+        <tr id="sr1"><td><strong style="font-weight:500">Grammarly Business</strong></td><td><span class="badge b-d">Writing AI</span></td><td>8</td><td>Marketing</td><td><span class="badge b-y">Medium</span></td><td><span class="mono">Jan 18, 2025</span></td><td id="ss1"><span class="badge b-r">Unreviewed</span></td><td><div class="ra"><button class="ra-btn ra-block" onclick="blockRow(1)">Block</button><button class="ra-btn ra-ok" onclick="approveRow(1)">Approve</button></div></td></tr>
+        <tr id="sr2"><td><strong style="font-weight:500">Notion AI</strong></td><td><span class="badge b-d">Productivity</span></td><td>4</td><td>Operations</td><td><span class="badge b-y">Medium</span></td><td><span class="mono">Jan 22, 2025</span></td><td id="ss2"><span class="badge b-r">Unreviewed</span></td><td><div class="ra"><button class="ra-btn ra-block" onclick="blockRow(2)">Block</button><button class="ra-btn ra-ok" onclick="approveRow(2)">Approve</button></div></td></tr>
       </tbody>
     </table>
   </div>
@@ -458,8 +498,8 @@ body { font-family:'Montserrat',-apple-system,BlinkMacSystemFont,'Segoe UI',sans
       <div class="ph-desc">AI-native consent tracking with automated revocation cascades across all vendors</div>
     </div>
     <div class="ph-acts">
-      <button class="btn btn-s" onclick="toast('Registry exported','PDF + CSV · 2,847 records','<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(232,240,236,0.6)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>')">Export</button>
-      <button class="btn btn-p" onclick="toast('Renewal sent to 47 expiring subjects','Automated consent renewal workflow','<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#070c0b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>')">Bulk Renew (47)</button>
+      <button class="btn btn-s" onclick="toast('Registry exported','PDF + CSV · 2,847 records','')">Export</button>
+      <button class="btn btn-p" onclick="toast('Renewal sent to 47 expiring subjects','Automated consent renewal workflow','')">Bulk Renew (47)</button>
     </div>
   </div>
   <div class="kpi-row">
@@ -478,9 +518,9 @@ body { font-family:'Montserrat',-apple-system,BlinkMacSystemFont,'Segoe UI',sans
       <thead><tr><th>Subject ID</th><th>Use Case</th><th>AI Vendor</th><th>Granted</th><th>Expires</th><th>Status</th><th>Action</th></tr></thead>
       <tbody>
         <tr><td><span class="mono">SUB-00142</span></td><td>Fraud Detection</td><td>OpenAI GPT-4</td><td><span class="mono">Nov 3, 2024</span></td><td><span class="mono">Nov 3, 2025</span></td><td><span class="badge b-g"><span class="sd sd-g"></span>&nbsp;Active</span></td><td><button class="ra-btn ra-rev" onclick="revokeRow(this,'SUB-00142')">Revoke</button></td></tr>
-        <tr><td><span class="mono">SUB-00089</span></td><td>Credit Scoring</td><td>AWS Bedrock</td><td><span class="mono">Sep 14, 2024</span></td><td><span class="mono">—</span></td><td><span class="badge b-r">Revoked</span></td><td><button class="ra-btn ra-ok" onclick="toast('Reinstatement sent to SUB-00089','Consent workflow initiated','<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#10C37E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>')">Reinstate</button></td></tr>
+        <tr><td><span class="mono">SUB-00089</span></td><td>Credit Scoring</td><td>AWS Bedrock</td><td><span class="mono">Sep 14, 2024</span></td><td><span class="mono">—</span></td><td><span class="badge b-r">Revoked</span></td><td><button class="ra-btn ra-ok" onclick="toast('Reinstatement sent to SUB-00089','Consent workflow initiated','')">Reinstate</button></td></tr>
         <tr><td><span class="mono">SUB-00201</span></td><td>Customer Service</td><td>Anthropic Claude</td><td><span class="mono">Dec 1, 2024</span></td><td><span class="mono">Dec 1, 2025</span></td><td><span class="badge b-g"><span class="sd sd-g"></span>&nbsp;Active</span></td><td><button class="ra-btn ra-rev" onclick="revokeRow(this,'SUB-00201')">Revoke</button></td></tr>
-        <tr><td><span class="mono">SUB-00318</span></td><td>Risk Assessment</td><td>Azure OpenAI</td><td><span class="mono">Oct 28, 2024</span></td><td><span class="mono" style="color:#fbbf24">Jan 28, 2025</span></td><td><span class="badge b-y">Expiring</span></td><td><button class="ra-btn ra-renew" onclick="toast('Renewal sent to SUB-00318','Expires in 6 days','<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>')">Renew</button></td></tr>
+        <tr><td><span class="mono">SUB-00318</span></td><td>Risk Assessment</td><td>Azure OpenAI</td><td><span class="mono">Oct 28, 2024</span></td><td><span class="mono" style="color:#fbbf24">Jan 28, 2025</span></td><td><span class="badge b-y">Expiring</span></td><td><button class="ra-btn ra-renew" onclick="toast('Renewal sent to SUB-00318','Expires in 6 days','')">Renew</button></td></tr>
         <tr><td><span class="mono">SUB-00445</span></td><td>Loan Underwriting</td><td>OpenAI GPT-4</td><td><span class="mono">Jan 5, 2025</span></td><td><span class="mono">Jan 5, 2026</span></td><td><span class="badge b-g"><span class="sd sd-g"></span>&nbsp;Active</span></td><td><button class="ra-btn ra-rev" onclick="revokeRow(this,'SUB-00445')">Revoke</button></td></tr>
       </tbody>
     </table>
@@ -503,54 +543,54 @@ body { font-family:'Montserrat',-apple-system,BlinkMacSystemFont,'Segoe UI',sans
     </div>
     <div class="ph-acts">
       <button class="btn btn-s">Filter by Dataset</button>
-      <button class="btn btn-p" onclick="toast('Lineage exported','TRC-9284 · PDF + JSON · 2,363 events','<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#070c0b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>')">Export Lineage</button>
+      <button class="btn btn-p" onclick="toast('Lineage exported','TRC-9284 · PDF + JSON · 2,363 events','')">Export Lineage</button>
     </div>
   </div>
   <div class="card mb10">
-    <div class="card-hd"><div class="card-title">Loan Underwriting Pipeline</div><div class="card-meta"><span class="mono">TRC-9284</span>&nbsp;·&nbsp;Jan 28, 2025&nbsp;·&nbsp;<span style="color:#10C37E;font-weight:600">Hash verified</span></div></div>
+    <div class="card-hd"><div class="card-title">Loan Underwriting Pipeline</div><div class="card-meta"><span class="mono">TRC-9284</span>&nbsp;·&nbsp;Jan 28, 2025&nbsp;·&nbsp;<span style="color:#10C37E;font-weight:500">Hash verified</span></div></div>
     <div class="card-body">
       <div class="lg-canvas">
         <div class="lg-node">
-          <div class="lg-circle lg-src" onclick="toast('Customer Records DB · 2,847 rows · PII classified','No anomalies · Source verified','<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(232,240,236,0.5)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>')">
-            <div class="lg-ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="rgba(232,240,236,0.5)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg></div>
-            <div class="lg-lbl" style="color:rgba(232,240,236,0.45)">CUSTOMER<br>DB</div>
+          <div class="lg-circle lg-src" onclick="toast('Customer Records DB · 2,847 rows · PII classified','No anomalies · Source verified','')">
+            <div class="lg-ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="rgba(232,237,233,0.52)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg></div>
+            <div class="lg-lbl" style="color:rgba(232,237,233,0.28)">CUSTOMER<br>DB</div>
           </div>
           <div class="lg-meta"><div class="lg-meta-n">Source Data</div><div class="lg-meta-t">09:14:02</div></div>
         </div>
         <div class="lg-arrow"><div class="lg-step">PII masked</div><div class="lg-line"></div></div>
         <div class="lg-node">
-          <div class="lg-circle lg-ven" onclick="toast('OpenAI GPT-4 · 1,204 inferences · Consent verified','Avg 340ms · 0 violations','<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#10C37E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="14" x2="23" y2="14"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="14" x2="4" y2="14"/></svg>')">
-            <div class="lg-ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#10C37E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="14" x2="23" y2="14"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="14" x2="4" y2="14"/></svg></div>
+          <div class="lg-circle lg-ven" onclick="toast('OpenAI GPT-4 · 1,204 inferences · Consent verified','Avg 340ms · 0 violations','')">
+            <div class="lg-ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#10C37E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="14" x2="23" y2="14"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="14" x2="4" y2="14"/></svg></div>
             <div class="lg-lbl" style="color:#10C37E">GPT-4<br>OPENAI</div>
           </div>
           <div class="lg-meta"><div class="lg-meta-n">Risk Scoring</div><div class="lg-meta-t">09:15:11</div></div>
         </div>
         <div class="lg-arrow"><div class="lg-step">Scored output</div><div class="lg-line"></div></div>
         <div class="lg-node">
-          <div class="lg-circle lg-int" onclick="toast('Fraud Model v2.3 · Internal · 847 decisions','Hash: a3f8c2...d1 · Approved','<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#818cf8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6m-3 0v5l4 8H8l4-8V3" stroke-linejoin="round"/></svg>')">
-            <div class="lg-ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#818cf8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6m-3 0v5l4 8H8l4-8V3" stroke-linejoin="round"/></svg></div>
+          <div class="lg-circle lg-int" onclick="toast('Fraud Model v2.3 · Internal · 847 decisions','Hash: a3f8c2...d1 · Approved','')">
+            <div class="lg-ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#818cf8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6m-3 0v5l4 8H8l4-8V3" stroke-linejoin="round"/></svg></div>
             <div class="lg-lbl" style="color:#818cf8">FRAUD<br>MODEL</div>
           </div>
           <div class="lg-meta"><div class="lg-meta-n">Internal Model</div><div class="lg-meta-t">09:16:04</div></div>
         </div>
         <div class="lg-arrow"><div class="lg-step">Decision signal</div><div class="lg-line"></div></div>
         <div class="lg-node">
-          <div class="lg-circle lg-int" onclick="toast('AWS Bedrock · Compliance check · All clear','312 rules applied · 0 violations','<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#818cf8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg>')">
-            <div class="lg-ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#818cf8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg></div>
+          <div class="lg-circle lg-int" onclick="toast('AWS Bedrock · Compliance check · All clear','312 rules applied · 0 violations','')">
+            <div class="lg-ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#818cf8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg></div>
             <div class="lg-lbl" style="color:#818cf8">BEDROCK<br>AWS</div>
           </div>
           <div class="lg-meta"><div class="lg-meta-n">Compliance</div><div class="lg-meta-t">09:17:29</div></div>
         </div>
         <div class="lg-arrow"><div class="lg-step">Final output</div><div class="lg-line"></div></div>
         <div class="lg-node">
-          <div class="lg-circle lg-out" onclick="toast('Loan Decision · 847 decisions · Logged and hashed','All decisions regulator-ready','<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>')">
-            <div class="lg-ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div>
+          <div class="lg-circle lg-out" onclick="toast('Loan Decision · 847 decisions · Logged and hashed','All decisions regulator-ready','')">
+            <div class="lg-ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div>
             <div class="lg-lbl" style="color:#fbbf24">LOAN<br>OUTPUT</div>
           </div>
           <div class="lg-meta"><div class="lg-meta-n">Output</div><div class="lg-meta-t">09:18:14</div></div>
         </div>
       </div>
-      <div style="text-align:center;font-size:11px;color:rgba(232,240,236,0.22);padding-bottom:4px;font-family:'Inter',sans-serif">Click any node to inspect details</div>
+      <div style="text-align:center;font-size:11px;color:rgba(232,237,233,0.16);padding-bottom:4px;font-weight:300">Click any node to inspect details</div>
     </div>
   </div>
   <div class="g2">
@@ -558,10 +598,10 @@ body { font-family:'Montserrat',-apple-system,BlinkMacSystemFont,'Segoe UI',sans
       <div class="card-hd"><div class="card-title">Inference Summary · 24h</div></div>
       <div class="card-body">
         <div class="pol-list">
-          <div class="pol-row"><div class="pol-name">GPT-4 to Fraud Model</div><span style="color:#10C37E;font-size:12px;font-weight:700;font-family:'Montserrat',sans-serif">1,204 calls</span></div>
-          <div class="pol-row"><div class="pol-name">Bedrock to Decision Engine</div><span style="color:#10C37E;font-size:12px;font-weight:700;font-family:'Montserrat',sans-serif">847 calls</span></div>
-          <div class="pol-row"><div class="pol-name">Claude to Internal Docs</div><span style="color:#10C37E;font-size:12px;font-weight:700;font-family:'Montserrat',sans-serif">312 calls</span></div>
-          <div class="pol-row" style="border-top:1px solid rgba(255,255,255,0.055);margin-top:3px;padding-top:11px"><div class="pol-name" style="font-weight:700">Total logged</div><span style="color:#e8f0ec;font-size:13px;font-weight:900;font-family:'Montserrat',sans-serif">2,363</span></div>
+          <div class="pol-row"><div class="pol-name">GPT-4 to Fraud Model</div><span style="color:#10C37E;font-size:12px;font-weight:500">1,204 calls</span></div>
+          <div class="pol-row"><div class="pol-name">Bedrock to Decision Engine</div><span style="color:#10C37E;font-size:12px;font-weight:500">847 calls</span></div>
+          <div class="pol-row"><div class="pol-name">Claude to Internal Docs</div><span style="color:#10C37E;font-size:12px;font-weight:500">312 calls</span></div>
+          <div class="pol-row" style="border-top:1px solid rgba(255,255,255,0.055);margin-top:3px;padding-top:11px"><div class="pol-name" style="font-weight:500">Total logged</div><span style="color:#e8ede9;font-size:13px;font-weight:500">2,363</span></div>
         </div>
       </div>
     </div>
@@ -603,27 +643,27 @@ body { font-family:'Montserrat',-apple-system,BlinkMacSystemFont,'Segoe UI',sans
           <div class="prog-item"><div class="prog-row"><span class="prog-lbl">Consent records</span><span class="prog-val">84%</span></div><div class="prog-track"><div class="prog-fill pf-g" style="width:84%"></div></div></div>
           <div class="prog-item"><div class="prog-row"><span class="prog-lbl">Inference events logged</span><span class="prog-val">100%</span></div><div class="prog-track"><div class="prog-fill pf-g" style="width:100%"></div></div></div>
           <div class="prog-item"><div class="prog-row"><span class="prog-lbl">Vendor docs on file</span><span class="prog-val">86%</span></div><div class="prog-track"><div class="prog-fill pf-y" style="width:86%"></div></div></div>
-          <div class="prog-item"><div class="prog-row"><span class="prog-lbl" style="font-weight:600;color:#e8f0ec">Overall readiness</span><span class="prog-val" style="color:#10C37E">72%</span></div><div class="prog-track"><div class="prog-fill pf-g" style="width:72%"></div></div></div>
+          <div class="prog-item"><div class="prog-row"><span class="prog-lbl" style="font-weight:500;color:#e8ede9">Overall readiness</span><span class="prog-val" style="color:#10C37E">72%</span></div><div class="prog-track"><div class="prog-fill pf-g" style="width:72%"></div></div></div>
         </div>
       </div>
     </div>
     <div class="card">
       <div class="card-hd"><div class="card-title">What's Included</div></div>
       <div class="card-body">
-        <div style="display:flex;flex-direction:column;gap:8px">
-          <div style="display:flex;align-items:center;gap:8px;font-size:12.5px;color:rgba(232,240,236,0.45);font-family:'Inter',sans-serif"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#10C37E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Consent registry export (PDF + CSV)</div>
-          <div style="display:flex;align-items:center;gap:8px;font-size:12.5px;color:rgba(232,240,236,0.45);font-family:'Inter',sans-serif"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#10C37E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Full inference event log with hashes</div>
-          <div style="display:flex;align-items:center;gap:8px;font-size:12.5px;color:rgba(232,240,236,0.45);font-family:'Inter',sans-serif"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#10C37E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Shadow AI detection history</div>
-          <div style="display:flex;align-items:center;gap:8px;font-size:12.5px;color:rgba(232,240,236,0.45);font-family:'Inter',sans-serif"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#10C37E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Model lineage diagrams</div>
-          <div style="display:flex;align-items:center;gap:8px;font-size:12.5px;color:rgba(232,240,236,0.45);font-family:'Inter',sans-serif"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#10C37E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Vendor compliance matrix</div>
-          <div style="display:flex;align-items:center;gap:8px;font-size:12.5px;color:rgba(232,240,236,0.45);font-family:'Inter',sans-serif"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#10C37E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Policy change audit trail</div>
-          <div style="display:flex;align-items:center;gap:8px;font-size:12.5px;color:rgba(232,240,236,0.45);font-family:'Inter',sans-serif"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#10C37E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Tamper-evident hash evidence</div>
+        <div style="display:flex;flex-direction:column;gap:9px">
+          <div style="display:flex;align-items:center;gap:8px;font-size:12.5px;color:rgba(232,237,233,0.28);font-weight:300"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#10C37E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Consent registry export (PDF + CSV)</div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:12.5px;color:rgba(232,237,233,0.28);font-weight:300"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#10C37E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Full inference event log with hashes</div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:12.5px;color:rgba(232,237,233,0.28);font-weight:300"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#10C37E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Shadow AI detection history</div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:12.5px;color:rgba(232,237,233,0.28);font-weight:300"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#10C37E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Model lineage diagrams</div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:12.5px;color:rgba(232,237,233,0.28);font-weight:300"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#10C37E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Vendor compliance matrix</div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:12.5px;color:rgba(232,237,233,0.28);font-weight:300"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#10C37E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Policy change audit trail</div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:12.5px;color:rgba(232,237,233,0.28);font-weight:300"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#10C37E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Tamper-evident hash evidence</div>
         </div>
       </div>
     </div>
   </div>
-  <button class="export-cta" id="expBtn" onclick="runExport()"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#070c0b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="16.5" y1="9.4" x2="7.5" y2="4.21"/><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg> Generate Full Audit Pack</button>
-  <div style="text-align:center;font-size:11px;color:rgba(232,240,236,0.22);margin-top:9px;font-family:'Inter',sans-serif">Complete PDF + ZIP · All compliance frameworks · ~30 seconds</div>
+  <button class="export-cta" id="expBtn" onclick="runExport()"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0a0f0e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="16.5" y1="9.4" x2="7.5" y2="4.21"/><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg> Generate Full Audit Pack</button>
+  <div style="text-align:center;font-size:11.5px;color:rgba(232,237,233,0.16);margin-top:10px;font-weight:300">Complete PDF + ZIP · All compliance frameworks · ~30 seconds</div>
 </div>
 
 </div>
@@ -640,14 +680,14 @@ body { font-family:'Montserrat',-apple-system,BlinkMacSystemFont,'Segoe UI',sans
 'use strict';
 var screens=['Dashboard','Integrations','Shadow AI Monitor','Consent Registry','Lineage Graph','Audit Pack'];
 var tTimer;
-function go(i){var s=document.querySelectorAll('.screen');s.forEach(function(x){x.classList.remove('active');});var n=document.querySelectorAll('.nav-item');n.forEach(function(x){x.classList.remove('active');});document.getElementById('s'+i).classList.add('active');document.getElementById('ni'+i).classList.add('active');document.getElementById('bc').textContent=screens[i];}
-function toast(title,desc,ico){var el=document.getElementById('toastEl');document.getElementById('tTitle').textContent=title;document.getElementById('tDesc').textContent=desc||'';var ic=document.getElementById('tIco');ic.innerHTML=ico||'';el.querySelector('.t-bar').style.animation='none';void el.querySelector('.t-bar').offsetWidth;el.querySelector('.t-bar').style.animation='';el.classList.add('show');clearTimeout(tTimer);tTimer=setTimeout(function(){el.classList.remove('show');},3600);}
+function go(i){document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('active');});document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('active');});document.getElementById('s'+i).classList.add('active');document.getElementById('ni'+i).classList.add('active');document.getElementById('bc').textContent=screens[i];}
+function toast(title,desc,ico){var el=document.getElementById('toastEl');document.getElementById('tTitle').textContent=title;document.getElementById('tDesc').textContent=desc||'';document.getElementById('tIco').innerHTML=ico||'';var bar=el.querySelector('.t-bar');bar.style.animation='none';void bar.offsetWidth;bar.style.animation='';el.classList.add('show');clearTimeout(tTimer);tTimer=setTimeout(function(){el.classList.remove('show');},3600);}
 function blockRow(i){document.getElementById('ss'+i).innerHTML='<span class="badge b-r">Blocked</span>';document.getElementById('sr'+i).classList.add('blocked');toast('Tool blocked · IT team notified','Access revoked for all employees','');}
 function approveRow(i){document.getElementById('ss'+i).innerHTML='<span class="badge b-g">Approved</span>';toast('Tool approved · Added to vendor registry','Governance policy applied','');}
 function blockAll(){blockRow(0);blockRow(1);blockRow(2);toast('All 3 tools blocked','IT team notified · Employees alerted','');}
 function revokeRow(btn,id){var row=btn.closest('tr');var cells=row.querySelectorAll('td');cells[0].innerHTML='<span class="mono" style="opacity:0.35;text-decoration:line-through">'+id+'</span>';cells[1].style.opacity='0.35';cells[1].style.textDecoration='line-through';cells[5].innerHTML='<span class="badge b-r">Revoked</span>';btn.textContent='Reinstate';btn.className='ra-btn ra-ok';btn.onclick=function(){toast('Reinstatement sent to '+id,'Consent workflow initiated','');};toast('Consent revoked · Cascade sent to all vendors',id+' · Propagation in 60s','');}
 function setTab(el,id){document.querySelectorAll('.itab').forEach(function(t){t.classList.remove('active');});el.classList.add('active');['tp','ts','tl'].forEach(function(t){var d=document.getElementById(t);if(d)d.style.display=(t===id)?'block':'none';});}
-function togPol(el){el.classList.toggle('off');var on=!el.classList.contains('off');toast(on?'Policy rule enabled':'Policy rule disabled','Shadow AI · Policy Engine','');}
+function togPol(el){el.classList.toggle('off');toast(el.classList.contains('off')?'Policy rule disabled':'Policy rule enabled','Shadow AI · Policy Engine','');}
 function runExport(){var btn=document.getElementById('expBtn');btn.disabled=true;btn.innerHTML='Generating audit pack...';setTimeout(function(){btn.disabled=false;btn.innerHTML='Audit Pack Ready — Download';toast('Audit pack generated','3 frameworks · 2,363 events · PDF + ZIP','');},2200);}
 </script>
 
