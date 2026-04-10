@@ -1285,10 +1285,27 @@ footer { flex-direction: column; gap: 16px; text-align: center; padding: 24px 20
 <section class="cta-section" id="contact">
   <h2>Join Our <span class="cta-glow">Design Partner Program</span></h2>
   <p>We're onboarding 3–5 early partners for free or discounted access in exchange for feedback and a case study.</p>
-  <div class="cta-form">
-    <input type="email" class="cta-input" placeholder="your@company.com" id="ctaEmail">
-    <button type="submit" class="cta-btn">Request Access →</button>
-  </div>
+  <form 
+  class="cta-form" 
+  action="https://formspree.io/f/https://formspree.io/f/xnjokpzp" 
+  method="POST"
+>
+
+  <input 
+    type="email" 
+    name="email"
+    class="cta-input" 
+    placeholder="your@company.com" 
+    required
+  >
+
+  <input type="hidden" name="_subject" value="New DataBanq Lead">
+
+  <button type="submit" class="cta-btn">
+    Request Access →
+  </button>
+
+</form>
   <p class="cta-note">No commitment required. We'll reach out within 48 hours.</p>
 </section>
 
