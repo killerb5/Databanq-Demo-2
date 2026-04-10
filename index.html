@@ -4,1797 +4,1344 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DataBanq Platform</title>
-<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<title>DataBanq — AI Governance for the Compliance Era</title>
 <style>
-/* ═══════════════════════════════════════════
-   RESET & TOKENS
-═══════════════════════════════════════════ */
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%;overflow:hidden}
+/* ── SELF-CONTAINED: No external fonts, no CDN dependencies ── */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600&display=swap');
 
+/* Fallback font stack if Google Fonts blocked */
 :root {
-/* Brand */
-–g400: #10C37E;
-–g500: #0BA86C;
-–g600: #0B8F5A;
-–g900: #041f14;
-–glow: #2AF5A0;
-–glow-dim: rgba(42,245,160,0.12);
+–font-display: ‘Montserrat’, -apple-system, BlinkMacSystemFont, ‘Segoe UI’, sans-serif;
+–font-body: ‘Inter’, -apple-system, BlinkMacSystemFont, ‘Segoe UI’, sans-serif;
+–font-mono: ‘SF Mono’, ‘Fira Code’, ‘Courier New’, monospace;
 
-/* Backgrounds */
-–bg:       #070c0b;
-–bg1:      #0c1512;
-–bg2:      #101a17;
-–bg3:      #14201c;
-–bg4:      #182622;
-
-/* Borders */
-–b1: rgba(16,195,126,0.1);
-–b2: rgba(255,255,255,0.055);
-–b3: rgba(255,255,255,0.035);
-
-/* Text */
-–t1: #e8f0ec;
-–t2: rgba(232,240,236,0.55);
-–t3: rgba(232,240,236,0.3);
-–t4: rgba(232,240,236,0.18);
-
-/* Status */
-–red:    #f87171;
-–red-bg: rgba(248,113,113,0.08);
-–red-b:  rgba(248,113,113,0.18);
-–yel:    #fbbf24;
-–yel-bg: rgba(251,191,36,0.08);
-–yel-b:  rgba(251,191,36,0.18);
-–blu:    #818cf8;
-–blu-bg: rgba(129,140,248,0.08);
-
-/* Sidebar */
-–sw: 216px;
-–th: 48px;
+/* Brand Colors - Explicit hex, no CSS variables that might not resolve */
+–em:    #10C37E;
+–deep:  #0B8F5A;
+–glow:  #2AF5A0;
+–bg:    #0B1110;
+–card:  #0f1a18;
+–card2: #111f1c;
+–white: #FFFFFF;
+–muted: rgba(255,255,255,0.45);
+–border: rgba(16,195,126,0.18);
+–border-dim: rgba(255,255,255,0.07);
+–red: #FF4444;
 }
 
+/* ── FORCE DARK BACKGROUND ── */
+html {
+background-color: #0B1110 !important;
+background: #0B1110 !important;
+}
+
+*, *::before, *::after {
+box-sizing: border-box;
+margin: 0;
+padding: 0;
+}
+
+html { scroll-behavior: smooth; }
+
 body {
-font-family: ‘Plus Jakarta Sans’, sans-serif;
-background: var(–bg);
-color: var(–t1);
-font-size: 13px;
-line-height: 1.5;
+font-family: ‘Montserrat’, -apple-system, BlinkMacSystemFont, ‘Segoe UI’, sans-serif !important;
+background-color: #0B1110 !important;
+background: #0B1110 !important;
+color: #FFFFFF !important;
+overflow-x: hidden;
+line-height: 1.6;
 -webkit-font-smoothing: antialiased;
 }
 
-/* ═══════════════════════════════════════════
-SCROLLBAR
-═══════════════════════════════════════════ */
-::-webkit-scrollbar{width:4px;height:4px}
-::-webkit-scrollbar-track{background:transparent}
-::-webkit-scrollbar-thumb{background:var(–b1);border-radius:4px}
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: #0B1110; }
+::-webkit-scrollbar-thumb { background: rgba(16,195,126,0.3); border-radius: 4px; }
 
-/* ═══════════════════════════════════════════
-SHELL
-═══════════════════════════════════════════ */
-.shell{display:flex;flex-direction:column;height:100vh;overflow:hidden}
-.workspace{display:flex;flex:1;overflow:hidden;min-height:0}
-
-/* ═══════════════════════════════════════════
-TOPBAR
-═══════════════════════════════════════════ */
-.topbar{
-height:var(–th);
-display:flex;align-items:center;
-background:rgba(7,12,11,0.95);
-border-bottom:1px solid var(–b2);
-backdrop-filter:blur(12px);
-position:relative;z-index:60;
-flex-shrink:0;
+/* ══════════════════════════════════════
+NAV
+══════════════════════════════════════ */
+nav {
+position: fixed;
+top: 0; left: 0; right: 0;
+z-index: 100;
+display: flex;
+align-items: center;
+justify-content: space-between;
+padding: 0 48px;
+height: 60px;
+background-color: rgba(11,17,16,0.92) !important;
+border-bottom: 1px solid rgba(16,195,126,0.15);
+backdrop-filter: blur(16px);
+-webkit-backdrop-filter: blur(16px);
 }
 
-.tb-brand{
-width:var(–sw);
-display:flex;align-items:center;gap:8px;
-padding:0 16px;
-border-right:1px solid var(–b2);
-height:100%;flex-shrink:0;
-text-decoration:none;
+.nav-logo {
+display: flex;
+align-items: center;
+gap: 10px;
+text-decoration: none;
 }
 
-.brand-icon{
-width:26px;height:26px;border-radius:7px;
-background:linear-gradient(145deg,var(–g400),var(–g600));
-display:flex;align-items:center;justify-content:center;
-font-size:13px;
-box-shadow:0 0 16px rgba(16,195,126,0.3);
-flex-shrink:0;
+.nav-logo-mark {
+width: 30px;
+height: 30px;
+border-radius: 8px;
+background: linear-gradient(135deg, #10C37E, #0B8F5A);
+display: flex;
+align-items: center;
+justify-content: center;
+font-size: 15px;
+box-shadow: 0 0 14px rgba(16,195,126,0.4);
+flex-shrink: 0;
 }
 
-.brand-wordmark{
-font-family:‘Plus Jakarta Sans’,sans-serif;
-font-weight:800;font-size:15px;
-color:var(–t1);letter-spacing:-0.3px;
-}
-.brand-wordmark em{color:var(–g400);font-style:normal}
-
-.tb-mid{
-flex:1;display:flex;align-items:center;
-padding:0 16px;gap:8px;
+.nav-logo-text {
+font-family: ‘Montserrat’, sans-serif;
+font-weight: 900;
+font-size: 18px;
+color: #FFFFFF;
+letter-spacing: -0.3px;
 }
 
-.workspace-tag{
-display:flex;align-items:center;gap:5px;
-padding:3px 10px;border-radius:5px;
-background:rgba(16,195,126,0.07);
-border:1px solid var(–b1);
-font-size:11px;font-weight:700;color:var(–g400);
-letter-spacing:0.3px;
+.nav-logo-text span { color: #10C37E; }
+
+.nav-links {
+display: flex;
+align-items: center;
+gap: 32px;
+list-style: none;
 }
 
-.live-dot{
-width:5px;height:5px;border-radius:50%;
-background:var(–glow);
-box-shadow:0 0 8px var(–glow);
-animation:livePulse 2s ease-in-out infinite;
+.nav-links a {
+font-family: ‘Montserrat’, sans-serif;
+font-size: 13px;
+font-weight: 600;
+color: rgba(255,255,255,0.5);
+text-decoration: none;
+transition: color 0.2s;
 }
 
-@keyframes livePulse{
-0%,100%{opacity:1;transform:scale(1)}
-50%{opacity:.4;transform:scale(1.5)}
+.nav-links a:hover { color: #10C37E; }
+
+.nav-cta {
+background-color: #10C37E !important;
+color: #0B1110 !important;
+padding: 9px 20px;
+border-radius: 7px;
+font-weight: 700 !important;
+font-size: 13px !important;
+transition: all 0.2s !important;
+box-shadow: 0 2px 14px rgba(16,195,126,0.28);
 }
 
-.tb-sep{color:var(–t4);font-size:16px;padding:0 2px}
-
-.breadcrumb{
-display:flex;align-items:center;gap:6px;
-font-size:12px;font-weight:500;
-}
-.bc-dim{color:var(–t3)}
-.bc-active{color:var(–t1);font-weight:600}
-
-.tb-right{
-display:flex;align-items:center;gap:6px;
-padding:0 16px;
+.nav-cta:hover {
+background-color: #2AF5A0 !important;
+box-shadow: 0 4px 20px rgba(42,245,160,0.4) !important;
+color: #0B1110 !important;
 }
 
-.tb-icon-btn{
-width:30px;height:30px;border-radius:7px;
-display:flex;align-items:center;justify-content:center;
-background:var(–bg2);border:1px solid var(–b2);
-cursor:pointer;font-size:13px;transition:all .15s;
-position:relative;
-}
-.tb-icon-btn:hover{border-color:var(–b1);background:var(–bg3)}
-
-.notif-badge{
-position:absolute;top:4px;right:4px;
-width:7px;height:7px;border-radius:50%;
-background:var(–red);border:1.5px solid var(–bg);
-animation:badgePulse 2s infinite;
-}
-@keyframes badgePulse{0%,100%{box-shadow:0 0 0 0 rgba(248,113,113,.5)}50%{box-shadow:0 0 0 4px rgba(248,113,113,0)}}
-
-.tb-avatar{
-width:28px;height:28px;border-radius:50%;
-background:linear-gradient(145deg,var(–g600),#021409);
-border:1.5px solid var(–b1);
-display:flex;align-items:center;justify-content:center;
-font-size:10px;font-weight:800;color:var(–g400);
-cursor:pointer;
+/* ══════════════════════════════════════
+HERO
+══════════════════════════════════════ */
+.hero {
+min-height: 100vh;
+display: flex;
+flex-direction: column;
+justify-content: center;
+padding: 120px 48px 80px;
+position: relative;
+overflow: hidden;
+background-color: #0B1110;
 }
 
-.tb-export-btn{
-display:flex;align-items:center;gap:5px;
-padding:5px 12px;border-radius:6px;
-background:var(–g400);color:var(–bg);
-font-size:11px;font-weight:800;cursor:pointer;
-border:none;font-family:inherit;
-transition:all .15s;
-box-shadow:0 2px 12px rgba(16,195,126,.25);
-}
-.tb-export-btn:hover{background:var(–glow);box-shadow:0 4px 18px rgba(42,245,160,.35)}
-
-/* ═══════════════════════════════════════════
-SIDEBAR
-═══════════════════════════════════════════ */
-.sidebar{
-width:var(–sw);flex-shrink:0;
-background:var(–bg1);
-border-right:1px solid var(–b2);
-display:flex;flex-direction:column;
-overflow-y:auto;overflow-x:hidden;
-padding-bottom:16px;
+/* Grid lines */
+.hero::before {
+content: ‘’;
+position: absolute;
+inset: 0;
+background-image:
+linear-gradient(rgba(16,195,126,0.05) 1px, transparent 1px),
+linear-gradient(90deg, rgba(16,195,126,0.05) 1px, transparent 1px);
+background-size: 60px 60px;
+pointer-events: none;
 }
 
-.nav-section{padding:16px 10px 4px}
-
-.nav-section-label{
-font-size:9.5px;font-weight:700;
-letter-spacing:2px;text-transform:uppercase;
-color:var(–t4);padding:0 6px;margin-bottom:3px;
+/* Glow blob */
+.hero-blob {
+position: absolute;
+top: -10%;
+right: -5%;
+width: 600px;
+height: 600px;
+background: radial-gradient(circle, rgba(16,195,126,0.13) 0%, transparent 65%);
+pointer-events: none;
+animation: blobFloat 6s ease-in-out infinite;
 }
 
-.nav-item{
-display:flex;align-items:center;gap:8px;
-padding:7px 8px;border-radius:7px;
-font-size:12.5px;font-weight:500;color:var(–t2);
-cursor:pointer;transition:all .12s;
-position:relative;user-select:none;
-margin-bottom:1px;
-}
-.nav-item:hover{background:rgba(255,255,255,.03);color:var(–t1)}
-.nav-item.active{
-background:rgba(16,195,126,.1);
-color:var(–g400);
-}
-.nav-item.active::before{
-content:’’;
-position:absolute;left:-10px;top:20%;bottom:20%;
-width:2px;background:var(–g400);border-radius:0 2px 2px 0;
+@keyframes blobFloat {
+0%, 100% { transform: scale(1); opacity: 1; }
+50% { transform: scale(1.06); opacity: 0.75; }
 }
 
-.nav-icon{
-width:18px;height:18px;
-display:flex;align-items:center;justify-content:center;
-font-size:14px;flex-shrink:0;opacity:.7;
-}
-.nav-item.active .nav-icon{opacity:1}
-
-.nav-chip{
-margin-left:auto;
-padding:2px 7px;border-radius:100px;
-font-size:10px;font-weight:700;
-font-family:‘Plus Jakarta Sans’,sans-serif;
-}
-.chip-red{background:rgba(248,113,113,.12);color:var(–red);border:1px solid rgba(248,113,113,.2)}
-.chip-green{background:rgba(16,195,126,.1);color:var(–g400);border:1px solid var(–b1)}
-
-.nav-divider{
-height:1px;background:var(–b2);
-margin:8px 10px;
-}
-
-.sidebar-bottom{
-margin-top:auto;padding:12px 16px 4px;
-}
-.sidebar-ver{
-font-size:10px;color:var(–t4);
-font-family:‘Geist Mono’,monospace;
+.hero-badge {
+display: inline-flex;
+align-items: center;
+gap: 8px;
+background-color: rgba(16,195,126,0.1);
+border: 1px solid rgba(16,195,126,0.2);
+border-radius: 100px;
+padding: 6px 16px;
+font-family: ‘Montserrat’, sans-serif;
+font-size: 11px;
+font-weight: 700;
+color: #10C37E;
+margin-bottom: 32px;
+width: fit-content;
+letter-spacing: 0.5px;
+position: relative;
+z-index: 1;
+animation: fadeUp 0.6s ease both;
 }
 
-/* ═══════════════════════════════════════════
-MAIN
-═══════════════════════════════════════════ */
-.main{
-flex:1;overflow-y:auto;overflow-x:hidden;
-background:var(–bg);min-width:0;
+.pulse-dot {
+width: 6px;
+height: 6px;
+border-radius: 50%;
+background-color: #2AF5A0;
+box-shadow: 0 0 8px #2AF5A0;
+animation: dotPulse 2s infinite;
+flex-shrink: 0;
 }
 
-/* ═══════════════════════════════════════════
-SCREENS
-═══════════════════════════════════════════ */
-.screen{
-display:none;
-padding:24px 28px 40px;
-animation:screenIn .22s cubic-bezier(.4,0,.2,1);
-min-height:100%;
-}
-.screen.active{display:block}
-
-@keyframes screenIn{
-from{opacity:0;transform:translateY(6px)}
-to{opacity:1;transform:translateY(0)}
+@keyframes dotPulse {
+0%, 100% { opacity: 1; transform: scale(1); }
+50% { opacity: 0.4; transform: scale(1.5); }
 }
 
-/* ═══════════════════════════════════════════
-PAGE HEADER
-═══════════════════════════════════════════ */
-.ph{
-display:flex;align-items:flex-start;
-justify-content:space-between;
-margin-bottom:20px;
-padding-bottom:16px;
-border-bottom:1px solid var(–b2);
-}
-.ph-left{}
-.ph-eyebrow{
-display:flex;align-items:center;gap:6px;
-font-size:10px;font-weight:700;letter-spacing:2px;
-text-transform:uppercase;color:var(–g400);margin-bottom:5px;
-}
-.ph-eyebrow-dot{width:4px;height:4px;border-radius:50%;background:var(–g400)}
-.ph-title{
-font-family:‘Plus Jakarta Sans’,sans-serif;
-font-size:20px;font-weight:800;
-letter-spacing:-.4px;color:var(–t1);
-}
-.ph-desc{
-font-size:12.5px;color:var(–t2);margin-top:4px;
-font-weight:400;
-}
-.ph-actions{
-display:flex;gap:7px;align-items:center;
-flex-shrink:0;padding-top:2px;
+.hero h1 {
+font-family: ‘Montserrat’, sans-serif;
+font-size: clamp(40px, 6vw, 82px);
+font-weight: 900;
+line-height: 1.02;
+letter-spacing: -2px;
+max-width: 820px;
+color: #FFFFFF;
+position: relative;
+z-index: 1;
+animation: fadeUp 0.7s 0.1s ease both;
 }
 
-/* ═══════════════════════════════════════════
-BUTTONS
-═══════════════════════════════════════════ */
-.btn{
-display:inline-flex;align-items:center;gap:5px;
-padding:7px 14px;border-radius:7px;
-font-size:12px;font-weight:700;cursor:pointer;
-border:none;font-family:inherit;
-transition:all .15s;letter-spacing:.1px;
-white-space:nowrap;
-}
-.btn-primary{
-background:var(–g400);color:var(–bg);
-box-shadow:0 2px 12px rgba(16,195,126,.22);
-}
-.btn-primary:hover{background:var(–glow);transform:translateY(-1px);box-shadow:0 4px 18px rgba(42,245,160,.32)}
-.btn-secondary{
-background:var(–bg2);color:var(–t1);
-border:1px solid var(–b2);
-}
-.btn-secondary:hover{border-color:var(–b1);background:var(–bg3)}
-.btn-ghost{
-background:transparent;color:var(–g400);
-border:1px solid var(–b1);
-}
-.btn-ghost:hover{background:var(–glow-dim)}
-.btn-danger{
-background:var(–red-bg);color:var(–red);
-border:1px solid var(–red-b);
-}
-.btn-danger:hover{background:rgba(248,113,113,.14)}
-
-/* ═══════════════════════════════════════════
-KPI CARDS
-═══════════════════════════════════════════ */
-.kpi-row{
-display:grid;grid-template-columns:repeat(4,1fr);
-gap:10px;margin-bottom:16px;
+.hero h1 .accent {
+color: #10C37E;
+text-shadow: 0 0 50px rgba(16,195,126,0.35);
 }
 
-.kpi-card{
-background:var(–bg1);
-border:1px solid var(–b2);
-border-radius:10px;
-padding:16px 18px;
-transition:border-color .2s,transform .15s;
-cursor:default;
-position:relative;overflow:hidden;
-}
-.kpi-card::before{
-content:’’;
-position:absolute;top:0;left:0;right:0;height:1px;
-background:linear-gradient(90deg,transparent,var(–b1),transparent);
-}
-.kpi-card:hover{border-color:var(–b1);transform:translateY(-1px)}
-.kpi-card.warn{border-color:var(–red-b);background:rgba(248,113,113,.03)}
-.kpi-card.good{border-color:rgba(16,195,126,.18);background:rgba(16,195,126,.03)}
-
-.kpi-label{
-font-size:10.5px;font-weight:700;
-letter-spacing:1px;text-transform:uppercase;
-color:var(–t3);margin-bottom:10px;
-}
-.kpi-val{
-font-family:‘Plus Jakarta Sans’,sans-serif;
-font-size:28px;font-weight:800;
-letter-spacing:-1px;line-height:1;
-color:var(–t1);
-}
-.kpi-val.red{color:var(–red)}
-.kpi-val.green{color:var(–g400)}
-.kpi-val.yellow{color:var(–yel)}
-
-.kpi-foot{
-display:flex;align-items:center;gap:5px;
-margin-top:9px;font-size:11px;color:var(–t3);
-}
-.kpi-trend-up{color:var(–g400);font-weight:600}
-.kpi-trend-dn{color:var(–red);font-weight:600}
-
-/* ═══════════════════════════════════════════
-CARDS
-═══════════════════════════════════════════ */
-.card{
-background:var(–bg1);
-border:1px solid var(–b2);
-border-radius:10px;
-overflow:hidden;
+.hero-sub {
+font-family: ‘Inter’, sans-serif;
+font-size: clamp(15px, 1.8vw, 18px);
+color: rgba(255,255,255,0.5);
+max-width: 520px;
+margin-top: 24px;
+font-weight: 300;
+line-height: 1.75;
+position: relative;
+z-index: 1;
+animation: fadeUp 0.7s 0.2s ease both;
 }
 
-.card-hd{
-display:flex;align-items:center;justify-content:space-between;
-padding:13px 18px;
-border-bottom:1px solid var(–b2);
-}
-.card-title{
-font-size:13px;font-weight:700;color:var(–t1);
-display:flex;align-items:center;gap:7px;
-}
-.card-title-icon{font-size:15px;opacity:.8}
-.card-meta{font-size:11px;color:var(–t3)}
-.card-body{padding:16px 18px}
-
-/* ═══════════════════════════════════════════
-GRID
-═══════════════════════════════════════════ */
-.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
-.mb10{margin-bottom:10px}
-.mb16{margin-bottom:16px}
-
-/* ═══════════════════════════════════════════
-TABLE
-═══════════════════════════════════════════ */
-.tbl{width:100%;border-collapse:collapse}
-
-.tbl thead th{
-padding:9px 14px;
-text-align:left;
-font-size:10px;font-weight:700;
-letter-spacing:1.2px;text-transform:uppercase;
-color:var(–t4);
-background:rgba(255,255,255,.018);
-border-bottom:1px solid var(–b2);
-white-space:nowrap;
-}
-.tbl tbody td{
-padding:11px 14px;
-font-size:12.5px;color:var(–t1);
-border-bottom:1px solid var(–b3);
-vertical-align:middle;
-}
-.tbl tbody tr:last-child td{border-bottom:none}
-.tbl tbody tr{transition:background .1s;cursor:default}
-.tbl tbody tr:hover td{background:rgba(16,195,126,.025)}
-.tbl tbody tr.row-blocked td{opacity:.38}
-
-/* ═══════════════════════════════════════════
-BADGES
-═══════════════════════════════════════════ */
-.badge{
-display:inline-flex;align-items:center;gap:4px;
-padding:2px 8px;border-radius:100px;
-font-size:10.5px;font-weight:700;
-letter-spacing:.2px;white-space:nowrap;
-}
-.b-green{background:rgba(16,195,126,.1);color:var(–g400);border:1px solid rgba(16,195,126,.2)}
-.b-red{background:var(–red-bg);color:var(–red);border:1px solid var(–red-b)}
-.b-yellow{background:var(–yel-bg);color:var(–yel);border:1px solid var(–yel-b)}
-.b-blue{background:var(–blu-bg);color:var(–blu);border:1px solid rgba(129,140,248,.2)}
-.b-dim{background:rgba(255,255,255,.04);color:var(–t2);border:1px solid var(–b2)}
-
-/* status dot */
-.sd{width:6px;height:6px;border-radius:50%;flex-shrink:0;display:inline-block}
-.sd-green{background:var(–g400);box-shadow:0 0 6px var(–g400)}
-.sd-red{background:var(–red);animation:sdBlink 1.8s infinite}
-.sd-yellow{background:var(–yel)}
-@keyframes sdBlink{0%,100%{opacity:1}50%{opacity:.3}}
-
-/* ═══════════════════════════════════════════
-ALERT STRIP
-═══════════════════════════════════════════ */
-.astrip{
-display:flex;align-items:center;gap:12px;
-padding:11px 16px;border-radius:9px;margin-bottom:14px;
-}
-.astrip.red{background:rgba(248,113,113,.06);border:1px solid var(–red-b)}
-.astrip.green{background:rgba(16,195,126,.05);border:1px solid rgba(16,195,126,.18)}
-.astrip.yellow{background:var(–yel-bg);border:1px solid var(–yel-b)}
-.as-icon{font-size:16px;flex-shrink:0}
-.as-bd{flex:1;min-width:0}
-.as-title{font-size:12.5px;font-weight:700}
-.as-desc{font-size:11px;color:var(–t2);margin-top:1px}
-.as-act{flex-shrink:0}
-
-/* ═══════════════════════════════════════════
-PROGRESS
-═══════════════════════════════════════════ */
-.prog-group{display:flex;flex-direction:column;gap:12px}
-.prog-item{}
-.prog-row{display:flex;justify-content:space-between;margin-bottom:5px;font-size:12px}
-.prog-label{color:var(–t2)}
-.prog-val{color:var(–t1);font-weight:600}
-.prog-track{height:3px;background:rgba(255,255,255,.06);border-radius:3px;overflow:hidden}
-.prog-fill{height:100%;border-radius:3px;transition:width 1.3s cubic-bezier(.4,0,.2,1)}
-.pf-g{background:linear-gradient(90deg,var(–g600),var(–g400))}
-.pf-y{background:linear-gradient(90deg,#a16207,var(–yel))}
-.pf-r{background:linear-gradient(90deg,#991b1b,var(–red))}
-
-/* ═══════════════════════════════════════════
-MINI CHART
-═══════════════════════════════════════════ */
-.mini-chart{
-display:flex;align-items:flex-end;
-gap:4px;height:56px;
-}
-.mc-bar{
-flex:1;border-radius:3px 3px 0 0;
-background:rgba(16,195,126,.15);
-transition:background .15s;cursor:pointer;
-position:relative;
-}
-.mc-bar:hover{background:rgba(16,195,126,.4)}
-.mc-bar.hi{background:rgba(16,195,126,.45)}
-.mc-bar.danger{background:rgba(248,113,113,.25)}
-.mc-bar.danger:hover{background:rgba(248,113,113,.5)}
-.mc-labels{display:flex;gap:4px;margin-top:5px}
-.mc-label{flex:1;font-size:9px;color:var(–t4);text-align:center;letter-spacing:.3px}
-
-/* ═══════════════════════════════════════════
-TIMELINE
-═══════════════════════════════════════════ */
-.timeline{display:flex;flex-direction:column;gap:0}
-.tl-item{display:flex;gap:10px;padding-bottom:12px;position:relative}
-.tl-item::before{
-content:’’;position:absolute;
-left:13px;top:26px;bottom:0;
-width:1px;background:var(–b2);
-}
-.tl-item:last-child::before{display:none}
-.tl-dot{
-width:26px;height:26px;border-radius:50%;flex-shrink:0;
-display:flex;align-items:center;justify-content:center;
-font-size:11px;
-background:var(–bg2);border:1px solid var(–b2);
-}
-.tl-dot.alert{background:rgba(248,113,113,.1);border-color:var(–red-b)}
-.tl-content{padding-top:2px}
-.tl-title{font-size:12.5px;font-weight:500;color:var(–t1)}
-.tl-time{font-size:11px;color:var(–t3);margin-top:1px}
-
-/* ═══════════════════════════════════════════
-VENDOR ROW
-═══════════════════════════════════════════ */
-.v-name{
-display:flex;align-items:center;gap:8px;
-font-weight:600;font-size:12.5px;
-}
-.v-icon{
-width:24px;height:24px;border-radius:6px;
-display:flex;align-items:center;justify-content:center;
-font-size:12px;flex-shrink:0;
+.hero-actions {
+display: flex;
+align-items: center;
+gap: 14px;
+margin-top: 40px;
+position: relative;
+z-index: 1;
+animation: fadeUp 0.7s 0.3s ease both;
 }
 
-/* ═══════════════════════════════════════════
-ROW ACTIONS
-═══════════════════════════════════════════ */
-.ra{display:flex;gap:5px}
-.ra-btn{
-padding:4px 9px;border-radius:5px;
-font-size:10.5px;font-weight:700;cursor:pointer;
-font-family:inherit;border:none;transition:all .12s;
-}
-.ra-block{background:var(–red-bg);color:var(–red);border:1px solid var(–red-b)}
-.ra-block:hover{background:rgba(248,113,113,.16)}
-.ra-approve{background:rgba(16,195,126,.08);color:var(–g400);border:1px solid var(–b1)}
-.ra-approve:hover{background:rgba(16,195,126,.16)}
-.ra-revoke{background:var(–red-bg);color:var(–red);border:1px solid var(–red-b)}
-.ra-revoke:hover{background:rgba(248,113,113,.16)}
-.ra-renew{background:var(–yel-bg);color:var(–yel);border:1px solid var(–yel-b)}
-.ra-renew:hover{background:rgba(251,191,36,.15)}
-.ra-info{background:var(–bg2);color:var(–t2);border:1px solid var(–b2)}
-.ra-info:hover{border-color:var(–b1);color:var(–t1)}
-
-/* ═══════════════════════════════════════════
-LINEAGE
-═══════════════════════════════════════════ */
-.lg-canvas{
-display:flex;align-items:center;justify-content:center;
-padding:28px 16px 20px;gap:0;overflow-x:auto;
-}
-.lg-node{display:flex;flex-direction:column;align-items:center;flex-shrink:0}
-.lg-circle{
-width:72px;height:72px;border-radius:50%;
-display:flex;flex-direction:column;align-items:center;justify-content:center;
-gap:3px;border:1.5px solid;cursor:pointer;
-transition:all .2s;position:relative;
-}
-.lg-circle:hover{transform:scale(1.08);box-shadow:0 0 24px rgba(16,195,126,.2)}
-.lg-c-src{border-color:var(–b2);background:rgba(255,255,255,.03)}
-.lg-c-ven{border-color:var(–g400);background:rgba(16,195,126,.08)}
-.lg-c-int{border-color:var(–blu);background:rgba(129,140,248,.08)}
-.lg-c-out{border-color:var(–yel);background:rgba(251,191,36,.08)}
-.lg-icon{font-size:22px}
-.lg-lbl{font-size:9px;font-weight:700;text-align:center;line-height:1.2;letter-spacing:.3px}
-.lg-meta{margin-top:9px;text-align:center}
-.lg-meta-name{font-size:11px;font-weight:600;color:var(–t2)}
-.lg-meta-time{
-font-family:‘Geist Mono’,monospace;
-font-size:9.5px;color:var(–t4);margin-top:2px;
-}
-.lg-arrow{
-display:flex;flex-direction:column;align-items:center;
-padding:0 4px;margin-bottom:22px;flex-shrink:0;
-}
-.lg-arrow-step{
-font-size:9px;color:var(–t4);margin-bottom:3px;
-white-space:nowrap;font-family:‘Geist Mono’,monospace;
-}
-.lg-arrow-line{
-width:44px;height:1px;
-background:linear-gradient(90deg,var(–b2),var(–b1));
-position:relative;
-}
-.lg-arrow-line::after{
-content:’’;position:absolute;right:-5px;top:-3.5px;
-border:4px solid transparent;border-left-color:var(–b1);
+.btn-primary {
+display: inline-flex;
+align-items: center;
+gap: 6px;
+background-color: #10C37E;
+color: #0B1110;
+padding: 14px 28px;
+border-radius: 8px;
+font-family: ‘Montserrat’, sans-serif;
+font-size: 14px;
+font-weight: 700;
+text-decoration: none;
+transition: all 0.2s;
+box-shadow: 0 4px 20px rgba(16,195,126,0.3);
+letter-spacing: 0.2px;
 }
 
-/* ═══════════════════════════════════════════
-CODE BLOCK
-═══════════════════════════════════════════ */
-.code-block{
-background:rgba(0,0,0,.4);
-border:1px solid var(–b2);
-border-radius:8px;padding:14px 16px;
-font-family:‘Geist Mono’,monospace;
-font-size:11.5px;line-height:2;
-color:var(–t2);
-}
-.c-em{color:var(–g400)}
-.c-str{color:#fbbf24}
-.c-comment{color:var(–t4)}
-.c-dim{color:rgba(255,255,255,.25)}
-
-/* ═══════════════════════════════════════════
-INTEGRATION TABS
-═══════════════════════════════════════════ */
-.int-tabs{display:flex;gap:5px;margin-bottom:14px}
-.int-tab{
-padding:5px 12px;border-radius:6px;
-font-size:11px;font-weight:700;cursor:pointer;
-font-family:inherit;transition:all .12s;
-border:1px solid var(–b2);color:var(–t2);
-background:transparent;
-}
-.int-tab:hover{color:var(–t1);border-color:var(–b1)}
-.int-tab.active{background:rgba(16,195,126,.1);border-color:var(–b1);color:var(–g400)}
-
-/* ═══════════════════════════════════════════
-FLOW BOXES
-═══════════════════════════════════════════ */
-.flow-row{
-display:flex;align-items:center;
-gap:10px;padding:16px 0;
-}
-.flow-box{
-flex:1;text-align:center;
-padding:14px 12px;
-background:var(–bg2);border:1px solid var(–b2);
-border-radius:9px;transition:border-color .2s;
-}
-.flow-box:hover{border-color:var(–b1)}
-.flow-box.hl{
-border-color:var(–g400);background:rgba(16,195,126,.06);
-box-shadow:0 0 22px rgba(16,195,126,.1);
-}
-.flow-icon{font-size:20px;margin-bottom:7px}
-.flow-name{font-size:12px;font-weight:700;color:var(–t1)}
-.flow-sub{font-size:10.5px;color:var(–t3);margin-top:3px}
-.flow-arrow{font-size:16px;color:var(–b1);flex-shrink:0}
-
-/* ═══════════════════════════════════════════
-AUDIT ITEMS
-═══════════════════════════════════════════ */
-.audit-list{display:flex;flex-direction:column;gap:8px;margin-bottom:16px}
-.audit-item{
-display:flex;align-items:center;gap:12px;
-padding:13px 16px;border-radius:9px;
-transition:border-color .2s;
-}
-.audit-item.done{background:rgba(16,195,126,.04);border:1px solid rgba(16,195,126,.14)}
-.audit-item.pending{background:var(–yel-bg);border:1px solid var(–yel-b)}
-.audit-ico{
-width:34px;height:34px;border-radius:8px;
-display:flex;align-items:center;justify-content:center;
-font-size:16px;flex-shrink:0;
-}
-.audit-ico.done{background:rgba(16,195,126,.12)}
-.audit-ico.pending{background:rgba(251,191,36,.1)}
-.audit-info{flex:1}
-.audit-name{font-size:13px;font-weight:700;color:var(–t1)}
-.audit-desc{font-size:11px;color:var(–t3);margin-top:2px}
-.audit-right{text-align:right;flex-shrink:0}
-.audit-status{font-size:11.5px;font-weight:700}
-.audit-count{font-size:10.5px;color:var(–t3);margin-top:2px}
-
-/* ═══════════════════════════════════════════
-EXPORT CTA
-═══════════════════════════════════════════ */
-.export-cta{
-width:100%;padding:15px;
-background:linear-gradient(135deg,var(–g600) 0%,var(–g400) 55%,var(–glow) 100%);
-border:none;border-radius:10px;cursor:pointer;
-font-family:inherit;font-size:14px;font-weight:800;
-color:var(–bg);letter-spacing:.2px;
-display:flex;align-items:center;justify-content:center;gap:8px;
-transition:all .22s;
-box-shadow:0 4px 22px rgba(16,195,126,.28);
-}
-.export-cta:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(16,195,126,.42)}
-.export-cta:disabled{opacity:.6;transform:none;cursor:default}
-
-/* ═══════════════════════════════════════════
-TOGGLE
-═══════════════════════════════════════════ */
-.toggle{
-width:32px;height:17px;border-radius:100px;
-background:var(–g400);position:relative;
-cursor:pointer;transition:background .2s;flex-shrink:0;
-}
-.toggle.off{background:rgba(255,255,255,.1)}
-.toggle::after{
-content:’’;position:absolute;top:2px;left:2px;
-width:13px;height:13px;border-radius:50%;
-background:#fff;transition:transform .2s;
-}
-.toggle.off::after{transform:translateX(0)}
-.toggle:not(.off)::after{transform:translateX(15px)}
-
-/* ═══════════════════════════════════════════
-POLICY ROWS
-═══════════════════════════════════════════ */
-.pol-list{display:flex;flex-direction:column;gap:5px}
-.pol-row{
-display:flex;align-items:center;justify-content:space-between;
-padding:9px 12px;background:var(–bg2);border-radius:7px;
-border:1px solid var(–b2);
-}
-.pol-name{font-size:12.5px;font-weight:500;color:var(–t1)}
-
-/* ═══════════════════════════════════════════
-CONSENT METHODS
-═══════════════════════════════════════════ */
-.cm-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:0}
-.cm-card{
-padding:14px 16px;
-background:var(–bg2);border:1px solid var(–b2);
-border-radius:9px;transition:border-color .2s;
-}
-.cm-card:hover{border-color:var(–b1)}
-.cm-card.hl{border-color:var(–b1);background:rgba(16,195,126,.05)}
-.cm-icon{font-size:18px;margin-bottom:7px}
-.cm-title{font-size:12.5px;font-weight:700;color:var(–t1);margin-bottom:5px}
-.cm-body{font-size:11.5px;color:var(–t2);line-height:1.6}
-
-/* ═══════════════════════════════════════════
-MONO TEXT
-═══════════════════════════════════════════ */
-.mono{font-family:‘Geist Mono’,monospace;font-size:11px;color:var(–t3)}
-
-/* ═══════════════════════════════════════════
-SECTION DIVIDER
-═══════════════════════════════════════════ */
-.section-gap{height:16px}
-
-/* ═══════════════════════════════════════════
-TOAST
-═══════════════════════════════════════════ */
-.toast{
-position:fixed;bottom:20px;right:20px;
-z-index:9999;
-background:var(–bg2);
-border:1px solid var(–b1);
-border-radius:10px;
-padding:11px 14px;
-display:flex;align-items:flex-start;gap:9px;
-min-width:240px;max-width:310px;
-box-shadow:0 16px 40px rgba(0,0,0,.55),0 0 0 1px var(–b2);
-transform:translateY(60px) scale(.97);
-opacity:0;pointer-events:none;
-transition:all .28s cubic-bezier(.34,1.4,.64,1);
-}
-.toast.show{transform:translateY(0) scale(1);opacity:1;pointer-events:auto}
-.t-ico{font-size:16px;flex-shrink:0;margin-top:1px}
-.t-body{}
-.t-title{font-size:12px;font-weight:700;color:var(–t1)}
-.t-desc{font-size:11px;color:var(–t3);margin-top:2px}
-.t-progress{
-position:absolute;bottom:0;left:0;
-height:2px;border-radius:0 0 10px 10px;
-background:var(–g400);
-animation:tprogress 3.4s linear forwards;
-}
-@keyframes tprogress{from{width:100%}to{width:0}}
-
-/* ═══════════════════════════════════════════
-SCREEN 0 SPECIFIC — stat highlight line
-═══════════════════════════════════════════ */
-.highlight-number{
-font-family:‘Plus Jakarta Sans’,sans-serif;
-font-size:11px;font-weight:700;color:var(–g400);
+.btn-primary:hover {
+background-color: #2AF5A0;
+transform: translateY(-2px);
+box-shadow: 0 8px 30px rgba(42,245,160,0.4);
+color: #0B1110;
 }
 
+.btn-ghost {
+display: inline-flex;
+align-items: center;
+gap: 6px;
+color: #10C37E;
+padding: 13px 24px;
+border-radius: 8px;
+font-family: ‘Montserrat’, sans-serif;
+font-size: 14px;
+font-weight: 600;
+text-decoration: none;
+border: 1.5px solid rgba(16,195,126,0.25);
+transition: all 0.2s;
+}
+
+.btn-ghost:hover {
+border-color: #10C37E;
+background-color: rgba(16,195,126,0.07);
+}
+
+.hero-stats {
+display: flex;
+gap: 48px;
+margin-top: 64px;
+padding-top: 40px;
+border-top: 1px solid rgba(255,255,255,0.07);
+position: relative;
+z-index: 1;
+animation: fadeUp 0.7s 0.4s ease both;
+flex-wrap: wrap;
+}
+
+.stat-item {}
+
+.stat-val {
+font-family: ‘Montserrat’, sans-serif;
+font-size: 30px;
+font-weight: 900;
+letter-spacing: -0.5px;
+color: #FFFFFF;
+line-height: 1;
+}
+
+.stat-val span { color: #10C37E; }
+
+.stat-label {
+font-size: 12px;
+color: rgba(255,255,255,0.4);
+margin-top: 5px;
+font-family: ‘Inter’, sans-serif;
+}
+
+@keyframes fadeUp {
+from { opacity: 0; transform: translateY(22px); }
+to { opacity: 1; transform: translateY(0); }
+}
+
+/* ══════════════════════════════════════
+PROBLEM SECTION
+══════════════════════════════════════ */
+.problem-section {
+background-color: #0f1a18;
+border-top: 1px solid rgba(16,195,126,0.15);
+border-bottom: 1px solid rgba(16,195,126,0.15);
+padding: 72px 48px;
+display: flex;
+align-items: flex-start;
+gap: 72px;
+position: relative;
+}
+
+.problem-section::before {
+content: ‘’;
+position: absolute;
+left: 0; top: 0; bottom: 0;
+width: 3px;
+background: linear-gradient(180deg, #10C37E, transparent);
+}
+
+.problem-left {
+flex-shrink: 0;
+max-width: 360px;
+}
+
+.section-eyebrow {
+font-family: ‘Montserrat’, sans-serif;
+font-size: 10px;
+font-weight: 700;
+letter-spacing: 3px;
+text-transform: uppercase;
+color: #10C37E;
+margin-bottom: 14px;
+}
+
+.problem-left h2 {
+font-family: ‘Montserrat’, sans-serif;
+font-size: clamp(24px, 3vw, 38px);
+font-weight: 800;
+line-height: 1.2;
+letter-spacing: -0.5px;
+color: #FFFFFF;
+}
+
+.problem-items {
+flex: 1;
+display: flex;
+flex-direction: column;
+gap: 12px;
+}
+
+.problem-item {
+display: flex;
+align-items: flex-start;
+gap: 14px;
+padding: 18px 20px;
+background-color: rgba(16,195,126,0.04);
+border: 1px solid rgba(255,255,255,0.06);
+border-radius: 10px;
+transition: border-color 0.2s;
+}
+
+.problem-item:hover {
+border-color: rgba(16,195,126,0.2);
+}
+
+.problem-icon { font-size: 20px; flex-shrink: 0; margin-top: 2px; }
+
+.problem-item strong {
+display: block;
+font-family: ‘Montserrat’, sans-serif;
+font-size: 13.5px;
+font-weight: 700;
+color: #FFFFFF;
+margin-bottom: 4px;
+}
+
+.problem-item p {
+font-size: 12.5px;
+color: rgba(255,255,255,0.45);
+line-height: 1.6;
+font-family: ‘Inter’, sans-serif;
+}
+
+/* ══════════════════════════════════════
+FEATURES
+══════════════════════════════════════ */
+.features-section {
+padding: 88px 48px;
+background-color: #0B1110;
+}
+
+.section-header {
+margin-bottom: 48px;
+}
+
+.section-title {
+font-family: ‘Montserrat’, sans-serif;
+font-size: clamp(28px, 3.5vw, 44px);
+font-weight: 900;
+letter-spacing: -1px;
+line-height: 1.1;
+color: #FFFFFF;
+max-width: 560px;
+margin-top: 12px;
+}
+
+.features-grid {
+display: grid;
+grid-template-columns: repeat(3, 1fr);
+gap: 1px;
+background-color: rgba(255,255,255,0.06);
+border: 1px solid rgba(255,255,255,0.06);
+border-radius: 14px;
+overflow: hidden;
+}
+
+.feature-card {
+background-color: #0f1a18;
+padding: 32px 28px;
+transition: background-color 0.2s;
+}
+
+.feature-card:hover { background-color: #111f1c; }
+
+.feature-card.star {
+background: linear-gradient(145deg, #0d2820, #091a14);
+position: relative;
+overflow: hidden;
+}
+
+.feature-card.star::before {
+content: ‘’;
+position: absolute;
+inset: 0;
+background: radial-gradient(ellipse 80% 55% at 50% 0%, rgba(16,195,126,0.18) 0%, transparent 70%);
+pointer-events: none;
+}
+
+.feature-card.star:hover { background: linear-gradient(145deg, #0f3025, #0b1e18); }
+
+.feat-num {
+font-family: ‘Montserrat’, sans-serif;
+font-size: 10px;
+font-weight: 700;
+letter-spacing: 2px;
+color: rgba(255,255,255,0.18);
+margin-bottom: 20px;
+}
+
+.star .feat-num { color: rgba(16,195,126,0.5); }
+
+.feat-icon {
+width: 44px;
+height: 44px;
+border-radius: 11px;
+background-color: rgba(16,195,126,0.1);
+border: 1px solid rgba(16,195,126,0.2);
+display: flex;
+align-items: center;
+justify-content: center;
+font-size: 20px;
+margin-bottom: 18px;
+}
+
+.star .feat-icon {
+background-color: rgba(16,195,126,0.2);
+border-color: rgba(16,195,126,0.4);
+box-shadow: 0 0 18px rgba(16,195,126,0.15);
+}
+
+.feature-card h3 {
+font-family: ‘Montserrat’, sans-serif;
+font-size: 16px;
+font-weight: 800;
+color: #FFFFFF;
+margin-bottom: 10px;
+letter-spacing: -0.2px;
+position: relative;
+}
+
+.feature-card p {
+font-size: 12.5px;
+color: rgba(255,255,255,0.45);
+line-height: 1.65;
+font-family: ‘Inter’, sans-serif;
+position: relative;
+}
+
+.wedge-tag {
+display: inline-block;
+margin-top: 16px;
+background-color: #10C37E;
+color: #0B1110;
+font-family: ‘Montserrat’, sans-serif;
+font-size: 9px;
+font-weight: 800;
+letter-spacing: 1.5px;
+text-transform: uppercase;
+padding: 4px 12px;
+border-radius: 100px;
+position: relative;
+}
+
+/* ══════════════════════════════════════
+HOW IT WORKS
+══════════════════════════════════════ */
+.how-section {
+padding: 88px 48px;
+background-color: #0f1a18;
+border-top: 1px solid rgba(255,255,255,0.06);
+border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+
+.steps-grid {
+display: grid;
+grid-template-columns: repeat(4, 1fr);
+gap: 0;
+position: relative;
+margin-top: 16px;
+}
+
+.steps-grid::before {
+content: ‘’;
+position: absolute;
+top: 33px;
+left: 8%;
+right: 8%;
+height: 1px;
+background: linear-gradient(90deg, transparent, rgba(16,195,126,0.2), transparent);
+}
+
+.step { padding-right: 32px; }
+
+.step-circle {
+width: 66px;
+height: 66px;
+border-radius: 50%;
+border: 1.5px solid rgba(255,255,255,0.1);
+display: flex;
+align-items: center;
+justify-content: center;
+font-family: ‘Montserrat’, sans-serif;
+font-size: 20px;
+font-weight: 900;
+color: rgba(255,255,255,0.3);
+margin-bottom: 24px;
+background-color: #0B1110;
+position: relative;
+z-index: 1;
+}
+
+.step:first-child .step-circle {
+border-color: #10C37E;
+color: #10C37E;
+box-shadow: 0 0 18px rgba(16,195,126,0.2);
+}
+
+.step h4 {
+font-family: ‘Montserrat’, sans-serif;
+font-size: 14px;
+font-weight: 800;
+color: #FFFFFF;
+margin-bottom: 8px;
+}
+
+.step p {
+font-size: 12.5px;
+color: rgba(255,255,255,0.45);
+line-height: 1.6;
+font-family: ‘Inter’, sans-serif;
+}
+
+/* ══════════════════════════════════════
+WHO IT’S FOR
+══════════════════════════════════════ */
+.icp-section {
+padding: 88px 48px;
+background-color: #0B1110;
+}
+
+.icp-grid {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 12px;
+}
+
+.icp-card {
+background-color: #0f1a18;
+border: 1px solid rgba(255,255,255,0.06);
+border-radius: 12px;
+padding: 28px;
+display: flex;
+gap: 20px;
+align-items: flex-start;
+transition: border-color 0.2s;
+}
+
+.icp-card:hover {
+border-color: rgba(16,195,126,0.2);
+background-color: #111f1c;
+}
+
+.icp-emoji { font-size: 30px; flex-shrink: 0; }
+
+.icp-card h4 {
+font-family: ‘Montserrat’, sans-serif;
+font-size: 15px;
+font-weight: 800;
+color: #FFFFFF;
+margin-bottom: 7px;
+}
+
+.icp-card p {
+font-size: 12.5px;
+color: rgba(255,255,255,0.45);
+line-height: 1.65;
+font-family: ‘Inter’, sans-serif;
+}
+
+.icp-tags {
+display: flex;
+flex-wrap: wrap;
+gap: 6px;
+margin-top: 12px;
+}
+
+.icp-tag {
+background-color: rgba(16,195,126,0.08);
+border: 1px solid rgba(16,195,126,0.2);
+color: #10C37E;
+font-family: ‘Montserrat’, sans-serif;
+font-size: 10px;
+font-weight: 700;
+padding: 3px 10px;
+border-radius: 100px;
+}
+
+/* ══════════════════════════════════════
+PRICING
+══════════════════════════════════════ */
+.pricing-section {
+padding: 88px 48px;
+background-color: #0f1a18;
+border-top: 1px solid rgba(255,255,255,0.06);
+}
+
+.pricing-grid {
+display: grid;
+grid-template-columns: repeat(3, 1fr);
+gap: 14px;
+max-width: 900px;
+}
+
+.price-card {
+background-color: #0B1110;
+border: 1px solid rgba(255,255,255,0.07);
+border-radius: 14px;
+padding: 28px 24px;
+position: relative;
+transition: border-color 0.2s;
+}
+
+.price-card:hover { border-color: rgba(16,195,126,0.2); }
+
+.price-card.popular {
+border-color: #10C37E;
+background-color: #091a14;
+box-shadow: 0 0 36px rgba(16,195,126,0.12);
+}
+
+.popular-badge {
+position: absolute;
+top: -12px;
+left: 50%;
+transform: translateX(-50%);
+background-color: #10C37E;
+color: #0B1110;
+font-family: ‘Montserrat’, sans-serif;
+font-size: 9px;
+font-weight: 800;
+letter-spacing: 1.5px;
+text-transform: uppercase;
+padding: 4px 14px;
+border-radius: 100px;
+white-space: nowrap;
+}
+
+.price-tier {
+font-family: ‘Montserrat’, sans-serif;
+font-size: 10px;
+font-weight: 700;
+letter-spacing: 2px;
+text-transform: uppercase;
+color: #10C37E;
+margin-bottom: 10px;
+}
+
+.price-amount {
+font-family: ‘Montserrat’, sans-serif;
+font-size: 38px;
+font-weight: 900;
+letter-spacing: -1px;
+color: #FFFFFF;
+margin-bottom: 3px;
+}
+
+.price-period {
+font-size: 12px;
+color: rgba(255,255,255,0.4);
+margin-bottom: 24px;
+font-family: ‘Inter’, sans-serif;
+}
+
+.price-features {
+list-style: none;
+display: flex;
+flex-direction: column;
+gap: 10px;
+margin-bottom: 24px;
+}
+
+.price-features li {
+display: flex;
+align-items: center;
+gap: 8px;
+font-size: 12.5px;
+color: rgba(255,255,255,0.5);
+font-family: ‘Inter’, sans-serif;
+}
+
+.price-features li::before {
+content: ‘✓’;
+color: #10C37E;
+font-weight: 700;
+flex-shrink: 0;
+font-size: 12px;
+}
+
+.price-btn {
+display: block;
+text-align: center;
+padding: 11px;
+border-radius: 8px;
+font-family: ‘Montserrat’, sans-serif;
+font-size: 13px;
+font-weight: 700;
+text-decoration: none;
+transition: all 0.2s;
+border: 1.5px solid rgba(255,255,255,0.1);
+color: #10C37E;
+cursor: pointer;
+background: transparent;
+}
+
+.price-btn:hover {
+border-color: #10C37E;
+background-color: rgba(16,195,126,0.07);
+}
+
+.price-card.popular .price-btn {
+background-color: #10C37E;
+border-color: #10C37E;
+color: #0B1110;
+}
+
+.price-card.popular .price-btn:hover {
+background-color: #2AF5A0;
+border-color: #2AF5A0;
+box-shadow: 0 4px 20px rgba(42,245,160,0.35);
+}
+
+/* ══════════════════════════════════════
+CTA
+══════════════════════════════════════ */
+.cta-section {
+padding: 100px 48px;
+background-color: #0B1110;
+text-align: center;
+position: relative;
+overflow: hidden;
+}
+
+.cta-section::before {
+content: ‘’;
+position: absolute;
+inset: 0;
+background: radial-gradient(ellipse 70% 60% at 50% 50%, rgba(16,195,126,0.1) 0%, transparent 70%);
+pointer-events: none;
+}
+
+.cta-section h2 {
+font-family: ‘Montserrat’, sans-serif;
+font-size: clamp(30px, 4.5vw, 56px);
+font-weight: 900;
+letter-spacing: -1.5px;
+line-height: 1.08;
+max-width: 640px;
+margin: 0 auto 18px;
+color: #FFFFFF;
+position: relative;
+}
+
+.cta-glow { color: #2AF5A0; text-shadow: 0 0 40px rgba(42,245,160,0.5); }
+
+.cta-section p {
+font-size: 16px;
+color: rgba(255,255,255,0.45);
+max-width: 440px;
+margin: 0 auto 40px;
+font-weight: 300;
+position: relative;
+font-family: ‘Inter’, sans-serif;
+}
+
+.cta-form {
+display: flex;
+gap: 10px;
+justify-content: center;
+position: relative;
+flex-wrap: wrap;
+}
+
+.cta-input {
+background-color: rgba(255,255,255,0.06);
+border: 1px solid rgba(16,195,126,0.2);
+border-radius: 8px;
+padding: 13px 18px;
+font-size: 14px;
+color: #FFFFFF;
+width: 280px;
+font-family: ‘Inter’, sans-serif;
+outline: none;
+transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.cta-input::placeholder { color: rgba(255,255,255,0.28); }
+
+.cta-input:focus {
+border-color: #10C37E;
+box-shadow: 0 0 14px rgba(16,195,126,0.15);
+}
+
+.cta-btn {
+background-color: #10C37E;
+color: #0B1110;
+border: none;
+padding: 13px 28px;
+border-radius: 8px;
+font-family: ‘Montserrat’, sans-serif;
+font-size: 14px;
+font-weight: 800;
+cursor: pointer;
+transition: all 0.2s;
+box-shadow: 0 4px 20px rgba(16,195,126,0.3);
+}
+
+.cta-btn:hover {
+background-color: #2AF5A0;
+transform: translateY(-2px);
+box-shadow: 0 8px 30px rgba(42,245,160,0.4);
+}
+
+.cta-note {
+margin-top: 16px;
+font-size: 11.5px;
+color: rgba(255,255,255,0.22);
+position: relative;
+font-family: ‘Inter’, sans-serif;
+}
+
+/* ══════════════════════════════════════
+FOOTER
+══════════════════════════════════════ */
+footer {
+background-color: #060d0c;
+color: rgba(255,255,255,0.3);
+padding: 32px 48px;
+display: flex;
+justify-content: space-between;
+align-items: center;
+font-family: ‘Inter’, sans-serif;
+font-size: 12px;
+border-top: 1px solid rgba(255,255,255,0.06);
+}
+
+.footer-logo {
+font-family: ‘Montserrat’, sans-serif;
+font-weight: 900;
+font-size: 16px;
+color: rgba(255,255,255,0.6);
+}
+
+.footer-logo span { color: #10C37E; }
+
+.footer-tagline {
+font-size: 10px;
+color: rgba(255,255,255,0.2);
+margin-top: 3px;
+letter-spacing: 1.5px;
+text-transform: uppercase;
+}
+
+.footer-links {
+display: flex;
+gap: 20px;
+}
+
+.footer-links a {
+color: rgba(255,255,255,0.3);
+text-decoration: none;
+transition: color 0.2s;
+}
+
+.footer-links a:hover { color: #10C37E; }
+
+/* ══════════════════════════════════════
+SCROLL REVEAL
+══════════════════════════════════════ */
+.reveal {
+opacity: 0;
+transform: translateY(24px);
+transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.reveal.visible {
+opacity: 1;
+transform: translateY(0);
+}
+
+/* ══════════════════════════════════════
+RESPONSIVE
+══════════════════════════════════════ */
+@media (max-width: 900px) {
+nav { padding: 0 20px; }
+.nav-links { display: none; }
+.hero { padding: 100px 20px 60px; }
+.hero-stats { gap: 24px; }
+.problem-section { flex-direction: column; padding: 56px 20px; gap: 32px; }
+.features-section, .how-section, .icp-section, .pricing-section, .cta-section { padding-left: 20px; padding-right: 20px; }
+.features-grid { grid-template-columns: 1fr; }
+.steps-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+.steps-grid::before { display: none; }
+.icp-grid { grid-template-columns: 1fr; }
+.pricing-grid { grid-template-columns: 1fr; max-width: 380px; }
+.cta-input { width: 100%; }
+footer { flex-direction: column; gap: 16px; text-align: center; padding: 24px 20px; }
+}
 </style>
+
 </head>
 <body>
-<div class="shell">
 
-<!-- ══ TOPBAR ══ -->
+<!-- NAV -->
 
-<div class="topbar">
-  <div class="tb-brand">
-    <div class="brand-icon">🔐</div>
-    <div class="brand-wordmark">Data<em>Banq</em></div>
+<nav>
+  <a class="nav-logo" href="#">
+    <div class="nav-logo-mark">🔐</div>
+    <div class="nav-logo-text">Data<span>Banq</span></div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#features">Features</a></li>
+    <li><a href="#how">How It Works</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#contact" class="nav-cta">Request Demo</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+
+<section class="hero">
+  <div class="hero-blob"></div>
+
+  <div class="hero-badge">
+    <div class="pulse-dot"></div>
+    Now accepting design partners — limited spots
   </div>
 
-  <div class="tb-mid">
-    <div class="workspace-tag">
-      <div class="live-dot"></div>
-      Acme Fintech Inc.
-    </div>
-    <span class="tb-sep">/</span>
-    <div class="breadcrumb">
-      <span class="bc-dim">Platform</span>
-      <span class="bc-dim">/</span>
-      <span class="bc-active" id="bc">Dashboard</span>
-    </div>
+  <h1>
+    AI Governance<br>
+    for the<br>
+    <span class="accent">Compliance Era.</span>
+  </h1>
+
+  <p class="hero-sub">
+    DataBanq gives fintech and healthtech teams a complete AI governance layer — consent management, shadow AI detection, model lineage tracking, and audit-ready reporting. All in one platform.
+  </p>
+
+  <div class="hero-actions">
+    <a href="#contact" class="btn-primary">Request a Demo →</a>
+    <a href="#features" class="btn-ghost">Explore Features</a>
   </div>
 
-  <div class="tb-right">
-    <div class="tb-icon-btn" onclick="notify('3 unresolved Shadow AI alerts','Review in Shadow AI Monitor','⚠️')">
-      🔔
-      <div class="notif-badge"></div>
+  <div class="hero-stats">
+    <div class="stat-item">
+      <div class="stat-val">11<span>-Layer</span></div>
+      <div class="stat-label">Governance Architecture</div>
     </div>
-    <button class="tb-export-btn" onclick="go(5)">↗ Audit Pack</button>
-    <div class="tb-avatar">JR</div>
-  </div>
-</div>
-
-<!-- ══ WORKSPACE ══ -->
-
-<div class="workspace">
-
-<!-- SIDEBAR -->
-
-<div class="sidebar">
-  <div class="nav-section">
-    <div class="nav-section-label">Overview</div>
-    <div class="nav-item active" id="ni-0" onclick="go(0)">
-      <div class="nav-icon">◈</div>Dashboard
+    <div class="stat-item">
+      <div class="stat-val">100<span>%</span></div>
+      <div class="stat-label">AI-Native Platform</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-val"><span>EU AI Act</span></div>
+      <div class="stat-label">+ SOC 2 Aligned</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-val">0<span> Blind Spots</span></div>
+      <div class="stat-label">Shadow AI Detection</div>
     </div>
   </div>
+</section>
 
-  <div class="nav-section">
-    <div class="nav-section-label">Governance</div>
-    <div class="nav-item" id="ni-1" onclick="go(1)">
-      <div class="nav-icon">⟳</div>Integrations
-    </div>
-    <div class="nav-item" id="ni-2" onclick="go(2)">
-      <div class="nav-icon">◎</div>Shadow AI
-      <span class="nav-chip chip-red">3</span>
-    </div>
-    <div class="nav-item" id="ni-3" onclick="go(3)">
-      <div class="nav-icon">⊕</div>Consent Registry
-    </div>
-    <div class="nav-item" id="ni-4" onclick="go(4)">
-      <div class="nav-icon">⌥</div>Lineage Graph
-    </div>
+<!-- PROBLEM -->
+
+<section class="problem-section reveal">
+  <div class="problem-left">
+    <div class="section-eyebrow">The Problem</div>
+    <h2>Your AI stack is growing faster than compliance can track.</h2>
   </div>
-
-  <div class="nav-divider"></div>
-
-  <div class="nav-section">
-    <div class="nav-section-label">Compliance</div>
-    <div class="nav-item" id="ni-5" onclick="go(5)">
-      <div class="nav-icon">⬡</div>Audit Pack
-      <span class="nav-chip chip-green">Ready</span>
-    </div>
-  </div>
-
-  <div class="sidebar-bottom">
-    <div class="sidebar-ver">v1.0.0 · Demo</div>
-  </div>
-</div>
-
-<!-- MAIN -->
-
-<div class="main">
-
-<!-- ══════════════════════════════════
-  S0 — DASHBOARD
-══════════════════════════════════ -->
-
-<div class="screen active" id="s0">
-  <div class="ph">
-    <div class="ph-left">
-      <div class="ph-eyebrow"><div class="ph-eyebrow-dot"></div>Overview</div>
-      <div class="ph-title">Dashboard</div>
-      <div class="ph-desc">AI governance posture · Acme Fintech Inc. · Refreshed 2 min ago</div>
-    </div>
-    <div class="ph-actions">
-      <button class="btn btn-secondary" onclick="go(2)">⚠ Alerts (3)</button>
-      <button class="btn btn-primary" onclick="go(5)">Generate Audit Pack</button>
-    </div>
-  </div>
-
-  <div class="kpi-row">
-    <div class="kpi-card">
-      <div class="kpi-label">Active AI Vendors</div>
-      <div class="kpi-val">7</div>
-      <div class="kpi-foot"><span class="kpi-trend-up">↑ 2</span>&nbsp;added this month</div>
-    </div>
-    <div class="kpi-card warn">
-      <div class="kpi-label">Shadow AI Alerts</div>
-      <div class="kpi-val red">3</div>
-      <div class="kpi-foot"><span class="sd sd-red"></span>&nbsp;&nbsp;Requires immediate review</div>
-    </div>
-    <div class="kpi-card">
-      <div class="kpi-label">Consent Coverage</div>
-      <div class="kpi-val yellow">84%</div>
-      <div class="kpi-foot"><span class="kpi-trend-up">↑ 6%</span>&nbsp;from last month</div>
-    </div>
-    <div class="kpi-card good">
-      <div class="kpi-label">Audit Readiness</div>
-      <div class="kpi-val green">72%</div>
-      <div class="kpi-foot"><span class="kpi-trend-up">↑ 12%</span>&nbsp;this quarter</div>
-    </div>
-  </div>
-
-  <div class="g2 mb10">
-    <div class="card">
-      <div class="card-hd">
-        <div class="card-title"><span class="card-title-icon">📊</span>AI Usage by Department</div>
-        <div class="card-meta">Last 30 days</div>
-      </div>
-      <div class="card-body">
-        <div class="mini-chart">
-          <div class="mc-bar" style="height:42%"></div>
-          <div class="mc-bar hi" style="height:78%"></div>
-          <div class="mc-bar" style="height:56%"></div>
-          <div class="mc-bar" style="height:31%"></div>
-          <div class="mc-bar danger" style="height:92%"></div>
-          <div class="mc-bar" style="height:48%"></div>
-          <div class="mc-bar" style="height:35%"></div>
-        </div>
-        <div class="mc-labels">
-          <div class="mc-label">Legal</div>
-          <div class="mc-label">Eng</div>
-          <div class="mc-label">Sales</div>
-          <div class="mc-label">HR</div>
-          <div class="mc-label">Risk</div>
-          <div class="mc-label">Ops</div>
-          <div class="mc-label">Fin</div>
-        </div>
+  <div class="problem-items">
+    <div class="problem-item">
+      <div class="problem-icon">👤</div>
+      <div>
+        <strong>No consent layer for AI data use</strong>
+        <p>Customer data flows into AI models with no audit trail or revocation — a ticking liability.</p>
       </div>
     </div>
-
-```
-<div class="card">
-  <div class="card-hd">
-    <div class="card-title"><span class="card-title-icon">⚡</span>Activity Feed</div>
-    <div class="card-meta" style="display:flex;align-items:center;gap:5px">
-      <span class="sd sd-green"></span>&nbsp;Live
+    <div class="problem-item">
+      <div class="problem-icon">👻</div>
+      <div>
+        <strong>Shadow AI running unchecked</strong>
+        <p>Employees use unauthorized AI tools daily. You have no idea what data they're sharing or with which vendors.</p>
+      </div>
     </div>
-  </div>
-  <div class="card-body">
-    <div class="timeline">
-      <div class="tl-item">
-        <div class="tl-dot alert">⚠</div>
-        <div class="tl-content">
-          <div class="tl-title">Shadow AI detected — Notion AI</div>
-          <div class="tl-time">12 min ago · Risk dept · 4 employees</div>
-        </div>
-      </div>
-      <div class="tl-item">
-        <div class="tl-dot">✓</div>
-        <div class="tl-content">
-          <div class="tl-title">Consent auto-renewed — 142 records</div>
-          <div class="tl-time">1 hr ago · Policy Engine trigger</div>
-        </div>
-      </div>
-      <div class="tl-item">
-        <div class="tl-dot">⊘</div>
-        <div class="tl-content">
-          <div class="tl-title">Policy updated — PII → GPT-4 blocked</div>
-          <div class="tl-time">3 hr ago · J. Roberts</div>
-        </div>
-      </div>
-      <div class="tl-item">
-        <div class="tl-dot">◫</div>
-        <div class="tl-content">
-          <div class="tl-title">SOC 2 audit pack generated</div>
-          <div class="tl-time">Yesterday · 847 events exported</div>
-        </div>
+    <div class="problem-item">
+      <div class="problem-icon">📋</div>
+      <div>
+        <strong>Audits with no documentation</strong>
+        <p>When regulators ask how you govern AI, you're scrambling across 10 different systems to piece together evidence.</p>
       </div>
     </div>
   </div>
-</div>
-```
+</section>
 
+<!-- FEATURES -->
+
+<section class="features-section" id="features">
+  <div class="section-header reveal">
+    <div class="section-eyebrow">Core Platform</div>
+    <div class="section-title">Everything your compliance team has been asking for.</div>
   </div>
 
-  <div class="card">
-    <div class="card-hd">
-      <div class="card-title"><span class="card-title-icon">🔌</span>Vendor Compliance Status</div>
-      <div class="card-meta">7 vendors monitored</div>
+  <div class="features-grid reveal">
+    <div class="feature-card star">
+      <div class="feat-num">01 — LEAD FEATURE</div>
+      <div class="feat-icon">🔦</div>
+      <h3>Shadow AI Monitor</h3>
+      <p>Detect unauthorized AI tools being used across your organization in real time — before they become a breach or a fine.</p>
+      <span class="wedge-tag">Wedge Feature</span>
     </div>
-    <table class="tbl">
-      <thead>
-        <tr>
-          <th>Vendor</th>
-          <th>Type</th>
-          <th>Data Processed</th>
-          <th>Consent</th>
-          <th>Risk</th>
-          <th>Status</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><div class="v-name"><div class="v-icon" style="background:rgba(16,195,126,.12)">🤖</div>OpenAI GPT-4</div></td>
-          <td><span class="badge b-dim">LLM</span></td>
-          <td>Financial Records</td>
-          <td><span style="color:var(--g400);font-size:12px;font-weight:600">✓ Active</span></td>
-          <td><span class="badge b-yellow">Medium</span></td>
-          <td><span class="badge b-green"><span class="sd sd-green"></span>&nbsp;Approved</span></td>
-          <td><button class="ra-btn ra-info" onclick="notify('OpenAI GPT-4 · 1,204 calls today · Last: 4 min ago','Avg latency 312ms · No violations','🤖')">View</button></td>
-        </tr>
-        <tr>
-          <td><div class="v-name"><div class="v-icon" style="background:rgba(129,140,248,.12)">☁️</div>AWS Bedrock</div></td>
-          <td><span class="badge b-dim">Cloud AI</span></td>
-          <td>Transaction Logs</td>
-          <td><span style="color:var(--g400);font-size:12px;font-weight:600">✓ Active</span></td>
-          <td><span class="badge b-green">Low</span></td>
-          <td><span class="badge b-green"><span class="sd sd-green"></span>&nbsp;Approved</span></td>
-          <td><button class="ra-btn ra-info" onclick="notify('AWS Bedrock · 847 calls today · Fully compliant','Zero policy violations this week','☁️')">View</button></td>
-        </tr>
-        <tr>
-          <td><div class="v-name"><div class="v-icon" style="background:rgba(248,113,113,.12)">🔷</div>Azure OpenAI</div></td>
-          <td><span class="badge b-dim">LLM</span></td>
-          <td>Customer PII</td>
-          <td><span style="color:var(--yel);font-size:12px;font-weight:600">⚠ Expiring</span></td>
-          <td><span class="badge b-red">High</span></td>
-          <td><span class="badge b-yellow"><span class="sd sd-yellow"></span>&nbsp;Review</span></td>
-          <td><button class="ra-btn ra-renew" onclick="notify('Renewal notice sent for Azure OpenAI consent','Expires in 6 days · 318 subjects affected','📧')">Renew</button></td>
-        </tr>
-        <tr>
-          <td><div class="v-name"><div class="v-icon" style="background:rgba(16,195,126,.12)">🧠</div>Anthropic Claude</div></td>
-          <td><span class="badge b-dim">LLM</span></td>
-          <td>Internal Docs</td>
-          <td><span style="color:var(--g400);font-size:12px;font-weight:600">✓ Active</span></td>
-          <td><span class="badge b-green">Low</span></td>
-          <td><span class="badge b-green"><span class="sd sd-green"></span>&nbsp;Approved</span></td>
-          <td><button class="ra-btn ra-info" onclick="notify('Anthropic Claude · 312 calls today · Clean','All requests within approved policy scope','🧠')">View</button></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</div>
-
-<!-- ══════════════════════════════════
-  S1 — INTEGRATIONS
-══════════════════════════════════ -->
-
-<div class="screen" id="s1">
-  <div class="ph">
-    <div class="ph-left">
-      <div class="ph-eyebrow"><div class="ph-eyebrow-dot"></div>Setup</div>
-      <div class="ph-title">How DataBanq Connects</div>
-      <div class="ph-desc">Three integration paths — all capture 100% of AI traffic with no performance impact</div>
+    <div class="feature-card">
+      <div class="feat-num">02</div>
+      <div class="feat-icon">🔐</div>
+      <h3>AI Consent Registry</h3>
+      <p>Capture, store, and enforce data subject consent for AI use cases — with automated revocation cascades when consent is withdrawn.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feat-num">03</div>
+      <div class="feat-icon">🗺️</div>
+      <h3>Model Lineage Graph</h3>
+      <p>Visualize which models touched which data, when, and why. Full provenance for every inference event across your AI stack.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feat-num">04</div>
+      <div class="feat-icon">⚙️</div>
+      <h3>Policy Engine</h3>
+      <p>Define and enforce governance rules across AI vendors and internal models — automatically blocking non-compliant usage.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feat-num">05</div>
+      <div class="feat-icon">📊</div>
+      <h3>Usage Logging & Ledger</h3>
+      <p>Tamper-evident, hash-verified logs of every AI inference event. An immutable audit trail your legal team will love.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feat-num">06</div>
+      <div class="feat-icon">📦</div>
+      <h3>One-Click Audit Pack</h3>
+      <p>Generate pre-formatted compliance reports for SOC 2, EU AI Act, and HIPAA in minutes — not weeks.</p>
     </div>
   </div>
+</section>
 
-  <div class="int-tabs">
-    <button class="int-tab active" onclick="setTab(this,'t-proxy')">⟳ API Proxy</button>
-    <button class="int-tab" onclick="setTab(this,'t-sdk')">◈ SDK</button>
-    <button class="int-tab" onclick="setTab(this,'t-log')">≡ Log Ingestion</button>
+<!-- HOW IT WORKS -->
+
+<section class="how-section" id="how">
+  <div class="section-header reveal">
+    <div class="section-eyebrow">How It Works</div>
+    <div class="section-title">Up and running in days, not months.</div>
   </div>
 
-  <div id="t-proxy">
-    <div class="card mb10">
-      <div class="card-hd">
-        <div class="card-title">API Proxy — Recommended</div>
-        <span class="badge b-green">Most Complete</span>
-      </div>
-      <div class="card-body">
-        <p style="font-size:12.5px;color:var(--t2);line-height:1.7;margin-bottom:16px">Route all AI API calls through DataBanq's proxy endpoint instead of calling vendors directly. One URL change captures every request invisibly — zero latency added, zero code changes beyond a single config update.</p>
-        <div class="flow-row">
-          <div class="flow-box">
-            <div class="flow-icon">🏢</div>
-            <div class="flow-name">Your Application</div>
-            <div class="flow-sub">Makes AI calls</div>
-          </div>
-          <div class="flow-arrow">→</div>
-          <div class="flow-box hl">
-            <div class="flow-icon">🔐</div>
-            <div class="flow-name">DataBanq Proxy</div>
-            <div class="flow-sub">Logs · Enforces · Alerts</div>
-          </div>
-          <div class="flow-arrow">→</div>
-          <div class="flow-box">
-            <div class="flow-icon">🤖</div>
-            <div class="flow-name">AI Vendors</div>
-            <div class="flow-sub">OpenAI · Azure · Bedrock</div>
-          </div>
+  <div class="steps-grid reveal">
+    <div class="step">
+      <div class="step-circle">1</div>
+      <h4>Connect Your Stack</h4>
+      <p>Integrate via API proxy, SDK, or log ingestion. Works with OpenAI, Azure AI, AWS Bedrock, Anthropic, and more.</p>
+    </div>
+    <div class="step">
+      <div class="step-circle">2</div>
+      <h4>Discover & Map</h4>
+      <p>DataBanq scans your environment, surfaces shadow AI, and maps every vendor and data flow automatically.</p>
+    </div>
+    <div class="step">
+      <div class="step-circle">3</div>
+      <h4>Set Policies</h4>
+      <p>Define governance rules, consent requirements, and alerting thresholds from a clean policy dashboard.</p>
+    </div>
+    <div class="step">
+      <div class="step-circle">4</div>
+      <h4>Audit-Ready</h4>
+      <p>Export comprehensive audit packs on demand. Walk into any compliance review fully prepared.</p>
+    </div>
+  </div>
+</section>
+
+<!-- WHO IT'S FOR -->
+
+<section class="icp-section" id="who">
+  <div class="section-header reveal">
+    <div class="section-eyebrow">Ideal Customer</div>
+    <div class="section-title">Built for teams facing their first AI compliance audit.</div>
+  </div>
+
+  <div class="icp-grid reveal">
+    <div class="icp-card">
+      <div class="icp-emoji">🏦</div>
+      <div>
+        <h4>Fintech Companies</h4>
+        <p>Using AI for underwriting, fraud detection, or customer service? You're already under regulatory scrutiny. DataBanq gives you the paper trail regulators demand.</p>
+        <div class="icp-tags">
+          <span class="icp-tag">150–1,500 employees</span>
+          <span class="icp-tag">2+ AI vendors</span>
+          <span class="icp-tag">SOC 2 / FFIEC</span>
         </div>
-        <div class="code-block">
-          <span class="c-comment"># Before DataBanq</span><br>
-          POST <span class="c-dim">https://api.openai.com/v1/chat/completions</span><br><br>
-          <span class="c-comment"># After DataBanq — single line change</span><br>
-          POST <span class="c-em">https://proxy.databanq.com/v1/chat/completions</span>
+      </div>
+    </div>
+    <div class="icp-card">
+      <div class="icp-emoji">🏥</div>
+      <div>
+        <h4>Healthtech Companies</h4>
+        <p>HIPAA + AI is a compliance minefield. DataBanq tracks exactly what PHI touches which AI model, with consent at the core.</p>
+        <div class="icp-tags">
+          <span class="icp-tag">HIPAA Aligned</span>
+          <span class="icp-tag">PHI Tracking</span>
+          <span class="icp-tag">EU AI Act Ready</span>
+        </div>
+      </div>
+    </div>
+    <div class="icp-card">
+      <div class="icp-emoji">⚖️</div>
+      <div>
+        <h4>CCO / VP Legal</h4>
+        <p>You own the risk. DataBanq gives you visibility, control, and audit-ready documentation — without needing engineering to pull everything together.</p>
+        <div class="icp-tags">
+          <span class="icp-tag">No-Code Dashboard</span>
+          <span class="icp-tag">Export Ready</span>
+        </div>
+      </div>
+    </div>
+    <div class="icp-card">
+      <div class="icp-emoji">🛠️</div>
+      <div>
+        <h4>CTO / Engineering</h4>
+        <p>REST API, Python & JS SDKs, webhook alerting, and a sandbox environment. DataBanq integrates into your stack without friction.</p>
+        <div class="icp-tags">
+          <span class="icp-tag">REST API</span>
+          <span class="icp-tag">Python & JS SDKs</span>
+          <span class="icp-tag">Webhook Alerts</span>
         </div>
       </div>
     </div>
   </div>
+</section>
 
-  <div id="t-sdk" style="display:none">
-    <div class="card mb10">
-      <div class="card-hd">
-        <div class="card-title">SDK Integration</div>
-        <span class="badge b-yellow">2 Lines of Code</span>
-      </div>
-      <div class="card-body">
-        <p style="font-size:12.5px;color:var(--t2);line-height:1.7;margin-bottom:16px">Drop the DataBanq SDK into your Python or JavaScript codebase. Wrap your existing AI calls and every inference event is automatically logged, policy-checked, and sent to your governance dashboard.</p>
-        <div class="code-block">
-          <span class="c-comment">// npm install @databanq/sdk</span><br>
-          <span class="c-dim">import</span> <span class="c-em">DataBanq</span> <span class="c-dim">from</span> <span class="c-str">'@databanq/sdk'</span><br>
-          <span class="c-dim">const</span> dbq = DataBanq.init({ apiKey: <span class="c-str">'dbq_live_••••••••'</span> })<br><br>
-          <span class="c-comment">// Wrap your existing call — nothing else changes</span><br>
-          <span class="c-dim">const</span> res = <span class="c-dim">await</span> <span class="c-em">dbq.track</span>(openai.chat.completions.create({<br>
-          &nbsp;&nbsp;model: <span class="c-str">'gpt-4'</span>, messages: [...]<br>
-          }))
-        </div>
-      </div>
-    </div>
+<!-- PRICING -->
+
+<section class="pricing-section" id="pricing">
+  <div class="section-header reveal">
+    <div class="section-eyebrow">Pricing</div>
+    <div class="section-title">Transparent, annual SaaS pricing.</div>
   </div>
 
-  <div id="t-log" style="display:none">
-    <div class="card mb10">
-      <div class="card-hd">
-        <div class="card-title">Log Ingestion</div>
-        <span class="badge b-dim">Zero Code Changes</span>
-      </div>
-      <div class="card-body">
-        <p style="font-size:12.5px;color:var(--t2);line-height:1.7;margin-bottom:16px">Already using Datadog, Splunk, or CloudWatch? DataBanq connects directly to your log pipeline and extracts all AI-related events automatically. No code changes, no agents required on any system.</p>
-        <div class="flow-row" style="justify-content:center">
-          <div class="flow-box" style="max-width:110px"><div class="flow-icon">🐕</div><div class="flow-name">Datadog</div></div>
-          <div class="flow-box" style="max-width:110px"><div class="flow-icon">🔍</div><div class="flow-name">Splunk</div></div>
-          <div class="flow-box" style="max-width:110px"><div class="flow-icon">☁️</div><div class="flow-name">CloudWatch</div></div>
-          <div class="flow-arrow">→</div>
-          <div class="flow-box hl" style="max-width:130px"><div class="flow-icon">🔐</div><div class="flow-name">DataBanq</div><div class="flow-sub">Full governance</div></div>
-        </div>
-      </div>
+  <div class="pricing-grid reveal">
+    <div class="price-card">
+      <div class="price-tier">Tier 1 — Starter</div>
+      <div class="price-amount">$12K</div>
+      <div class="price-period">per year</div>
+      <ul class="price-features">
+        <li>Consent Registry</li>
+        <li>Usage Logging</li>
+        <li>Hash Ledger</li>
+        <li>Basic Audit Export</li>
+        <li>Up to 2 AI vendors</li>
+      </ul>
+      <a href="#contact" class="price-btn">Get Started</a>
+    </div>
+    <div class="price-card popular">
+      <div class="popular-badge">MOST POPULAR</div>
+      <div class="price-tier">Tier 2 — Growth</div>
+      <div class="price-amount">$25K</div>
+      <div class="price-period">per year</div>
+      <ul class="price-features">
+        <li>Everything in Starter</li>
+        <li>Shadow AI Monitor</li>
+        <li>Policy Engine</li>
+        <li>Model Lineage Graph</li>
+        <li>Up to 5 AI vendors</li>
+      </ul>
+      <a href="#contact" class="price-btn">Get Started</a>
+    </div>
+    <div class="price-card">
+      <div class="price-tier">Tier 3 — Scale</div>
+      <div class="price-amount">$50K</div>
+      <div class="price-period">per year</div>
+      <ul class="price-features">
+        <li>Everything in Growth</li>
+        <li>Vendor Chain Intelligence</li>
+        <li>One-Click Audit Pack</li>
+        <li>Enterprise Vault</li>
+        <li>Unlimited AI vendors</li>
+      </ul>
+      <a href="#contact" class="price-btn">Get Started</a>
     </div>
   </div>
+</section>
 
-  <div class="card">
-    <div class="card-hd">
-      <div class="card-title">Shadow AI Detection — Network Layer</div>
-      <span class="badge b-red"><span class="sd sd-red"></span>&nbsp;Always On</span>
-    </div>
-    <div class="card-body">
-      <p style="font-size:12.5px;color:var(--t2);line-height:1.7">Regardless of integration method, DataBanq's passive network monitor continuously scans DNS traffic and outbound API calls to detect employees using unauthorized AI tools — personal ChatGPT, Grammarly, Notion AI, Perplexity, and more. Detections surface in the Shadow AI Monitor within minutes. No agent required on employee devices.</p>
-    </div>
+<!-- CTA -->
+
+<section class="cta-section" id="contact">
+  <h2>Join Our <span class="cta-glow">Design Partner Program</span></h2>
+  <p>We're onboarding 3–5 early partners for free or discounted access in exchange for feedback and a case study.</p>
+  <div class="cta-form">
+    <input type="email" class="cta-input" placeholder="your@company.com" id="ctaEmail">
+    <button class="cta-btn" onclick="submitCTA()">Request Access →</button>
   </div>
-</div>
+  <p class="cta-note">No commitment required. We'll reach out within 48 hours.</p>
+</section>
 
-<!-- ══════════════════════════════════
-  S2 — SHADOW AI
-══════════════════════════════════ -->
+<!-- FOOTER -->
 
-<div class="screen" id="s2">
-  <div class="ph">
-    <div class="ph-left">
-      <div class="ph-eyebrow"><div class="ph-eyebrow-dot"></div>Governance</div>
-      <div class="ph-title">Shadow AI Monitor</div>
-      <div class="ph-desc">Unauthorized AI tools detected across your organization in real time</div>
-    </div>
-    <div class="ph-actions">
-      <button class="btn btn-secondary" onclick="notify('Shadow AI report sent to compliance@acme.com','PDF + CSV · 3 tools · Jan 2025','📋')">Export Report</button>
-      <button class="btn btn-ghost">Policy Rules</button>
-    </div>
+<footer>
+  <div>
+    <div class="footer-logo">Data<span>Banq</span></div>
+    <div class="footer-tagline">Intelligent Data Solutions</div>
   </div>
-
-  <div class="astrip red">
-    <div class="as-icon">🚨</div>
-    <div class="as-bd">
-      <div class="as-title" style="color:var(--red)">3 unauthorized AI tools detected this week</div>
-      <div class="as-desc">Employee data is being shared with unsanctioned vendors outside your governance perimeter</div>
-    </div>
-    <div class="as-act">
-      <button class="btn btn-danger" onclick="blockAll()">Block All</button>
-    </div>
+  <div>© 2025 DataBanq. All rights reserved.</div>
+  <div class="footer-links">
+    <a href="#">Privacy</a>
+    <a href="#">Terms</a>
+    <a href="#">Contact</a>
   </div>
-
-  <div class="card mb10">
-    <div class="card-hd">
-      <div class="card-title">Detected Tools</div>
-      <div class="card-meta" style="display:flex;align-items:center;gap:5px">
-        <span class="sd sd-green"></span>&nbsp;Network scan active · 4 min ago
-      </div>
-    </div>
-    <table class="tbl" id="shadowTbl">
-      <thead>
-        <tr>
-          <th>Tool</th>
-          <th>Category</th>
-          <th>Employees</th>
-          <th>Department</th>
-          <th>Data Risk</th>
-          <th>Detected</th>
-          <th>Status</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr id="sr0">
-          <td><strong>ChatGPT (Personal)</strong></td>
-          <td><span class="badge b-dim">LLM</span></td>
-          <td>14</td>
-          <td>Risk, Legal</td>
-          <td><span class="badge b-red"><span class="sd sd-red"></span>&nbsp;High</span></td>
-          <td><span class="mono">Jan 12, 2025</span></td>
-          <td id="ss0"><span class="badge b-red">Unreviewed</span></td>
-          <td><div class="ra">
-            <button class="ra-btn ra-block" onclick="blockRow(0)">Block</button>
-            <button class="ra-btn ra-approve" onclick="approveRow(0)">Approve</button>
-          </div></td>
-        </tr>
-        <tr id="sr1">
-          <td><strong>Grammarly Business</strong></td>
-          <td><span class="badge b-dim">Writing AI</span></td>
-          <td>8</td>
-          <td>Marketing</td>
-          <td><span class="badge b-yellow">Medium</span></td>
-          <td><span class="mono">Jan 18, 2025</span></td>
-          <td id="ss1"><span class="badge b-red">Unreviewed</span></td>
-          <td><div class="ra">
-            <button class="ra-btn ra-block" onclick="blockRow(1)">Block</button>
-            <button class="ra-btn ra-approve" onclick="approveRow(1)">Approve</button>
-          </div></td>
-        </tr>
-        <tr id="sr2">
-          <td><strong>Notion AI</strong></td>
-          <td><span class="badge b-dim">Productivity</span></td>
-          <td>4</td>
-          <td>Operations</td>
-          <td><span class="badge b-yellow">Medium</span></td>
-          <td><span class="mono">Jan 22, 2025</span></td>
-          <td id="ss2"><span class="badge b-red">Unreviewed</span></td>
-          <td><div class="ra">
-            <button class="ra-btn ra-block" onclick="blockRow(2)">Block</button>
-            <button class="ra-btn ra-approve" onclick="approveRow(2)">Approve</button>
-          </div></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <div class="g2">
-    <div class="card">
-      <div class="card-hd">
-        <div class="card-title">Risk by Department</div>
-      </div>
-      <div class="card-body">
-        <div class="mini-chart">
-          <div class="mc-bar danger" style="height:90%"></div>
-          <div class="mc-bar danger" style="height:64%"></div>
-          <div class="mc-bar" style="height:26%"></div>
-          <div class="mc-bar" style="height:18%"></div>
-          <div class="mc-bar" style="height:44%"></div>
-        </div>
-        <div class="mc-labels">
-          <div class="mc-label">Risk</div>
-          <div class="mc-label">Legal</div>
-          <div class="mc-label">Mktg</div>
-          <div class="mc-label">Ops</div>
-          <div class="mc-label">Eng</div>
-        </div>
-      </div>
-    </div>
-    <div class="card">
-      <div class="card-hd"><div class="card-title">Active Policy Rules</div></div>
-      <div class="card-body">
-        <div class="pol-list">
-          <div class="pol-row"><div class="pol-name">Auto-block high-risk tools</div><div class="toggle" onclick="togPol(this)"></div></div>
-          <div class="pol-row"><div class="pol-name">Alert on new detections</div><div class="toggle" onclick="togPol(this)"></div></div>
-          <div class="pol-row"><div class="pol-name">Notify IT on block action</div><div class="toggle" onclick="togPol(this)"></div></div>
-          <div class="pol-row"><div class="pol-name">Weekly digest email</div><div class="toggle off" onclick="togPol(this)"></div></div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ══════════════════════════════════
-  S3 — CONSENT REGISTRY
-══════════════════════════════════ -->
-
-<div class="screen" id="s3">
-  <div class="ph">
-    <div class="ph-left">
-      <div class="ph-eyebrow"><div class="ph-eyebrow-dot"></div>Governance</div>
-      <div class="ph-title">Consent Registry</div>
-      <div class="ph-desc">AI-native consent tracking with automated revocation cascades across all vendors</div>
-    </div>
-    <div class="ph-actions">
-      <button class="btn btn-secondary" onclick="notify('Registry exported','PDF + CSV · 2,847 records','📋')">Export</button>
-      <button class="btn btn-primary" onclick="notify('Renewal sent to 47 expiring subjects','Consent renewal — automated workflow','📧')">Bulk Renew (47)</button>
-    </div>
-  </div>
-
-  <div class="kpi-row">
-    <div class="kpi-card">
-      <div class="kpi-label">Total Subjects</div>
-      <div class="kpi-val">2,847</div>
-    </div>
-    <div class="kpi-card good">
-      <div class="kpi-label">Active Consent</div>
-      <div class="kpi-val green">2,391</div>
-    </div>
-    <div class="kpi-card warn">
-      <div class="kpi-label">Revoked</div>
-      <div class="kpi-val red">43</div>
-    </div>
-    <div class="kpi-card">
-      <div class="kpi-label">Expiring (30 days)</div>
-      <div class="kpi-val yellow">47</div>
-    </div>
-  </div>
-
-  <div class="astrip green mb10">
-    <div class="as-icon">🔄</div>
-    <div class="as-bd">
-      <div class="as-title" style="color:var(--g400)">Revocation cascade is active</div>
-      <div class="as-desc">When consent is revoked, DataBanq propagates the signal to all connected AI vendors and workflows within 60 seconds automatically</div>
-    </div>
-  </div>
-
-  <div class="card mb10">
-    <div class="card-hd">
-      <div class="card-title">Consent Records</div>
-      <div class="card-meta">Showing recent activity</div>
-    </div>
-    <table class="tbl">
-      <thead>
-        <tr><th>Subject ID</th><th>Use Case</th><th>AI Vendor</th><th>Granted</th><th>Expires</th><th>Status</th><th>Action</th></tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><span class="mono">SUB-00142</span></td>
-          <td>Fraud Detection</td>
-          <td>OpenAI GPT-4</td>
-          <td><span class="mono">Nov 3, 2024</span></td>
-          <td><span class="mono">Nov 3, 2025</span></td>
-          <td><span class="badge b-green"><span class="sd sd-green"></span>&nbsp;Active</span></td>
-          <td><button class="ra-btn ra-revoke" onclick="revokeRow(this,'SUB-00142')">Revoke</button></td>
-        </tr>
-        <tr>
-          <td><span class="mono" id="rv-id">SUB-00089</span></td>
-          <td id="rv-case">Credit Scoring</td>
-          <td>AWS Bedrock</td>
-          <td><span class="mono">Sep 14, 2024</span></td>
-          <td><span class="mono">—</span></td>
-          <td><span class="badge b-red">🚫 Revoked</span></td>
-          <td><button class="ra-btn ra-approve" onclick="notify('Reinstatement request sent to SUB-00089','Consent reinstatement workflow initiated','📧')">Reinstate</button></td>
-        </tr>
-        <tr>
-          <td><span class="mono">SUB-00201</span></td>
-          <td>Customer Service</td>
-          <td>Anthropic Claude</td>
-          <td><span class="mono">Dec 1, 2024</span></td>
-          <td><span class="mono">Dec 1, 2025</span></td>
-          <td><span class="badge b-green"><span class="sd sd-green"></span>&nbsp;Active</span></td>
-          <td><button class="ra-btn ra-revoke" onclick="revokeRow(this,'SUB-00201')">Revoke</button></td>
-        </tr>
-        <tr>
-          <td><span class="mono">SUB-00318</span></td>
-          <td>Risk Assessment</td>
-          <td>Azure OpenAI</td>
-          <td><span class="mono">Oct 28, 2024</span></td>
-          <td><span class="mono" style="color:var(--yel)">Jan 28, 2025</span></td>
-          <td><span class="badge b-yellow">⚠ Expiring</span></td>
-          <td><button class="ra-btn ra-renew" onclick="notify('Renewal notice sent to SUB-00318','Expires in 6 days','📧')">Renew</button></td>
-        </tr>
-        <tr>
-          <td><span class="mono">SUB-00445</span></td>
-          <td>Loan Underwriting</td>
-          <td>OpenAI GPT-4</td>
-          <td><span class="mono">Jan 5, 2025</span></td>
-          <td><span class="mono">Jan 5, 2026</span></td>
-          <td><span class="badge b-green"><span class="sd sd-green"></span>&nbsp;Active</span></td>
-          <td><button class="ra-btn ra-revoke" onclick="revokeRow(this,'SUB-00445')">Revoke</button></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <div class="cm-grid">
-    <div class="cm-card">
-      <div class="cm-icon">👤</div>
-      <div class="cm-title">Data Subject Request</div>
-      <div class="cm-body">Customer submits GDPR / CCPA opt-out. DataBanq receives the signal and cascades revocation to all vendors within 60 seconds.</div>
-    </div>
-    <div class="cm-card">
-      <div class="cm-icon">⚖️</div>
-      <div class="cm-title">Admin Manual Revoke</div>
-      <div class="cm-body">CCO or compliance officer revokes directly from this dashboard for any subject or use case at any time.</div>
-    </div>
-    <div class="cm-card hl">
-      <div class="cm-icon">🤖</div>
-      <div class="cm-title" style="color:var(--g400)">Policy-Triggered Auto</div>
-      <div class="cm-body">Rules fire automatically — e.g. "revoke if consent is older than 12 months and not renewed."</div>
-    </div>
-  </div>
-</div>
-
-<!-- ══════════════════════════════════
-  S4 — LINEAGE GRAPH
-══════════════════════════════════ -->
-
-<div class="screen" id="s4">
-  <div class="ph">
-    <div class="ph-left">
-      <div class="ph-eyebrow"><div class="ph-eyebrow-dot"></div>Governance</div>
-      <div class="ph-title">Model Lineage Graph</div>
-      <div class="ph-desc">Full data provenance — every model, every inference event, every timestamp</div>
-    </div>
-    <div class="ph-actions">
-      <button class="btn btn-secondary">Filter by Dataset</button>
-      <button class="btn btn-primary" onclick="notify('Lineage report exported','TRC-9284 · PDF + JSON · 2,363 events','📋')">Export Lineage</button>
-    </div>
-  </div>
-
-  <div class="card mb10">
-    <div class="card-hd">
-      <div class="card-title">Loan Underwriting Pipeline</div>
-      <div class="card-meta" style="display:flex;align-items:center;gap:8px">
-        <span class="mono">Trace ID: TRC-9284</span>
-        &nbsp;·&nbsp;
-        Jan 28, 2025
-        &nbsp;·&nbsp;
-        <span style="color:var(--g400);font-size:11px;font-weight:600">Hash verified ✓</span>
-      </div>
-    </div>
-    <div class="card-body">
-      <div class="lg-canvas">
-        <div class="lg-node">
-          <div class="lg-circle lg-c-src" onclick="notify('Customer Records DB · 2,847 rows · PII classified','No anomalies detected · Source verified','🗄️')">
-            <div class="lg-icon">🗄️</div>
-            <div class="lg-lbl" style="color:var(--t2)">CUSTOMER<br>DB</div>
-          </div>
-          <div class="lg-meta">
-            <div class="lg-meta-name">Source Data</div>
-            <div class="lg-meta-time">09:14:02</div>
-          </div>
-        </div>
-
-```
-    <div class="lg-arrow">
-      <div class="lg-arrow-step">PII masked</div>
-      <div class="lg-arrow-line"></div>
-    </div>
-
-    <div class="lg-node">
-      <div class="lg-circle lg-c-ven" onclick="notify('OpenAI GPT-4 · 1,204 inferences · Consent ✓','Avg 340ms · 0 policy violations','🤖')">
-        <div class="lg-icon">🤖</div>
-        <div class="lg-lbl" style="color:var(--g400)">GPT-4<br>OPENAI</div>
-      </div>
-      <div class="lg-meta">
-        <div class="lg-meta-name">Risk Scoring</div>
-        <div class="lg-meta-time">09:15:11</div>
-      </div>
-    </div>
-
-    <div class="lg-arrow">
-      <div class="lg-arrow-step">Scored output</div>
-      <div class="lg-arrow-line"></div>
-    </div>
-
-    <div class="lg-node">
-      <div class="lg-circle lg-c-int" onclick="notify('Fraud Model v2.3 · Internal · 847 decisions','Hash: a3f8c2…d1 · Approved model','🔬')">
-        <div class="lg-icon">🔬</div>
-        <div class="lg-lbl" style="color:var(--blu)">FRAUD<br>MODEL</div>
-      </div>
-      <div class="lg-meta">
-        <div class="lg-meta-name">Internal Model</div>
-        <div class="lg-meta-time">09:16:04</div>
-      </div>
-    </div>
-
-    <div class="lg-arrow">
-      <div class="lg-arrow-step">Decision signal</div>
-      <div class="lg-arrow-line"></div>
-    </div>
-
-    <div class="lg-node">
-      <div class="lg-circle lg-c-int" onclick="notify('AWS Bedrock · Compliance check · All flags clear','312 rules applied · 0 violations','☁️')">
-        <div class="lg-icon">☁️</div>
-        <div class="lg-lbl" style="color:var(--blu)">BEDROCK<br>AWS</div>
-      </div>
-      <div class="lg-meta">
-        <div class="lg-meta-name">Compliance</div>
-        <div class="lg-meta-time">09:17:29</div>
-      </div>
-    </div>
-
-    <div class="lg-arrow">
-      <div class="lg-arrow-step">Final output</div>
-      <div class="lg-arrow-line"></div>
-    </div>
-
-    <div class="lg-node">
-      <div class="lg-circle lg-c-out" onclick="notify('Loan Decision · 847 decisions · Logged & hashed','All decisions regulator-ready','📋')">
-        <div class="lg-icon">📋</div>
-        <div class="lg-lbl" style="color:var(--yel)">LOAN<br>OUTPUT</div>
-      </div>
-      <div class="lg-meta">
-        <div class="lg-meta-name">Output</div>
-        <div class="lg-meta-time">09:18:14</div>
-      </div>
-    </div>
-  </div>
-  <div style="text-align:center;font-size:11px;color:var(--t4);padding-bottom:4px">
-    Click any node to inspect details
-  </div>
-</div>
-```
-
-  </div>
-
-  <div class="g2">
-    <div class="card">
-      <div class="card-hd"><div class="card-title">Inference Summary · Last 24h</div></div>
-      <div class="card-body">
-        <div class="pol-list">
-          <div class="pol-row"><div class="pol-name">GPT-4 → Fraud Model</div><span style="color:var(--g400);font-size:12px;font-weight:700">1,204 calls</span></div>
-          <div class="pol-row"><div class="pol-name">Bedrock → Decision Engine</div><span style="color:var(--g400);font-size:12px;font-weight:700">847 calls</span></div>
-          <div class="pol-row"><div class="pol-name">Claude → Internal Docs</div><span style="color:var(--g400);font-size:12px;font-weight:700">312 calls</span></div>
-          <div class="pol-row" style="border-top:1px solid var(--b2);margin-top:4px;padding-top:12px"><div class="pol-name" style="font-weight:700">Total events logged</div><span style="color:var(--t1);font-size:13px;font-weight:800">2,363</span></div>
-        </div>
-      </div>
-    </div>
-    <div class="card">
-      <div class="card-hd"><div class="card-title">Data Integrity</div></div>
-      <div class="card-body">
-        <div class="prog-group">
-          <div class="prog-item">
-            <div class="prog-row"><span class="prog-label">Hash verification</span><span class="prog-val">100%</span></div>
-            <div class="prog-track"><div class="prog-fill pf-g" style="width:100%"></div></div>
-          </div>
-          <div class="prog-item">
-            <div class="prog-row"><span class="prog-label">Consent verified</span><span class="prog-val">98.4%</span></div>
-            <div class="prog-track"><div class="prog-fill pf-g" style="width:98.4%"></div></div>
-          </div>
-          <div class="prog-item">
-            <div class="prog-row"><span class="prog-label">Policy compliance</span><span class="prog-val">96.2%</span></div>
-            <div class="prog-track"><div class="prog-fill pf-g" style="width:96.2%"></div></div>
-          </div>
-          <div class="prog-item">
-            <div class="prog-row"><span class="prog-label">Tamper-evident log</span><span class="prog-val" style="color:var(--g400)">Active</span></div>
-            <div class="prog-track"><div class="prog-fill pf-g" style="width:100%"></div></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ══════════════════════════════════
-  S5 — AUDIT PACK
-══════════════════════════════════ -->
-
-<div class="screen" id="s5">
-  <div class="ph">
-    <div class="ph-left">
-      <div class="ph-eyebrow"><div class="ph-eyebrow-dot"></div>Compliance</div>
-      <div class="ph-title">Audit Pack Generator</div>
-      <div class="ph-desc">One-click compliance reports · Last generated today 9:42 AM · 2,363 events captured</div>
-    </div>
-  </div>
-
-  <div class="audit-list">
-    <div class="audit-item done">
-      <div class="audit-ico done">✅</div>
-      <div class="audit-info">
-        <div class="audit-name">SOC 2 Type II</div>
-        <div class="audit-desc">AI usage controls, access logs, consent evidence, vendor management documentation</div>
-      </div>
-      <div class="audit-right">
-        <div class="audit-status" style="color:var(--g400)">Ready</div>
-        <div class="audit-count">847 evidence items</div>
-      </div>
-    </div>
-    <div class="audit-item done">
-      <div class="audit-ico done">✅</div>
-      <div class="audit-info">
-        <div class="audit-name">EU AI Act — Article 13 Transparency</div>
-        <div class="audit-desc">Model lineage records, decision logs, human oversight documentation, risk classification</div>
-      </div>
-      <div class="audit-right">
-        <div class="audit-status" style="color:var(--g400)">Ready</div>
-        <div class="audit-count">1,204 inference records</div>
-      </div>
-    </div>
-    <div class="audit-item done">
-      <div class="audit-ico done">✅</div>
-      <div class="audit-info">
-        <div class="audit-name">HIPAA — AI Data Processing</div>
-        <div class="audit-desc">PHI access logs, consent registry export, vendor BAA verification records</div>
-      </div>
-      <div class="audit-right">
-        <div class="audit-status" style="color:var(--g400)">Ready</div>
-        <div class="audit-count">312 PHI events</div>
-      </div>
-    </div>
-    <div class="audit-item pending">
-      <div class="audit-ico pending">⏳</div>
-      <div class="audit-info">
-        <div class="audit-name">FFIEC AI Risk Guidance</div>
-        <div class="audit-desc">Model risk management, explainability documentation — 2 action items pending</div>
-      </div>
-      <div class="audit-right">
-        <div class="audit-status" style="color:var(--yel)">In Progress</div>
-        <div class="audit-count">2 items needed</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="g2 mb10">
-    <div class="card">
-      <div class="card-hd"><div class="card-title">Coverage Summary</div></div>
-      <div class="card-body">
-        <div class="prog-group">
-          <div class="prog-item">
-            <div class="prog-row"><span class="prog-label">Consent records captured</span><span class="prog-val">84%</span></div>
-            <div class="prog-track"><div class="prog-fill pf-g" style="width:84%"></div></div>
-          </div>
-          <div class="prog-item">
-            <div class="prog-row"><span class="prog-label">Inference events logged</span><span class="prog-val">100%</span></div>
-            <div class="prog-track"><div class="prog-fill pf-g" style="width:100%"></div></div>
-          </div>
-          <div class="prog-item">
-            <div class="prog-row"><span class="prog-label">Vendor docs on file</span><span class="prog-val">86%</span></div>
-            <div class="prog-track"><div class="prog-fill pf-y" style="width:86%"></div></div>
-          </div>
-          <div class="prog-item">
-            <div class="prog-row">
-              <span class="prog-label" style="font-weight:600;color:var(--t1)">Overall readiness</span>
-              <span class="prog-val" style="color:var(--g400)">72%</span>
-            </div>
-            <div class="prog-track"><div class="prog-fill pf-g" style="width:72%"></div></div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-```
-<div class="card">
-  <div class="card-hd"><div class="card-title">What's Included</div></div>
-  <div class="card-body">
-    <div style="display:flex;flex-direction:column;gap:8px">
-      <div style="display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--t2)"><span style="color:var(--g400);font-weight:700">✓</span>Consent registry export (PDF + CSV)</div>
-      <div style="display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--t2)"><span style="color:var(--g400);font-weight:700">✓</span>Full inference event log with hashes</div>
-      <div style="display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--t2)"><span style="color:var(--g400);font-weight:700">✓</span>Shadow AI detection history</div>
-      <div style="display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--t2)"><span style="color:var(--g400);font-weight:700">✓</span>Model lineage diagrams</div>
-      <div style="display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--t2)"><span style="color:var(--g400);font-weight:700">✓</span>Vendor compliance matrix</div>
-      <div style="display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--t2)"><span style="color:var(--g400);font-weight:700">✓</span>Policy change audit trail</div>
-      <div style="display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--t2)"><span style="color:var(--g400);font-weight:700">✓</span>Tamper-evident hash evidence</div>
-    </div>
-  </div>
-</div>
-```
-
-  </div>
-
-  <button class="export-cta" id="exportBtn" onclick="runExport()">
-    <span style="font-size:16px">📦</span>
-    Generate Full Audit Pack
-  </button>
-  <div style="text-align:center;font-size:11px;color:var(--t4);margin-top:10px">
-    Complete PDF + ZIP archive across all compliance frameworks · ~30 seconds
-  </div>
-</div>
-
-</div><!-- /main -->
-</div><!-- /workspace -->
-</div><!-- /shell -->
-
-<!-- TOAST -->
-
-<div class="toast" id="toastEl">
-  <div class="t-ico" id="tIco">✅</div>
-  <div class="t-body">
-    <div class="t-title" id="tTitle"></div>
-    <div class="t-desc" id="tDesc"></div>
-  </div>
-  <div class="t-progress"></div>
-</div>
+</footer>
 
 <script>
-// ── NAVIGATION ──
-const screens = ['Dashboard','Integrations','Shadow AI Monitor','Consent Registry','Lineage Graph','Audit Pack'];
-let toastTimer;
-
-function go(i){
-  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
-  document.getElementById('s'+i).classList.add('active');
-  document.getElementById('ni-'+i).classList.add('active');
-  document.getElementById('bc').textContent = screens[i];
-}
-
-// ── TOAST ──
-function notify(title, desc, icon){
-  const el = document.getElementById('toastEl');
-  document.getElementById('tTitle').textContent = title;
-  document.getElementById('tDesc').textContent = desc || '';
-  document.getElementById('tIco').textContent = icon || '✅';
-  // restart progress bar
-  const bar = el.querySelector('.t-progress');
-  bar.style.animation='none';
-  void bar.offsetWidth;
-  bar.style.animation='';
-  el.classList.add('show');
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(()=>el.classList.remove('show'), 3600);
-}
-
-// ── SHADOW AI ──
-function blockRow(i){
-  document.getElementById('ss'+i).innerHTML='<span class="badge b-red">🚫 Blocked</span>';
-  document.getElementById('sr'+i).classList.add('row-blocked');
-  notify('Tool blocked · IT team notified','Access revoked for all employees','🚫');
-}
-function approveRow(i){
-  document.getElementById('ss'+i).innerHTML='<span class="badge b-green">✓ Approved</span>';
-  notify('Tool approved · Added to vendor registry','Governance policy applied automatically','✅');
-}
-function blockAll(){
-  [0,1,2].forEach(blockRow);
-  notify('All 3 tools blocked','IT team notified · Employees alerted','🚫');
-}
-
-// ── CONSENT ──
-function revokeRow(btn, id){
-  const row = btn.closest('tr');
-  const cells = row.querySelectorAll('td');
-  cells[0].innerHTML='<span class="mono" style="opacity:.35;text-decoration:line-through">'+id+'</span>';
-  cells[1].style.opacity='.35';
-  cells[1].style.textDecoration='line-through';
-  cells[5].innerHTML='<span class="badge b-red">🚫 Revoked</span>';
-  btn.textContent='Reinstate';
-  btn.className='ra-btn ra-approve';
-  btn.onclick=()=>notify('Reinstatement sent to '+id,'Consent workflow initiated','📧');
-  notify('Consent revoked · Cascade sent to all vendors',id+' · Propagation complete in 60s','🔄');
-}
-
-// ── INTEGRATION TABS ──
-function setTab(el, id){
-  document.querySelectorAll('.int-tab').forEach(t=>t.classList.remove('active'));
-  el.classList.add('active');
-  ['t-proxy','t-sdk','t-log'].forEach(t=>{
-    const d=document.getElementById(t);
-    if(d) d.style.display = t===id ? 'block' : 'none';
+// Scroll reveal
+const revealEls = document.querySelectorAll('.reveal');
+const revealObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      revealObs.unobserve(e.target);
+    }
   });
-}
+}, { threshold: 0.08 });
+revealEls.forEach(el => revealObs.observe(el));
 
-// ── TOGGLE ──
-function togPol(el){
-  el.classList.toggle('off');
-  notify(
-    el.classList.contains('off') ? 'Policy rule disabled' : 'Policy rule enabled',
-    'Shadow AI · Policy Engine',
-    el.classList.contains('off') ? '⏸' : '✅'
-  );
-}
-
-// ── EXPORT ──
-function runExport(){
-  const btn=document.getElementById('exportBtn');
-  btn.disabled=true;
-  btn.innerHTML='<span style="font-size:16px">⏳</span> Generating audit pack...';
-  setTimeout(()=>{
-    btn.disabled=false;
-    btn.innerHTML='<span style="font-size:16px">✅</span> Audit Pack Ready — Click to Download';
-    notify('Audit pack generated successfully','3 frameworks · 2,363 events · PDF + ZIP','📦');
-  }, 2200);
+// CTA
+function submitCTA() {
+  const input = document.getElementById('ctaEmail');
+  const btn = document.querySelector('.cta-btn');
+  if (input.value && input.value.includes('@')) {
+    btn.textContent = "✓ You're on the list!";
+    btn.style.backgroundColor = '#2AF5A0';
+    btn.style.boxShadow = '0 0 28px rgba(42,245,160,0.5)';
+    input.value = '';
+    setTimeout(() => {
+      btn.textContent = 'Request Access →';
+      btn.style.backgroundColor = '';
+      btn.style.boxShadow = '';
+    }, 3500);
+  } else {
+    input.style.borderColor = '#FF4444';
+    input.placeholder = 'Please enter a valid email';
+    setTimeout(() => {
+      input.style.borderColor = '';
+      input.placeholder = 'your@company.com';
+    }, 1800);
+  }
 }
 </script>
 
