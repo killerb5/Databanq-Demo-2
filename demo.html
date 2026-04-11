@@ -412,7 +412,7 @@ padding-bottom:10px; border-bottom:1px solid rgba(255,255,255,0.055);
     <div class="breadcrumb"><span class="bc-dim">Platform</span><span class="bc-dim">/</span><span class="bc-active" id="bc">Dashboard</span></div>
   </div>
   <div class="tb-right">
-    <div class="tb-icon" onclick="toast('3 unresolved Shadow AI alerts','Review in Shadow AI Monitor','<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#f87171" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>')">
+    <div class="tb-icon" onclick="toast('3 unresolved Shadow AI alerts','Review in Shadow AI Monitor','')">
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(232,237,233,0.5)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg><div class="notif-dot"></div>
     </div>
     <button class="tb-cta" onclick="go(5)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#0a0f0e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg> Audit Pack</button>
@@ -437,6 +437,7 @@ padding-bottom:10px; border-bottom:1px solid rgba(255,255,255,0.055);
   <div class="nav-grp">
     <div class="nav-grp-lbl">Compliance</div>
     <div class="nav-item" id="ni5" onclick="go(5)"><div class="nav-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(232,237,233,0.28)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div>Audit Pack<span class="nav-chip chip-g">Ready</span></div>
+    <div class="nav-item" id="ni6" onclick="go(6)"><div class="nav-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(232,237,233,0.28)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg></div>Usage Ledger</div>
   </div>
   <div class="sb-foot">v1.0.0 · Demo</div>
 </div>
@@ -788,6 +789,203 @@ padding-bottom:10px; border-bottom:1px solid rgba(255,255,255,0.055);
   <div style="text-align:center;font-size:11.5px;color:rgba(232,237,233,0.16);margin-top:10px;font-weight:300">Complete PDF + ZIP · All compliance frameworks · ~30 seconds</div>
 </div>
 
+<!-- S6: USAGE LEDGER -->
+
+<div class="screen" id="s6">
+  <div class="ph">
+    <div class="ph-left">
+      <div class="ph-ey"><div class="ph-ey-dot"></div>Governance</div>
+      <div class="ph-title">Usage Logging &amp; Hash Ledger</div>
+      <div class="ph-desc">Tamper-evident log of every AI inference event · Hash-verified · Immutable</div>
+    </div>
+    <div class="ph-acts">
+      <button class="btn btn-s" onclick="toast('Ledger exported','CSV · 2,363 events · Jan–Mar 2025','')">Export CSV</button>
+      <button class="btn btn-p" onclick="toast('Hash verification complete','All 2,363 events verified intact · Root hash confirmed','')">Verify Integrity</button>
+    </div>
+  </div>
+
+  <div class="kpi-row">
+    <div class="kpi good"><div class="kpi-lbl">Total Events (Q1)</div><div class="kpi-val green">2,363</div><div class="kpi-foot">100% captured</div></div>
+    <div class="kpi"><div class="kpi-lbl">Hash Verified</div><div class="kpi-val">2,363</div><div class="kpi-foot" style="color:#10C37E">No tampering detected</div></div>
+    <div class="kpi"><div class="kpi-lbl">Policy Violations</div><div class="kpi-val">0</div><div class="kpi-foot">Clean quarter</div></div>
+    <div class="kpi"><div class="kpi-lbl">Avg Latency Added</div><div class="kpi-val">42<span style="font-size:14px;font-family:'DM Sans',sans-serif;font-weight:400">ms</span></div><div class="kpi-foot">Negligible overhead</div></div>
+  </div>
+
+  <div class="card mb10">
+    <div class="card-hd">
+      <div class="card-title">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#10C37E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+        Inference Event Log
+      </div>
+      <div class="card-meta"><span class="sd sd-g"></span>&nbsp;Live · All events tamper-evident</div>
+    </div>
+    <table class="tbl">
+      <thead>
+        <tr>
+          <th>Event ID</th>
+          <th>Timestamp</th>
+          <th>Vendor</th>
+          <th>Use Case</th>
+          <th>Data Class</th>
+          <th>Consent</th>
+          <th>Latency</th>
+          <th>Policy</th>
+          <th>Hash</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="mono">EVT-9841</span></td>
+          <td><span class="mono">09:18:14.221</span></td>
+          <td>OpenAI GPT-4</td>
+          <td>Fraud Detection</td>
+          <td><span class="badge b-r">Financial PII</span></td>
+          <td><span class="badge b-g"><span class="sd sd-g"></span>&nbsp;Verified</span></td>
+          <td><span class="mono">312ms</span></td>
+          <td><span class="badge b-g">Pass</span></td>
+          <td><span class="mono" style="color:#10C37E">a3f8c2d1</span></td>
+        </tr>
+        <tr>
+          <td><span class="mono">EVT-9840</span></td>
+          <td><span class="mono">09:17:58.104</span></td>
+          <td>AWS Bedrock</td>
+          <td>Transaction Analysis</td>
+          <td><span class="badge b-y">Transactions</span></td>
+          <td><span class="badge b-g"><span class="sd sd-g"></span>&nbsp;Verified</span></td>
+          <td><span class="mono">284ms</span></td>
+          <td><span class="badge b-g">Pass</span></td>
+          <td><span class="mono" style="color:#10C37E">b7e1f4a9</span></td>
+        </tr>
+        <tr>
+          <td><span class="mono">EVT-9839</span></td>
+          <td><span class="mono">09:17:29.887</span></td>
+          <td>Anthropic Claude</td>
+          <td>Internal Docs</td>
+          <td><span class="badge b-d">Internal</span></td>
+          <td><span class="badge b-g"><span class="sd sd-g"></span>&nbsp;Verified</span></td>
+          <td><span class="mono">198ms</span></td>
+          <td><span class="badge b-g">Pass</span></td>
+          <td><span class="mono" style="color:#10C37E">c2d9e7f3</span></td>
+        </tr>
+        <tr>
+          <td><span class="mono">EVT-9838</span></td>
+          <td><span class="mono">09:16:44.512</span></td>
+          <td>OpenAI GPT-4</td>
+          <td>Risk Scoring</td>
+          <td><span class="badge b-r">Financial PII</span></td>
+          <td><span class="badge b-g"><span class="sd sd-g"></span>&nbsp;Verified</span></td>
+          <td><span class="mono">341ms</span></td>
+          <td><span class="badge b-g">Pass</span></td>
+          <td><span class="mono" style="color:#10C37E">d4f2b8e1</span></td>
+        </tr>
+        <tr>
+          <td><span class="mono">EVT-9837</span></td>
+          <td><span class="mono">09:15:11.093</span></td>
+          <td>AWS Bedrock</td>
+          <td>Loan Underwriting</td>
+          <td><span class="badge b-r">Financial PII</span></td>
+          <td><span class="badge b-g"><span class="sd sd-g"></span>&nbsp;Verified</span></td>
+          <td><span class="mono">267ms</span></td>
+          <td><span class="badge b-g">Pass</span></td>
+          <td><span class="mono" style="color:#10C37E">e9a3c6d2</span></td>
+        </tr>
+        <tr>
+          <td><span class="mono">EVT-9836</span></td>
+          <td><span class="mono">09:14:02.774</span></td>
+          <td>Anthropic Claude</td>
+          <td>Internal Docs</td>
+          <td><span class="badge b-d">Internal</span></td>
+          <td><span class="badge b-g"><span class="sd sd-g"></span>&nbsp;Verified</span></td>
+          <td><span class="mono">221ms</span></td>
+          <td><span class="badge b-g">Pass</span></td>
+          <td><span class="mono" style="color:#10C37E">f1b7d4e8</span></td>
+        </tr>
+        <tr>
+          <td><span class="mono">EVT-9835</span></td>
+          <td><span class="mono">09:12:38.441</span></td>
+          <td>OpenAI GPT-4</td>
+          <td>Customer Service</td>
+          <td><span class="badge b-y">Customer PII</span></td>
+          <td><span class="badge b-y">Expiring</span></td>
+          <td><span class="mono">388ms</span></td>
+          <td><span class="badge b-y">Warning</span></td>
+          <td><span class="mono" style="color:#fbbf24">g8c2a1f7</span></td>
+        </tr>
+        <tr>
+          <td><span class="mono">EVT-9834</span></td>
+          <td><span class="mono">09:11:19.228</span></td>
+          <td>AWS Bedrock</td>
+          <td>Fraud Detection</td>
+          <td><span class="badge b-r">Financial PII</span></td>
+          <td><span class="badge b-g"><span class="sd sd-g"></span>&nbsp;Verified</span></td>
+          <td><span class="mono">299ms</span></td>
+          <td><span class="badge b-g">Pass</span></td>
+          <td><span class="mono" style="color:#10C37E">h3e9f2b4</span></td>
+        </tr>
+      </tbody>
+    </table>
+    <div style="padding:10px 16px;font-size:11.5px;color:rgba(232,237,233,0.22);font-weight:300;border-top:1px solid rgba(255,255,255,0.03);">
+      Showing 8 of 2,363 events · <span style="color:rgba(16,195,126,0.6);cursor:pointer" onclick="toast('Full export started','2,363 events · CSV · Approx 30 seconds','')">Export all →</span>
+    </div>
+  </div>
+
+  <div class="g2">
+    <div class="card">
+      <div class="card-hd"><div class="card-title">Volume by Vendor · Q1 2025</div></div>
+      <div class="card-body">
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <div>
+            <div style="display:flex;justify-content:space-between;margin-bottom:5px;font-size:12px;">
+              <span style="color:rgba(232,237,233,0.45)">OpenAI GPT-4</span>
+              <span style="color:#e8ede9;font-weight:500">1,204</span>
+            </div>
+            <div class="prog-track"><div class="prog-fill pf-g" style="width:100%"></div></div>
+          </div>
+          <div>
+            <div style="display:flex;justify-content:space-between;margin-bottom:5px;font-size:12px;">
+              <span style="color:rgba(232,237,233,0.45)">AWS Bedrock</span>
+              <span style="color:#e8ede9;font-weight:500">847</span>
+            </div>
+            <div class="prog-track"><div class="prog-fill pf-g" style="width:70%"></div></div>
+          </div>
+          <div>
+            <div style="display:flex;justify-content:space-between;margin-bottom:5px;font-size:12px;">
+              <span style="color:rgba(232,237,233,0.45)">Anthropic Claude</span>
+              <span style="color:#e8ede9;font-weight:500">312</span>
+            </div>
+            <div class="prog-track"><div class="prog-fill pf-g" style="width:26%"></div></div>
+          </div>
+          <div>
+            <div style="display:flex;justify-content:space-between;margin-bottom:5px;font-size:12px;">
+              <span style="color:rgba(232,237,233,0.45)">Azure OpenAI</span>
+              <span style="color:rgba(232,237,233,0.4);font-weight:400">0 (suspended)</span>
+            </div>
+            <div class="prog-track"><div class="prog-fill pf-g" style="width:0%"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-hd"><div class="card-title">Chain of Custody</div><div class="card-meta">Root hash verified</div></div>
+      <div class="card-body">
+        <div class="code" style="font-size:10.5px;line-height:1.9">
+          <span class="c-cmt"># Merkle Tree Root Hash</span><br>
+          Root:&nbsp;&nbsp;&nbsp;<span class="c-em">a3f8c2d14e9b7f61</span><br>
+          Events: <span class="c-em">2,363</span><br>
+          Algo:&nbsp;&nbsp;&nbsp;<span class="c-str">SHA-256 HMAC</span><br>
+          Signed: <span class="c-em">2025-04-10 09:42Z</span><br>
+          <span class="c-cmt"># No tampering detected</span><br>
+          Status: <span class="c-em">VERIFIED ✓</span>
+        </div>
+        <div style="margin-top:12px;display:flex;gap:8px">
+          <button class="btn btn-g" style="flex:1;justify-content:center" onclick="toast('Integrity verified','All 2,363 events intact · SHA-256 HMAC confirmed','')">Verify Now</button>
+          <button class="btn btn-s" onclick="toast('Hash certificate exported','PDF · Suitable for legal evidence','')">Export Certificate</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+  
 </div>
 </div>
 </div>
@@ -800,7 +998,7 @@ padding-bottom:10px; border-bottom:1px solid rgba(255,255,255,0.055);
 
 <script>
 'use strict';
-var screens=['Dashboard','Integrations','Shadow AI Monitor','Consent Registry','Lineage Graph','Audit Pack'];
+var screens=['Dashboard','Integrations','Shadow AI Monitor','Consent Registry','Lineage Graph','Audit Pack','Usage Ledger'];
 var tTimer;
 function go(i){document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('active');});document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('active');});document.getElementById('s'+i).classList.add('active');document.getElementById('ni'+i).classList.add('active');document.getElementById('bc').textContent=screens[i];}
 function toast(title,desc,ico){var el=document.getElementById('toastEl');document.getElementById('tTitle').textContent=title;document.getElementById('tDesc').textContent=desc||'';document.getElementById('tIco').innerHTML=ico||'';var bar=el.querySelector('.t-bar');bar.style.animation='none';void bar.offsetWidth;bar.style.animation='';el.classList.add('show');clearTimeout(tTimer);tTimer=setTimeout(function(){el.classList.remove('show');},3600);}
