@@ -415,7 +415,8 @@ padding-bottom:10px; border-bottom:1px solid rgba(255,255,255,0.055);
     <div class="tb-icon" onclick="toast('3 unresolved Shadow AI alerts','Review in Shadow AI Monitor','')">
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(232,237,233,0.5)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg><div class="notif-dot"></div>
     </div>
-    <button class="tb-cta" onclick="go(5)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#0a0f0e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg> Audit Pack</button>
+    <button class="tb-cta" onclick="go(5)" style="background:#101a17;color:#10C37E;border:1px solid rgba(16,195,126,0.2);"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#10C37E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg> Audit Pack</button>
+    <button class="tb-cta" onclick="showBookDemo()"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#0a0f0e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> Talk to Sales</button>
     <div class="tb-avatar">JR</div>
   </div>
 </div>
@@ -432,12 +433,18 @@ padding-bottom:10px; border-bottom:1px solid rgba(255,255,255,0.055);
     <div class="nav-item" id="ni2" onclick="go(2)"><div class="nav-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(232,237,233,0.28)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg></div>Shadow AI<span class="nav-chip chip-r">3</span></div>
     <div class="nav-item" id="ni3" onclick="go(3)"><div class="nav-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(232,237,233,0.28)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>Consent Registry</div>
     <div class="nav-item" id="ni4" onclick="go(4)"><div class="nav-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(232,237,233,0.28)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></div>Lineage Graph</div>
+    <div class="nav-item" id="ni7" onclick="go(7)"><div class="nav-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(232,237,233,0.28)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>Policy Engine</div>
+    <div class="nav-item" id="ni8" onclick="go(8)"><div class="nav-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(232,237,233,0.28)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg></div>Vendor Chain</div>
   </div>
   <div class="nav-div"></div>
   <div class="nav-grp">
     <div class="nav-grp-lbl">Compliance</div>
     <div class="nav-item" id="ni5" onclick="go(5)"><div class="nav-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(232,237,233,0.28)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div>Audit Pack<span class="nav-chip chip-g">Ready</span></div>
     <div class="nav-item" id="ni6" onclick="go(6)"><div class="nav-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(232,237,233,0.28)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg></div>Usage Ledger</div>
+  </div>
+  <div class="nav-div"></div>
+  <div style="padding:10px 12px 4px;">
+    <button onclick="showBookDemo()" style="width:100%;padding:9px 12px;background:linear-gradient(135deg,#0B8F5A,#10C37E);border:none;border-radius:8px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;color:#0a0f0e;display:flex;align-items:center;justify-content:center;gap:6px;transition:all 0.18s;box-shadow:0 4px 16px rgba(16,195,126,0.25);" onmouseover="this.style.boxShadow='0 6px 24px rgba(16,195,126,0.42)';this.style.transform='translateY(-1px)'" onmouseout="this.style.boxShadow='0 4px 16px rgba(16,195,126,0.25)';this.style.transform='none'"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#0a0f0e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Book a Demo</button>
   </div>
   <div class="sb-foot">v1.0.0 · Demo</div>
 </div>
@@ -570,7 +577,7 @@ padding-bottom:10px; border-bottom:1px solid rgba(255,255,255,0.055);
     </div>
     <div class="ph-acts">
       <button class="btn btn-s" onclick="toast('Report sent to compliance@acme.com','PDF + CSV · 3 tools · Jan 2025','')">Export Report</button>
-      <button class="btn btn-g"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#10C37E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> Policy Rules</button>
+      <button class="btn btn-g" onclick="go(7)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#10C37E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> Policy Rules</button>
     </div>
   </div>
   <div class="astrip red">
@@ -985,9 +992,329 @@ padding-bottom:10px; border-bottom:1px solid rgba(255,255,255,0.055);
     </div>
   </div>
 </div>
-  
+
+<!-- S7: POLICY ENGINE -->
+
+<div class="screen" id="s7">
+  <div class="ph">
+    <div class="ph-left">
+      <div class="ph-ey"><div class="ph-ey-dot"></div>Governance</div>
+      <div class="ph-title">Policy Engine</div>
+      <div class="ph-desc">Define and enforce AI usage rules by vendor, data type, and user role — across your entire stack</div>
+    </div>
+    <div class="ph-acts">
+      <button class="btn btn-s" onclick="toast('Policy log exported','All 24 rules · CSV + PDF','')">Export Rules</button>
+      <button class="btn btn-p" onclick="toast('New policy rule created','Configure conditions in the rule editor','')">+ New Rule</button>
+    </div>
+  </div>
+
+  <div class="kpi-row">
+    <div class="kpi good"><div class="kpi-lbl">Active Rules</div><div class="kpi-val green">18</div><div class="kpi-foot">Enforcing now</div></div>
+    <div class="kpi"><div class="kpi-lbl">Rules Triggered (7d)</div><div class="kpi-val">312</div><div class="kpi-foot"><span class="trend-up">↑ 24</span> vs prior week</div></div>
+    <div class="kpi warn"><div class="kpi-lbl">Policy Violations</div><div class="kpi-val red">4</div><div class="kpi-foot">Requires review</div></div>
+    <div class="kpi"><div class="kpi-lbl">Disabled Rules</div><div class="kpi-val">6</div><div class="kpi-foot">Pending configuration</div></div>
+  </div>
+
+  <div class="card mb10">
+    <div class="card-hd">
+      <div class="card-title">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#10C37E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Enforcement Rules
+      </div>
+      <div class="card-meta">18 active · Last updated 3h ago</div>
+    </div>
+    <table class="tbl">
+      <thead><tr><th>Rule Name</th><th>Condition</th><th>Action</th><th>Scope</th><th>Triggered (7d)</th><th>Status</th><th></th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong style="font-weight:500">Block PII → Unapproved LLMs</strong></td>
+          <td><span class="badge b-r">Data: Financial PII</span></td>
+          <td><span class="badge b-r">Block + Alert</span></td>
+          <td>All vendors</td>
+          <td><span class="mono">47</span></td>
+          <td><span class="badge b-g"><span class="sd sd-g"></span>&nbsp;Active</span></td>
+          <td><div class="toggle" onclick="togPol2(this,'Block PII → Unapproved LLMs')"></div></td>
+        </tr>
+        <tr>
+          <td><strong style="font-weight:500">Consent Required Before Inference</strong></td>
+          <td><span class="badge b-y">Consent: Missing</span></td>
+          <td><span class="badge b-r">Block</span></td>
+          <td>All vendors</td>
+          <td><span class="mono">91</span></td>
+          <td><span class="badge b-g"><span class="sd sd-g"></span>&nbsp;Active</span></td>
+          <td><div class="toggle" onclick="togPol2(this,'Consent Required')"></div></td>
+        </tr>
+        <tr>
+          <td><strong style="font-weight:500">Auto-Block Shadow AI — High Risk</strong></td>
+          <td><span class="badge b-r">Shadow AI: High Risk</span></td>
+          <td><span class="badge b-r">Block + Notify IT</span></td>
+          <td>Network layer</td>
+          <td><span class="mono">3</span></td>
+          <td><span class="badge b-g"><span class="sd sd-g"></span>&nbsp;Active</span></td>
+          <td><div class="toggle" onclick="togPol2(this,'Auto-Block Shadow AI')"></div></td>
+        </tr>
+        <tr>
+          <td><strong style="font-weight:500">HR Role — No External LLM Access</strong></td>
+          <td><span class="badge b-u">Role: HR</span></td>
+          <td><span class="badge b-r">Block</span></td>
+          <td>GPT-4, Claude, Gemini</td>
+          <td><span class="mono">18</span></td>
+          <td><span class="badge b-g"><span class="sd sd-g"></span>&nbsp;Active</span></td>
+          <td><div class="toggle" onclick="togPol2(this,'HR No External LLM')"></div></td>
+        </tr>
+        <tr>
+          <td><strong style="font-weight:500">Consent Expiry → Auto-Renew</strong></td>
+          <td><span class="badge b-y">Consent: Expiring 30d</span></td>
+          <td><span class="badge b-g">Auto-Renew</span></td>
+          <td>All subjects</td>
+          <td><span class="mono">142</span></td>
+          <td><span class="badge b-g"><span class="sd sd-g"></span>&nbsp;Active</span></td>
+          <td><div class="toggle" onclick="togPol2(this,'Consent Auto-Renew')"></div></td>
+        </tr>
+        <tr>
+          <td><strong style="font-weight:500">Customer PII → Azure OpenAI Only</strong></td>
+          <td><span class="badge b-r">Data: Customer PII</span></td>
+          <td><span class="badge b-y">Restrict Vendor</span></td>
+          <td>Vendor whitelist</td>
+          <td><span class="mono">8</span></td>
+          <td><span class="badge b-g"><span class="sd sd-g"></span>&nbsp;Active</span></td>
+          <td><div class="toggle" onclick="togPol2(this,'Customer PII Azure Only')"></div></td>
+        </tr>
+        <tr style="opacity:0.42">
+          <td><strong style="font-weight:500">Agent-Level Logging — All Calls</strong></td>
+          <td><span class="badge b-d">Agent: Any</span></td>
+          <td><span class="badge b-d">Log Only</span></td>
+          <td>All agents</td>
+          <td><span class="mono">—</span></td>
+          <td><span class="badge b-d">Disabled</span></td>
+          <td><div class="toggle off" onclick="togPol2(this,'Agent-Level Logging')"></div></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="g2">
+    <div class="card">
+      <div class="card-hd"><div class="card-title">Policy Categories</div></div>
+      <div class="card-body">
+        <div style="display:flex;flex-direction:column;gap:11px">
+          <div>
+            <div style="display:flex;justify-content:space-between;margin-bottom:5px;font-size:12px;"><span style="color:rgba(232,237,233,0.52)">Data Classification Rules</span><span style="font-weight:500;color:#e8ede9">7 rules</span></div>
+            <div class="prog-track"><div class="prog-fill pf-g" style="width:78%"></div></div>
+          </div>
+          <div>
+            <div style="display:flex;justify-content:space-between;margin-bottom:5px;font-size:12px;"><span style="color:rgba(232,237,233,0.52)">Consent Enforcement</span><span style="font-weight:500;color:#e8ede9">5 rules</span></div>
+            <div class="prog-track"><div class="prog-fill pf-g" style="width:100%"></div></div>
+          </div>
+          <div>
+            <div style="display:flex;justify-content:space-between;margin-bottom:5px;font-size:12px;"><span style="color:rgba(232,237,233,0.52)">Role-Based Access</span><span style="font-weight:500;color:#e8ede9">4 rules</span></div>
+            <div class="prog-track"><div class="prog-fill pf-g" style="width:55%"></div></div>
+          </div>
+          <div>
+            <div style="display:flex;justify-content:space-between;margin-bottom:5px;font-size:12px;"><span style="color:rgba(232,237,233,0.52)">Shadow AI Detection</span><span style="font-weight:500;color:#e8ede9">2 rules</span></div>
+            <div class="prog-track"><div class="prog-fill pf-g" style="width:100%"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-hd"><div class="card-title">Recent Violations</div></div>
+      <div class="card-body">
+        <div class="tl">
+          <div class="tl-item"><div class="tl-dot alert"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#f87171" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div><div class="tl-body"><div class="tl-title">PII sent to unapproved vendor (Azure GPT)</div><div class="tl-time">2h ago · Risk dept · Blocked · EVT-9841</div></div></div>
+          <div class="tl-item"><div class="tl-dot alert"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#f87171" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div><div class="tl-body"><div class="tl-title">Inference attempted without consent record</div><div class="tl-time">Yesterday · Legal dept · Blocked · EVT-9788</div></div></div>
+          <div class="tl-item"><div class="tl-dot alert"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#f87171" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div><div class="tl-body"><div class="tl-title">HR user attempted external LLM call</div><div class="tl-time">Jan 22 · HR dept · Blocked + Notified</div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S8: VENDOR CHAIN -->
+
+<div class="screen" id="s8">
+  <div class="ph">
+    <div class="ph-left">
+      <div class="ph-ey"><div class="ph-ey-dot"></div>Governance</div>
+      <div class="ph-title">Vendor Chain Intelligence</div>
+      <div class="ph-desc">Full visibility into your AI vendor supply chain — who touches your data, and how it flows downstream</div>
+    </div>
+    <div class="ph-acts">
+      <button class="btn btn-s" onclick="toast('Vendor report exported','7 vendors · Supply chain map · PDF','')">Export Report</button>
+      <button class="btn btn-p" onclick="toast('Vendor added to registry','Complete DPA and BAA to activate','')">+ Add Vendor</button>
+    </div>
+  </div>
+
+  <div class="kpi-row">
+    <div class="kpi"><div class="kpi-lbl">Approved Vendors</div><div class="kpi-val">7</div><div class="kpi-foot">Active in stack</div></div>
+    <div class="kpi good"><div class="kpi-lbl">DPA / BAA On File</div><div class="kpi-val green">6</div><div class="kpi-foot">1 pending</div></div>
+    <div class="kpi warn"><div class="kpi-lbl">Sub-processors</div><div class="kpi-val yellow">12</div><div class="kpi-foot">Downstream risk</div></div>
+    <div class="kpi"><div class="kpi-lbl">Data Residency Gaps</div><div class="kpi-val">1</div><div class="kpi-foot">EU transfer flagged</div></div>
+  </div>
+
+  <div class="astrip red mb10">
+    <div class="as-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f87171" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
+    <div class="as-bd"><div class="as-title" style="color:#f87171">EU data transfer risk — Azure OpenAI sub-processor routes through US-East-1</div><div class="as-desc">EU AI Act data residency requirement may apply · Review DPA clause 8.3 or enable EU data region</div></div>
+    <div class="as-act"><button class="btn btn-d" onclick="toast('Legal team notified','Azure DPA clause 8.3 flagged for review','')">Notify Legal</button></div>
+  </div>
+
+  <div class="card mb10">
+    <div class="card-hd">
+      <div class="card-title">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#10C37E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+        AI Vendor Registry
+      </div>
+      <div class="card-meta">7 vendors · Supply chain mapped</div>
+    </div>
+    <table class="tbl">
+      <thead><tr><th>Vendor</th><th>Category</th><th>Data Processed</th><th>Sub-processors</th><th>Data Region</th><th>DPA / BAA</th><th>Risk</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><div class="vname"><div class="vico" style="background:rgba(16,195,126,0.1)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#10C37E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/></svg></div>OpenAI GPT-4</div></td>
+          <td><span class="badge b-d">LLM</span></td>
+          <td><span class="badge b-r">Financial PII</span></td>
+          <td><span class="mono">3</span></td>
+          <td><span style="color:#10C37E;font-size:12px">US-East</span></td>
+          <td><span class="badge b-g">✓ On file</span></td>
+          <td><span class="badge b-y">Medium</span></td>
+          <td><span class="badge b-g"><span class="sd sd-g"></span>&nbsp;Approved</span></td>
+        </tr>
+        <tr>
+          <td><div class="vname"><div class="vico" style="background:rgba(129,140,248,0.1)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#818cf8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg></div>AWS Bedrock</div></td>
+          <td><span class="badge b-d">Cloud AI</span></td>
+          <td><span class="badge b-y">Transactions</span></td>
+          <td><span class="mono">2</span></td>
+          <td><span style="color:#10C37E;font-size:12px">US / EU</span></td>
+          <td><span class="badge b-g">✓ On file</span></td>
+          <td><span class="badge b-g">Low</span></td>
+          <td><span class="badge b-g"><span class="sd sd-g"></span>&nbsp;Approved</span></td>
+        </tr>
+        <tr>
+          <td><div class="vname"><div class="vico" style="background:rgba(248,113,113,0.1)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#f87171" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/></svg></div>Azure OpenAI</div></td>
+          <td><span class="badge b-d">LLM</span></td>
+          <td><span class="badge b-r">Customer PII</span></td>
+          <td><span class="mono" style="color:#f87171">5 ⚠</span></td>
+          <td><span style="color:#f87171;font-size:12px">US-East-1 ⚠</span></td>
+          <td><span class="badge b-y">⚠ Review</span></td>
+          <td><span class="badge b-r">High</span></td>
+          <td><span class="badge b-y">Under Review</span></td>
+        </tr>
+        <tr>
+          <td><div class="vname"><div class="vico" style="background:rgba(16,195,126,0.1)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#10C37E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/></svg></div>Anthropic Claude</div></td>
+          <td><span class="badge b-d">LLM</span></td>
+          <td><span class="badge b-d">Internal</span></td>
+          <td><span class="mono">1</span></td>
+          <td><span style="color:#10C37E;font-size:12px">US / EU</span></td>
+          <td><span class="badge b-g">✓ On file</span></td>
+          <td><span class="badge b-g">Low</span></td>
+          <td><span class="badge b-g"><span class="sd sd-g"></span>&nbsp;Approved</span></td>
+        </tr>
+        <tr>
+          <td><div class="vname"><div class="vico" style="background:rgba(251,191,36,0.1)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>Pinecone (Vector DB)</div></td>
+          <td><span class="badge b-d">Infra</span></td>
+          <td><span class="badge b-y">Embeddings</span></td>
+          <td><span class="mono">0</span></td>
+          <td><span style="color:#10C37E;font-size:12px">US-West</span></td>
+          <td><span class="badge b-y">Pending</span></td>
+          <td><span class="badge b-y">Medium</span></td>
+          <td><span class="badge b-y">Pending DPA</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="g2">
+    <div class="card">
+      <div class="card-hd"><div class="card-title">Sub-processor Map — Azure OpenAI</div><span class="badge b-r">5 downstream</span></div>
+      <div class="card-body">
+        <div style="display:flex;flex-direction:column;gap:7px">
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:#101a17;border-radius:7px;border:1px solid rgba(248,113,113,0.15)">
+            <div style="font-size:12px;font-weight:400;color:#e8ede9">Microsoft Azure Core</div>
+            <span class="badge b-y">EU Transfer ⚠</span>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:#101a17;border-radius:7px;border:1px solid rgba(255,255,255,0.055)">
+            <div style="font-size:12px;font-weight:400;color:#e8ede9">Azure Content Safety</div>
+            <span class="badge b-g">Approved</span>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:#101a17;border-radius:7px;border:1px solid rgba(255,255,255,0.055)">
+            <div style="font-size:12px;font-weight:400;color:#e8ede9">Azure Monitor Logs</div>
+            <span class="badge b-g">Approved</span>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:#101a17;border-radius:7px;border:1px solid rgba(255,255,255,0.055)">
+            <div style="font-size:12px;font-weight:400;color:rgba(232,237,233,0.35)">3rd-party telemetry (unknown)</div>
+            <span class="badge b-r">Unverified</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-hd"><div class="card-title">Data Residency Coverage</div></div>
+      <div class="card-body">
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <div><div style="display:flex;justify-content:space-between;margin-bottom:5px;font-size:12px;"><span style="color:rgba(232,237,233,0.52)">US Residency Compliant</span><span style="font-weight:500;color:#e8ede9">6 / 7</span></div><div class="prog-track"><div class="prog-fill pf-g" style="width:86%"></div></div></div>
+          <div><div style="display:flex;justify-content:space-between;margin-bottom:5px;font-size:12px;"><span style="color:rgba(232,237,233,0.52)">EU Residency Compliant</span><span style="font-weight:500;color:#fbbf24">4 / 7</span></div><div class="prog-track"><div class="prog-fill pf-y" style="width:57%"></div></div></div>
+          <div><div style="display:flex;justify-content:space-between;margin-bottom:5px;font-size:12px;"><span style="color:rgba(232,237,233,0.52)">DPA / BAA Coverage</span><span style="font-weight:500;color:#e8ede9">6 / 7</span></div><div class="prog-track"><div class="prog-fill pf-g" style="width:86%"></div></div></div>
+          <div><div style="display:flex;justify-content:space-between;margin-bottom:5px;font-size:12px;"><span style="color:rgba(232,237,233,0.52)">Sub-processor Verified</span><span style="font-weight:500;color:#fbbf24">8 / 12</span></div><div class="prog-track"><div class="prog-fill pf-y" style="width:67%"></div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 </div>
 </div>
+</div>
+
+<!-- BOOK DEMO MODAL -->
+
+<div class="audit-modal-overlay" id="bookDemoModal" onclick="if(event.target===this)closeBookDemo()" style="z-index:9100">
+  <div class="audit-modal" style="max-width:480px">
+    <div class="audit-modal-topbar">
+      <div class="audit-modal-title" style="font-size:14px;font-weight:600;color:#e8ede9">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10C37E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        Talk to the DataBanq team
+      </div>
+      <div class="audit-modal-actions">
+        <div class="modal-close" onclick="closeBookDemo()">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="rgba(232,237,233,0.5)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </div>
+      </div>
+    </div>
+    <div class="audit-modal-body" style="padding:24px 28px 28px">
+      <p style="font-size:13px;color:rgba(232,237,233,0.42);line-height:1.75;margin-bottom:22px;font-weight:300">Get a custom walkthrough with your own data. We'll show you what DataBanq looks like inside your compliance environment — and answer every technical question.</p>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div style="display:flex;flex-direction:column;gap:5px">
+          <label style="font-size:11px;font-weight:500;letter-spacing:1px;text-transform:uppercase;color:rgba(232,237,233,0.22)">Full Name</label>
+          <input id="demoName" type="text" placeholder="Jane Smith" style="background:#101a17;border:1px solid rgba(255,255,255,0.055);border-radius:7px;padding:9px 13px;font-family:'DM Sans',sans-serif;font-size:13px;color:#e8ede9;outline:none;transition:border-color 0.15s;" onfocus="this.style.borderColor='rgba(16,195,126,0.3)'" onblur="this.style.borderColor='rgba(255,255,255,0.055)'">
+        </div>
+        <div style="display:flex;flex-direction:column;gap:5px">
+          <label style="font-size:11px;font-weight:500;letter-spacing:1px;text-transform:uppercase;color:rgba(232,237,233,0.22)">Work Email</label>
+          <input id="demoEmail" type="email" placeholder="jane@company.com" style="background:#101a17;border:1px solid rgba(255,255,255,0.055);border-radius:7px;padding:9px 13px;font-family:'DM Sans',sans-serif;font-size:13px;color:#e8ede9;outline:none;transition:border-color 0.15s;" onfocus="this.style.borderColor='rgba(16,195,126,0.3)'" onblur="this.style.borderColor='rgba(255,255,255,0.055)'">
+        </div>
+        <div style="display:flex;flex-direction:column;gap:5px">
+          <label style="font-size:11px;font-weight:500;letter-spacing:1px;text-transform:uppercase;color:rgba(232,237,233,0.22)">Company</label>
+          <input id="demoCompany" type="text" placeholder="Acme Fintech Inc." style="background:#101a17;border:1px solid rgba(255,255,255,0.055);border-radius:7px;padding:9px 13px;font-family:'DM Sans',sans-serif;font-size:13px;color:#e8ede9;outline:none;transition:border-color 0.15s;" onfocus="this.style.borderColor='rgba(16,195,126,0.3)'" onblur="this.style.borderColor='rgba(255,255,255,0.055)'">
+        </div>
+        <div style="display:flex;flex-direction:column;gap:5px">
+          <label style="font-size:11px;font-weight:500;letter-spacing:1px;text-transform:uppercase;color:rgba(232,237,233,0.22)">What's your biggest compliance challenge?</label>
+          <select id="demoChallenge" style="background:#101a17;border:1px solid rgba(255,255,255,0.055);border-radius:7px;padding:9px 13px;font-family:'DM Sans',sans-serif;font-size:13px;color:#e8ede9;outline:none;cursor:pointer;transition:border-color 0.15s;" onfocus="this.style.borderColor='rgba(16,195,126,0.3)'" onblur="this.style.borderColor='rgba(255,255,255,0.055)'">
+            <option value="" style="background:#101a17">Select one...</option>
+            <option value="audit" style="background:#101a17">Preparing for a SOC 2 / HIPAA audit</option>
+            <option value="shadow" style="background:#101a17">Shadow AI and unapproved tool usage</option>
+            <option value="consent" style="background:#101a17">AI consent management at scale</option>
+            <option value="eu" style="background:#101a17">EU AI Act / GDPR compliance</option>
+            <option value="vendor" style="background:#101a17">Third-party vendor risk</option>
+            <option value="other" style="background:#101a17">Other</option>
+          </select>
+        </div>
+        <button onclick="submitDemo(event)" style="margin-top:8px;width:100%;padding:12px;background:linear-gradient(135deg,#0B8F5A,#10C37E 60%,#2AF5A0);border:none;border-radius:8px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;color:#0a0f0e;display:flex;align-items:center;justify-content:center;gap:7px;transition:all 0.18s;box-shadow:0 4px 18px rgba(16,195,126,0.28);" onmouseover="this.style.transform='translateY(-1px)';this.style.boxShadow='0 8px 28px rgba(16,195,126,0.4)'" onmouseout="this.style.transform='none';this.style.boxShadow='0 4px 18px rgba(16,195,126,0.28)'">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0a0f0e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          Request a Custom Demo
+        </button>
+        <p style="text-align:center;font-size:11px;color:rgba(232,237,233,0.18);font-weight:300">We respond within 24 hours · No pitch decks · Engineers on the call</p>
+      </div>
+    </div>
+  </div>
 </div>
 
 <div class="toast" id="toastEl">
@@ -998,9 +1325,9 @@ padding-bottom:10px; border-bottom:1px solid rgba(255,255,255,0.055);
 
 <script>
 'use strict';
-var screens=['Integrations','Shadow AI Monitor','Consent Registry','Lineage Graph','Audit Pack','Usage Ledger'];
+var screens=['Dashboard','Integrations','Shadow AI Monitor','Consent Registry','Lineage Graph','Audit Pack','Usage Ledger','Policy Engine','Vendor Chain'];
 var tTimer;
-function go(i){document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('active');});document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('active');});document.getElementById('s'+i).classList.add('active');document.getElementById('ni'+i).classList.add('active');document.getElementById('bc').textContent=screens[i];}
+function go(i){document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('active');});document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('active');});document.getElementById('s'+i).classList.add('active');var ni=document.getElementById('ni'+i);if(ni)ni.classList.add('active');document.getElementById('bc').textContent=screens[i];}
 function toast(title,desc,ico){var el=document.getElementById('toastEl');document.getElementById('tTitle').textContent=title;document.getElementById('tDesc').textContent=desc||'';document.getElementById('tIco').innerHTML=ico||'';var bar=el.querySelector('.t-bar');bar.style.animation='none';void bar.offsetWidth;bar.style.animation='';el.classList.add('show');clearTimeout(tTimer);tTimer=setTimeout(function(){el.classList.remove('show');},3600);}
 function blockRow(i){document.getElementById('ss'+i).innerHTML='<span class="badge b-r">Blocked</span>';document.getElementById('sr'+i).classList.add('blocked');toast('Tool blocked · IT team notified','Access revoked for all employees','');}
 function approveRow(i){document.getElementById('ss'+i).innerHTML='<span class="badge b-g">Approved</span>';toast('Tool approved · Added to vendor registry','Governance policy applied','');}
@@ -1008,6 +1335,10 @@ function blockAll(){blockRow(0);blockRow(1);blockRow(2);toast('All 3 tools block
 function revokeRow(btn,id){var row=btn.closest('tr');var cells=row.querySelectorAll('td');cells[0].innerHTML='<span class="mono" style="opacity:0.35;text-decoration:line-through">'+id+'</span>';cells[1].style.opacity='0.35';cells[1].style.textDecoration='line-through';cells[5].innerHTML='<span class="badge b-r">Revoked</span>';btn.textContent='Reinstate';btn.className='ra-btn ra-ok';btn.onclick=function(){toast('Reinstatement sent to '+id,'Consent workflow initiated','');};toast('Consent revoked · Cascade sent to all vendors',id+' · Propagation in 60s','');}
 function setTab(el,id){document.querySelectorAll('.itab').forEach(function(t){t.classList.remove('active');});el.classList.add('active');['tp','ts','tl'].forEach(function(t){var d=document.getElementById(t);if(d)d.style.display=(t===id)?'block':'none';});}
 function togPol(el){el.classList.toggle('off');toast(el.classList.contains('off')?'Policy rule disabled':'Policy rule enabled','Shadow AI · Policy Engine','');}
+function togPol2(el,name){el.classList.toggle('off');toast(el.classList.contains('off')?'Policy disabled: '+name:'Policy enabled: '+name,'Policy Engine · Change logged','');}
+function showBookDemo(){document.getElementById('bookDemoModal').classList.add('show');}
+function closeBookDemo(){document.getElementById('bookDemoModal').classList.remove('show');}
+function submitDemo(e){e.preventDefault();document.getElementById('bookDemoModal').classList.remove('show');setTimeout(function(){toast('You\'re on the list 🎉','We\'ll reach out within 24 hours to schedule your custom demo','');},200);}
 function runExport(){
   var btn=document.getElementById('expBtn');
   btn.disabled=true;
@@ -1019,7 +1350,7 @@ function runExport(){
   },2200);
 }
 function closeModal(){document.getElementById('auditModal').classList.remove('show');}
-document.addEventListener('keydown',function(e){if(e.key==='Escape')closeModal();});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'){closeModal();closeBookDemo();}});
 </script>
 
 <!-- AUDIT PACK MODAL -->
@@ -1183,16 +1514,12 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')closeModal()
 
     <!-- REPORT FOOTER -->
     <div class="report-footer">
-      <div>Generated by DataBanq · databanqtech.com · hello@databanqtech.com</div>
-      <div>DBQ-9284-Q1 · Confidential</div>
+      <div>Generated by DataBanq · databanqtech.com · <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="a5cdc0c9c9cae5c1c4d1c4c7c4cbd4d1c0c6cd8bc6cac8">[email&#160;protect
+      </div>
     </div>
-
   </div>
 </div>
-```
-
-  </div>
 </div>
-
 </body>
 </html>
+```
