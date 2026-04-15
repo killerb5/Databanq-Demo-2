@@ -5,7 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="DataBanq platform demo for AI agent governance, registry, trust mapping, blast radius control, and audit readiness.">
   <title>Agent Governance Dashboard — DataBanq</title>
-  <link rel="stylesheet" href="styles.css?v=20260415b">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Serif+Display&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=20260415c">
 </head>
 <body>
   <div class="demo-shell">
@@ -506,8 +509,20 @@ x-databanq-policy: agent-governance-default</div>
             <div>
               <div class="section-label"><span class="eyebrow-dot"></span>AI Governance</div>
               <h1>Shadow AI Monitor</h1>
-              <div class="screen-sub">Observed tools, risky uploads, and approval workflows outside the governed agent layer</div>
+              <div class="screen-sub">Original monitoring view for unsanctioned AI tools, risky uploads, and approval workflows outside the governed layer</div>
             </div>
+            <div class="btn-row">
+              <button class="btn btn-ghost" type="button" data-open-screen="usage">Open Ledger</button>
+              <button class="btn btn-primary" type="button" data-open-screen="policy">Review AI Rules</button>
+            </div>
+          </div>
+
+          <div class="notice warning">
+            <div>
+              <strong>3 unauthorized AI tools detected this week.</strong>
+              <span>Employee data is being shared with unsanctioned vendors outside the approved governance perimeter.</span>
+            </div>
+            <div class="btn-row"><button class="btn btn-primary" type="button" data-open-screen="vendor">Review Vendor Chain</button></div>
           </div>
 
           <div class="kpi-row mini-kpi-row">
@@ -529,7 +544,18 @@ x-databanq-policy: agent-governance-default</div>
             <div>
               <div class="section-label"><span class="eyebrow-dot"></span>AI Governance</div>
               <h1>Consent Registry</h1>
-              <div class="screen-sub">Evidence quality, expiration tracking, and consent type validation across AI workflows</div>
+              <div class="screen-sub">Original consent view with evidence quality, expiration tracking, and consent type validation across AI workflows</div>
+            </div>
+            <div class="btn-row">
+              <button class="btn btn-ghost" type="button" data-open-screen="usage">Export Trail</button>
+              <button class="btn btn-primary" type="button" data-open-screen="audit">Open Audit Pack</button>
+            </div>
+          </div>
+
+          <div class="notice info">
+            <div>
+              <strong>Revocation cascade active.</strong>
+              <span>When consent is revoked, downstream AI vendor access and related agent workflows are updated automatically.</span>
             </div>
           </div>
 
@@ -556,12 +582,31 @@ x-databanq-policy: agent-governance-default</div>
             <div>
               <div class="section-label"><span class="eyebrow-dot"></span>AI Governance</div>
               <h1>Policy Engine</h1>
-              <div class="screen-sub">Central rules for agent and AI activity</div>
+              <div class="screen-sub">Original rules console for AI and agent activity across models, vendors, MCP traffic, and workflows</div>
+            </div>
+            <div class="btn-row">
+              <button class="btn btn-ghost" type="button" data-open-screen="usage">View Ledger</button>
+              <button class="btn btn-primary" type="button" data-open-screen="audit">Open Audit Pack</button>
             </div>
           </div>
           <div class="two-col">
-            <div class="table-card"><div class="card-header"><h2>Active Policies</h2></div><div class="card-body inline-list"><div class="inline-item"><strong>Block unsanctioned PII access</strong><span class="muted">Enabled</span></div><div class="inline-item"><strong>Require human approval for payments</strong><span class="muted">Enabled</span></div><div class="inline-item"><strong>Log all MCP calls to external systems</strong><span class="muted">Enabled</span></div></div></div>
-            <div class="empty-state"><div class="empty-icon">OK</div><strong>No policy conflicts detected.</strong><div>Current rules are enforcing cleanly across all active agents.</div></div>
+            <div class="table-card">
+              <div class="card-header"><h2>Active Policies</h2><span class="muted">enforcement on</span></div>
+              <div class="card-body inline-list">
+                <div class="inline-item"><strong>Block unsanctioned PII access</strong><span class="muted">Enabled for both AI tools and agent workflows.</span></div>
+                <div class="inline-item"><strong>Require human approval for payments</strong><span class="muted">Enabled across all governed actions.</span></div>
+                <div class="inline-item"><strong>Log all MCP and vendor calls</strong><span class="muted">Enabled with immutable ledger sync.</span></div>
+                <div class="inline-item"><strong>Escalate new high-risk vendors</strong><span class="muted">Enabled with trust-review workflow.</span></div>
+              </div>
+            </div>
+            <div class="table-card">
+              <div class="card-header"><h2>Recent rule activity</h2><span class="muted">last 24h</span></div>
+              <div class="card-body inline-list">
+                <div class="inline-item"><strong>External AI note taker</strong><span class="muted">Blocked by unsanctioned-tool rule.</span></div>
+                <div class="inline-item"><strong>loan-agent-v2 delegation</strong><span class="muted">Escalated by scope inheritance control.</span></div>
+                <div class="inline-item"><strong>Azure OpenAI consent window</strong><span class="muted">Flagged by expiring-consent policy.</span></div>
+              </div>
+            </div>
           </div>
         </section>
 
@@ -570,17 +615,60 @@ x-databanq-policy: agent-governance-default</div>
             <div>
               <div class="section-label"><span class="eyebrow-dot"></span>AI Governance</div>
               <h1>Vendor Chain</h1>
-              <div class="screen-sub">Downstream providers, consent status, and liability exposure across the AI stack</div>
+              <div class="screen-sub">Original vendor-chain view for downstream providers, consent status, and liability exposure across the AI stack</div>
+            </div>
+            <div class="btn-row">
+              <button class="btn btn-ghost" type="button" data-open-screen="usage">Open Ledger</button>
+              <button class="btn btn-primary" type="button" data-open-screen="audit">Export Vendor Matrix</button>
             </div>
           </div>
-          <div class="table-card"><div class="card-body"><table class="data-table"><thead><tr><th>Vendor</th><th>Service</th><th>Data Processed</th><th>Consent</th><th>Risk</th><th>Status</th><th>Action</th></tr></thead><tbody><tr><td>OpenAI GPT-4</td><td>Foundation model</td><td>Financial record summaries</td><td><span class="status active">Active</span></td><td><span class="status medium">Medium</span></td><td><span class="status active">Approved</span></td><td><div class="action-row"><button class="action-pill">View</button></div></td></tr><tr><td>AWS Bedrock</td><td>Cloud AI</td><td>Transaction logs</td><td><span class="status active">Active</span></td><td><span class="status low">Low</span></td><td><span class="status active">Approved</span></td><td><div class="action-row"><button class="action-pill">View</button></div></td></tr><tr class="row-warning"><td>Azure OpenAI</td><td>PII enrichment</td><td>Customer profile data</td><td><span class="status warning">Expiring</span></td><td><span class="status high">High</span></td><td><span class="status warning">Review</span></td><td><div class="action-row"><button class="action-pill">Edit Policy</button></div></td></tr><tr><td>Elastic</td><td>Audit storage</td><td>Hash ledger metadata</td><td><span class="status active">Active</span></td><td><span class="status low">Low</span></td><td><span class="status active">Approved</span></td><td><div class="action-row"><button class="action-pill">View</button></div></td></tr></tbody></table></div></div>
+
+          <div class="kpi-row mini-kpi-row">
+            <div class="kpi good"><div class="kpi-lbl">Vendors Monitored</div><div class="kpi-val green">7</div><div class="kpi-foot">full chain visibility</div></div>
+            <div class="kpi"><div class="kpi-lbl">Approved</div><div class="kpi-val green">5</div><div class="kpi-foot">policy backed</div></div>
+            <div class="kpi warn"><div class="kpi-lbl">Needs Review</div><div class="kpi-val red">2</div><div class="kpi-foot">consent or risk updates</div></div>
+          </div>
+
+          <div class="table-card mb14">
+            <div class="card-header"><h2>Vendor compliance status</h2><span class="muted">7 vendors monitored</span></div>
+            <div class="card-body">
+              <table class="data-table">
+                <thead><tr><th>Vendor</th><th>Type</th><th>Data Processed</th><th>Consent</th><th>Risk</th><th>Status</th><th>Action</th></tr></thead>
+                <tbody>
+                  <tr><td>OpenAI GPT-4</td><td>LLM</td><td>Financial records</td><td><span class="status active">Active</span></td><td><span class="status medium">Medium</span></td><td><span class="status active">Approved</span></td><td><div class="action-row"><button class="action-pill">View</button></div></td></tr>
+                  <tr><td>AWS Bedrock</td><td>Cloud AI</td><td>Transaction logs</td><td><span class="status active">Active</span></td><td><span class="status low">Low</span></td><td><span class="status active">Approved</span></td><td><div class="action-row"><button class="action-pill">View</button></div></td></tr>
+                  <tr class="row-warning"><td>Azure OpenAI</td><td>LLM</td><td>Customer PII</td><td><span class="status warning">Expiring</span></td><td><span class="status high">High</span></td><td><span class="status warning">Review</span></td><td><div class="action-row"><button class="action-pill">Edit Policy</button></div></td></tr>
+                  <tr><td>Anthropic Claude</td><td>LLM</td><td>Internal docs</td><td><span class="status active">Active</span></td><td><span class="status low">Low</span></td><td><span class="status active">Approved</span></td><td><div class="action-row"><button class="action-pill">View</button></div></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="two-col">
+            <div class="table-card">
+              <div class="card-header"><h2>Liability and consent chain</h2><span class="muted">downstream exposure</span></div>
+              <div class="card-body inline-list">
+                <div class="inline-item"><strong>Customer onboarding disclosures</strong><span class="muted">Mapped to OpenAI, Bedrock, and internal model workflows.</span></div>
+                <div class="inline-item"><strong>PII enrichment review</strong><span class="muted">Azure OpenAI requires renewal before the next governed workflow run.</span></div>
+                <div class="inline-item"><strong>Audit storage chain</strong><span class="muted">Hash evidence is synchronized into the audit pack and usage ledger.</span></div>
+              </div>
+            </div>
+            <div class="table-card">
+              <div class="card-header"><h2>What this page tracks</h2><span class="muted">original coverage</span></div>
+              <div class="card-body inline-list">
+                <div class="inline-item"><strong>Vendor status</strong><span class="muted">Approved, review, and blocked states for every AI provider.</span></div>
+                <div class="inline-item"><strong>Consent exposure</strong><span class="muted">Which records and subjects are attached to each downstream vendor.</span></div>
+                <div class="inline-item"><strong>Agent linkage</strong><span class="muted">Which governed agents and MCP tools are calling each external service.</span></div>
+              </div>
+            </div>
+          </div>
         </section>
 
         <section id="audit" class="screen">
           <div class="screen-header">
             <div>
               <div class="section-label"><span class="eyebrow-dot"></span>Compliance</div>
-              <h1>Audit Pack</h1>
+              <h1>Audit Pack Generator</h1>
               <div class="screen-sub">Original readiness view covering both AI governance and agent governance evidence, mapped controls, and exportable audit materials</div>
             </div>
             <div class="btn-row">
@@ -637,7 +725,7 @@ x-databanq-policy: agent-governance-default</div>
           <div class="screen-header">
             <div>
               <div class="section-label"><span class="eyebrow-dot"></span>Compliance</div>
-              <h1>Usage Ledger</h1>
+              <h1>Usage Logging &amp; Hash Ledger</h1>
               <div class="screen-sub">Original-style immutable ledger for both AI activity and agent operations across the platform</div>
             </div>
           </div>
@@ -740,6 +828,6 @@ x-databanq-policy: agent-governance-default</div>
 
   <div class="toast-stack"></div>
 
-  <script src="demo.js?v=20260415b"></script>
+  <script src="demo.js?v=20260415c"></script>
 </body>
 </html>

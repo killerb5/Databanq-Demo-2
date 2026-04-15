@@ -1128,6 +1128,8 @@ button {
 .demo-shell {
   min-height: 100vh;
   background: var(--color-bg);
+  font-family: "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  letter-spacing: -0.01em;
 }
 
 .demo-topbar {
@@ -1321,7 +1323,7 @@ button {
 
 .screen-header h1 {
   margin: 0;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: "DM Serif Display", Georgia, "Times New Roman", serif;
   font-size: clamp(1.5rem, 2.2vw, 2rem);
   font-weight: 400;
   letter-spacing: -0.02em;
@@ -1382,7 +1384,7 @@ button {
 }
 
 .kpi-val {
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: "DM Serif Display", Georgia, "Times New Roman", serif;
   font-size: 1.7rem;
   line-height: 1;
 }
