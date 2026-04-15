@@ -1221,6 +1221,12 @@ button {
   background: #0d1513;
   border-right: 1px solid rgba(255, 255, 255, 0.06);
   padding: 16px 12px 24px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.demo-sidebar::-webkit-scrollbar {
+  display: none;
 }
 
 .demo-nav-label {

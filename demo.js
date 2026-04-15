@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', () => {
+const initDemo = () => {
   const screenTitles = {
     dashboard: 'Agent Governance Dashboard — DataBanq',
     integrations: 'Integrations — DataBanq',
@@ -344,6 +344,9 @@ document.addEventListener('DOMContentLoaded', () => {
         notice.textContent = 'Delegation blocked and parent permissions tightened for loan-agent-v2.';
       }
       addFeedItem('Delegation blocked', 'loan-agent-v2 policy tightened and parent chain preserved');
+      showToast('Delegation blocked', 'Parent and child scopes were reconciled and logged.');
+      return;
+    }
 
     if (target.matches('[data-generate-audit]')) {
       target.setAttribute('disabled', 'true');
@@ -448,4 +451,10 @@ document.addEventListener('DOMContentLoaded', () => {
   applyIntegrationPanel('proxy');
   updateRegistrySummary();
   openScreen(location.hash.replace('#', '') || 'dashboard', false);
-});
+};
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initDemo);
+} else {
+  initDemo();
+}
