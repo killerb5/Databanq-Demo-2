@@ -581,7 +581,7 @@ x-databanq-policy: agent-governance-default</div>
             <div>
               <div class="section-label"><span class="eyebrow-dot"></span>Compliance</div>
               <h1>Audit Pack</h1>
-              <div class="screen-sub">Original readiness view with the evidence bundle, mapped controls, and exportable audit materials</div>
+              <div class="screen-sub">Original readiness view covering both AI governance and agent governance evidence, mapped controls, and exportable audit materials</div>
             </div>
             <div class="btn-row">
               <button class="btn btn-ghost" type="button" data-generate-audit>Generate Audit Package</button>
@@ -617,9 +617,9 @@ x-databanq-policy: agent-governance-default</div>
               <div class="card-header"><h2>What is included</h2><span class="muted">export bundle</span></div>
               <div class="card-body inline-list">
                 <div class="inline-item"><strong>Agent Identity Tokens</strong><span class="muted">14 registered with approver and scope history</span></div>
-                <div class="inline-item"><strong>A2A Trust Violations</strong><span class="muted">1 flagged event with containment evidence</span></div>
-                <div class="inline-item"><strong>MCP Server Call Logs</strong><span class="muted">847 calls mapped to policies and approvals</span></div>
-                <div class="inline-item"><strong>Consent and policy evidence</strong><span class="muted">Bundled with lineage history and usage ledger</span></div>
+                <div class="inline-item"><strong>AI and Agent Trust Events</strong><span class="muted">Delegation, containment, and model workflow evidence bundled together</span></div>
+                <div class="inline-item"><strong>MCP and Vendor Call Logs</strong><span class="muted">847 calls mapped to policies, approvals, and external vendor usage</span></div>
+                <div class="inline-item"><strong>Consent and policy evidence</strong><span class="muted">Bundled with lineage history, AI usage, and the cross-system ledger</span></div>
               </div>
             </div>
             <div class="table-card">
@@ -638,10 +638,53 @@ x-databanq-policy: agent-governance-default</div>
             <div>
               <div class="section-label"><span class="eyebrow-dot"></span>Compliance</div>
               <h1>Usage Ledger</h1>
-              <div class="screen-sub">Immutable operational events across the platform</div>
+              <div class="screen-sub">Original-style immutable ledger for both AI activity and agent operations across the platform</div>
             </div>
           </div>
-          <div class="table-card"><div class="card-body"><table class="data-table"><thead><tr><th>Timestamp</th><th>Event</th><th>Actor</th><th>Hash</th></tr></thead><tbody><tr><td class="mono">2026-04-15 10:19</td><td>Agent token issued</td><td>M. Chen</td><td class="mono">0x49af...19c2</td></tr><tr><td class="mono">2026-04-15 10:12</td><td>Delegation blocked</td><td>Policy Engine</td><td class="mono">0x18de...7a44</td></tr><tr><td class="mono">2026-04-15 10:01</td><td>MCP policy reviewed</td><td>J. Rivera</td><td class="mono">0x91b3...22fd</td></tr></tbody></table></div></div>
+
+          <div class="kpi-row mini-kpi-row">
+            <div class="kpi good">
+              <div class="kpi-lbl">Ledger Events</div>
+              <div class="kpi-val green">847</div>
+              <div class="kpi-foot">last 30 days</div>
+            </div>
+            <div class="kpi">
+              <div class="kpi-lbl">AI Events</div>
+              <div class="kpi-val yellow">312</div>
+              <div class="kpi-foot">model and vendor actions</div>
+            </div>
+            <div class="kpi good">
+              <div class="kpi-lbl">Agent Events</div>
+              <div class="kpi-val green">535</div>
+              <div class="kpi-foot">identity and workflow actions</div>
+            </div>
+          </div>
+
+          <div class="two-col">
+            <div class="table-card">
+              <div class="card-header"><h2>Recent immutable events</h2><span class="muted">cross-system</span></div>
+              <div class="card-body">
+                <table class="data-table">
+                  <thead><tr><th>Timestamp</th><th>Event</th><th>Type</th><th>Actor</th><th>Hash</th></tr></thead>
+                  <tbody>
+                    <tr><td class="mono">2026-04-15 10:19</td><td>Agent token issued</td><td><span class="status active">Agent</span></td><td>M. Chen</td><td class="mono">0x49af...19c2</td></tr>
+                    <tr><td class="mono">2026-04-15 10:12</td><td>Delegation blocked</td><td><span class="status warning">Agent</span></td><td>Policy Engine</td><td class="mono">0x18de...7a44</td></tr>
+                    <tr><td class="mono">2026-04-15 10:09</td><td>Vendor AI call reviewed</td><td><span class="status medium">AI</span></td><td>J. Rivera</td><td class="mono">0x22ce...83ab</td></tr>
+                    <tr><td class="mono">2026-04-15 10:01</td><td>MCP policy reviewed</td><td><span class="status active">Agent</span></td><td>J. Rivera</td><td class="mono">0x91b3...22fd</td></tr>
+                    <tr><td class="mono">2026-04-15 09:42</td><td>Consent renewal logged</td><td><span class="status active">AI</span></td><td>Auto-policy</td><td class="mono">0x67da...11bc</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="table-card">
+              <div class="card-header"><h2>Ledger coverage</h2><span class="muted">what is tracked</span></div>
+              <div class="card-body inline-list">
+                <div class="inline-item"><strong>Agent governance</strong><span class="muted">Identity issuance, trust delegation, containment, MCP calls, and workflow approvals.</span></div>
+                <div class="inline-item"><strong>AI governance</strong><span class="muted">Vendor usage, consent changes, policy reviews, and lineage-linked model events.</span></div>
+                <div class="inline-item"><strong>Hash-backed exports</strong><span class="muted">Every event can be pulled into the audit package with its immutable evidence hash.</span></div>
+              </div>
+            </div>
+          </div>
         </section>
       </main>
     </div>
