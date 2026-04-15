@@ -1,460 +1,310 @@
-const initDemo = () => {
-  const screenTitles = {
-    dashboard: 'Agent Governance Dashboard — DataBanq',
-    integrations: 'Integrations — DataBanq',
-    registry: 'Agent Registry — DataBanq',
-    trust: 'A2A Trust Map — DataBanq',
-    radius: 'Blast Radius — DataBanq',
-    lineage: 'Model Lineage — DataBanq',
-    mcp: 'MCP Governance — DataBanq',
-    workflow: 'Workflow Compliance — DataBanq',
-    shadow: 'Shadow AI — DataBanq',
-    consent: 'Consent Registry — DataBanq',
-    policy: 'Policy Engine — DataBanq',
-    vendor: 'Vendor Chain — DataBanq',
-    audit: 'Audit Pack — DataBanq',
-    usage: 'Usage Ledger — DataBanq'
+document.addEventListener('DOMContentLoaded', () => {
+  const screenNames = {
+    dashboard: 'Overview / Dashboard',
+    integrations: 'Connections / Integrations',
+    agents: 'Governance / Agent Governance',
+    ai: 'Governance / AI Governance',
+    audit: 'Compliance / Audit & Compliance',
+    usage: 'Evidence / Usage & Hash Ledger',
+    settings: 'Admin / Settings'
   };
 
-  const breadcrumbTitles = {
-    dashboard: 'Dashboard',
-    integrations: 'Integrations',
-    registry: 'Agent Registry',
-    trust: 'A2A Trust Map',
-    radius: 'Blast Radius',
-    lineage: 'Model Lineage',
-    mcp: 'MCP Governance',
-    workflow: 'Workflow Compliance',
-    shadow: 'Shadow AI',
-    consent: 'Consent Registry',
-    policy: 'Policy Engine',
-    vendor: 'Vendor Chain',
-    audit: 'Audit Pack',
-    usage: 'Usage Ledger'
+  const navItems = Array.from(document.querySelectorAll('.demo-nav-item[data-screen]'));
+  const screens = Array.from(document.querySelectorAll('.screen'));
+  const breadcrumb = document.getElementById('demoBreadcrumb');
+  const toastEl = document.getElementById('demoToast');
+  const toastTitle = document.getElementById('toastTitle');
+  const toastDesc = document.getElementById('toastDesc');
+  const liveFeed = document.getElementById('liveFeed');
+  const connectedTableBody = document.getElementById('connectedTableBody');
+  const radiusResult = document.getElementById('radiusResult');
+  const trustNote = document.getElementById('trustNote');
+  const chatBox = document.getElementById('chatBox');
+  const chatInput = document.getElementById('chatInput');
+  const requestForm = document.getElementById('requestIntegrationForm');
+
+  let toastTimer = null;
+  let demoAgentCount = 18;
+
+  const showToast = (title, description) => {
+    if (!toastEl) return;
+    toastTitle.textContent = title;
+    toastDesc.textContent = description || '';
+    toastEl.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toastEl.classList.remove('show'), 3000);
   };
 
-  const frameworkData = {
-    soc2: {
-      title: 'SOC 2 Coverage: 87 of 100 controls mapped',
-      summary: '87 Covered · 13 Gaps',
-      fill: '87%',
-      rows: `
-        <tr><td>CC6.1</td><td>Logical access controls</td><td>Agent identity tokens, scope enforcement</td><td>Full</td><td><span class="status active">Complete</span></td></tr>
-        <tr><td>CC6.2</td><td>New access provisioning</td><td>AIT issuance, approval chain</td><td>Strong</td><td><span class="status active">Complete</span></td></tr>
-        <tr><td>CC7.1</td><td>System monitoring</td><td>Activity feed, MCP call logging</td><td>Full</td><td><span class="status active">Complete</span></td></tr>
-        <tr class="row-warning"><td>CC9.2</td><td>Risk mitigation</td><td>Blast radius, A2A trust</td><td>Partial</td><td><span class="status warning">Review</span></td></tr>
-        <tr class="row-warning"><td>A1.1</td><td>Availability commitments</td><td>Agent health monitoring</td><td>Weak</td><td><span class="status danger">Gap</span></td></tr>`
-    },
-    hipaa: {
-      title: 'HIPAA Coverage: 34 of 38 safeguards mapped',
-      summary: '34 Covered · 4 Open Items',
-      fill: '89%',
-      rows: `
-        <tr><td>164.308</td><td>Administrative safeguards</td><td>Principal approval chain and policy enforcement</td><td>Full</td><td><span class="status active">Complete</span></td></tr>
-        <tr><td>164.312(a)</td><td>Access control</td><td>Scoped agent identities for PHI systems</td><td>Full</td><td><span class="status active">Complete</span></td></tr>
-        <tr><td>164.312(b)</td><td>Audit controls</td><td>Usage ledger and signed event exports</td><td>Strong</td><td><span class="status active">Complete</span></td></tr>
-        <tr class="row-warning"><td>164.312(e)</td><td>Transmission security</td><td>MCP transfer restrictions</td><td>Partial</td><td><span class="status warning">Review</span></td></tr>`
-    },
-    euai: {
-      title: 'EU AI Act: 22 of 27 duties covered',
-      summary: '22 Covered · 5 Gaps',
-      fill: '81%',
-      rows: `
-        <tr><td>Art. 9</td><td>Risk management</td><td>Blast radius controls and policy checks</td><td>Strong</td><td><span class="status active">Complete</span></td></tr>
-        <tr><td>Art. 12</td><td>Record-keeping</td><td>Immutable agent event logging</td><td>Full</td><td><span class="status active">Complete</span></td></tr>
-        <tr><td>Art. 13</td><td>Transparency</td><td>Model lineage and explanation trail</td><td>Strong</td><td><span class="status active">Complete</span></td></tr>
-        <tr class="row-warning"><td>Art. 14</td><td>Human oversight</td><td>Escalation rules for regulated actions</td><td>Partial</td><td><span class="status warning">Review</span></td></tr>`
-    },
-    nist: {
-      title: 'NIST AI RMF: 31 of 36 outcomes aligned',
-      summary: '31 Aligned · 5 In Progress',
-      fill: '86%',
-      rows: `
-        <tr><td>GOV-1</td><td>Governance policies</td><td>Central policy engine and approval workflow</td><td>Full</td><td><span class="status active">Complete</span></td></tr>
-        <tr><td>MAP-2</td><td>Context mapping</td><td>Workflow-level control mapping</td><td>Strong</td><td><span class="status active">Complete</span></td></tr>
-        <tr><td>MANAGE-3</td><td>Risk response</td><td>Delegation blocking and incident response</td><td>Strong</td><td><span class="status active">Complete</span></td></tr>
-        <tr class="row-warning"><td>MEASURE-4</td><td>Monitoring depth</td><td>Cross-agent drift review</td><td>Partial</td><td><span class="status warning">Review</span></td></tr>`
-    }
+  const openModal = (id) => {
+    const modal = document.getElementById(id);
+    if (modal) modal.classList.add('open');
   };
 
-  const navItems = document.querySelectorAll('.demo-nav-item');
-  const screens = document.querySelectorAll('.screen');
-  const breadcrumb = document.querySelector('[data-breadcrumb]');
-  const sidebar = document.querySelector('.demo-sidebar');
-  const sidebarToggle = document.querySelector('[data-demo-menu-toggle]');
-  const toastStack = document.querySelector('.toast-stack');
-  const issueModal = document.querySelector('[data-issue-modal]');
-  const openIssue = document.querySelector('[data-open-issue]');
-  const closeIssue = document.querySelectorAll('[data-close-issue]');
-  const issueForm = document.querySelector('[data-issue-form]');
-  const registryTable = document.querySelector('[data-registry-body]');
-  const registrySub = document.querySelector('[data-registry-sub]');
-  const detailModal = document.querySelector('[data-detail-modal]');
-  const detailTitle = document.querySelector('[data-detail-title]');
-  const detailBody = document.querySelector('[data-detail-body]');
-  const closeDetail = document.querySelector('[data-close-detail]');
-  const activityFeed = document.querySelector('.activity-feed');
-  const integrationTabs = document.querySelectorAll('[data-integrations-tab]');
-  const integrationPanels = document.querySelectorAll('[data-integrations-panel]');
-  const radiusStatus = document.querySelector('[data-radius-status]');
-  const radiusVisual = document.querySelector('[data-radius-visual]');
-  const lineageNodes = document.querySelectorAll('.lineage-node');
-  const frameworkTitle = document.querySelector('[data-framework-title]');
-  const frameworkSummary = document.querySelector('[data-framework-summary]');
-  const frameworkFill = document.querySelector('[data-framework-fill]');
-  const frameworkBody = document.querySelector('[data-framework-body]');
-
-  const showToast = (title, message, tone = 'success') => {
-    if (!toastStack) return;
-    const toast = document.createElement('div');
-    toast.className = `toast ${tone === 'success' ? '' : tone}`.trim();
-    toast.innerHTML = `<strong>${title}</strong><span>${message}</span>`;
-    toastStack.appendChild(toast);
-    setTimeout(() => toast.remove(), 3200);
+  const closeModal = (id) => {
+    const modal = document.getElementById(id);
+    if (modal) modal.classList.remove('open');
   };
 
-  const openDetailModal = (title, bodyHtml) => {
-    if (!detailModal || !detailTitle || !detailBody) return;
-    detailTitle.textContent = title;
-    detailBody.innerHTML = bodyHtml;
-    detailModal.classList.add('open');
-  };
-
-  const closeDetailModal = () => detailModal && detailModal.classList.remove('open');
-
-  const updateRegistrySummary = () => {
-    if (!registryTable || !registrySub) return;
-    const rows = Array.from(registryTable.querySelectorAll('tr'));
-    const registered = rows.length;
-    const pending = rows.filter((row) => row.textContent.includes('Unverified')).length;
-    const revoked = rows.filter((row) => row.textContent.includes('Revoked')).length;
-    registrySub.textContent = `${registered} registered · ${pending} pending verification · ${revoked} revoked`;
-  };
-
-  const openScreen = (key, syncHash = true) => {
-    if (!screenTitles[key]) key = 'dashboard';
-    navItems.forEach((item) => item.classList.toggle('active', item.dataset.screen === key));
-    screens.forEach((screen) => screen.classList.toggle('active', screen.id === key));
-
-    if (breadcrumb) {
-      breadcrumb.textContent = `Acme Fintech Inc. / Agent Governance / ${breadcrumbTitles[key] || 'Dashboard'}`;
-    }
-
-    document.title = screenTitles[key] || 'DataBanq Demo';
-
-    if (syncHash) {
-      history.replaceState(null, '', `#${key}`);
-    }
-
-    if (window.innerWidth < 768 && sidebar) {
-      sidebar.classList.remove('open');
-      document.body.classList.remove('demo-menu-open');
-    }
-  };
-
-  const applyFramework = (frameworkKey) => {
-    const data = frameworkData[frameworkKey];
-    if (!data) return;
-
-    document.querySelectorAll('.tab[data-framework]').forEach((tab) => {
-      tab.classList.toggle('active', tab.dataset.framework === frameworkKey);
-    });
-
-    if (frameworkTitle) frameworkTitle.textContent = data.title;
-    if (frameworkSummary) frameworkSummary.textContent = data.summary;
-    if (frameworkFill) frameworkFill.style.width = data.fill;
-    if (frameworkBody) frameworkBody.innerHTML = data.rows;
-  };
-
-  const applyIntegrationPanel = (panelKey) => {
-    integrationTabs.forEach((tab) => tab.classList.toggle('active', tab.dataset.integrationsTab === panelKey));
-    integrationPanels.forEach((panel) => panel.classList.toggle('active', panel.dataset.integrationsPanel === panelKey));
-  };
-
-  const exportRegistry = () => {
-    if (!registryTable) return;
-    const rows = Array.from(registryTable.querySelectorAll('tr')).map((row) => {
-      return Array.from(row.children).slice(0, 6).map((cell) => cell.textContent.trim().replace(/\s+/g, ' ')).join(',');
-    });
-    const blob = new Blob([
-      'Agent Name,Token ID,Status,Authorized Scope,Authorized By,Last Active\n' + rows.join('\n')
-    ], { type: 'text/csv;charset=utf-8' });
+  const createDownload = (filename, content, type = 'application/json') => {
+    const blob = new Blob([content], { type });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.download = 'databanq-agent-registry.csv';
+    link.download = filename;
     link.click();
     URL.revokeObjectURL(url);
-    showToast('Registry exported', 'A CSV snapshot of governed agents was generated.');
   };
 
-  const exportAuditReport = () => {
-    const payload = {
-      workspace: 'Acme Fintech Inc.',
-      generatedAt: new Date().toISOString(),
-      controlsCovered: 87,
-      governedAgents: 14,
-      openReviews: 3,
-      evidence: ['identity registry', 'trust chain log', 'mcp governance', 'consent registry', 'usage ledger']
+  const animateMetric = (el) => {
+    if (!el || el.dataset.animated === 'true') return;
+    const target = Number(el.dataset.target || 0);
+    const suffix = el.dataset.suffix || '';
+    const duration = 900;
+    const start = performance.now();
+    el.dataset.animated = 'true';
+
+    const step = (now) => {
+      const progress = Math.min((now - start) / duration, 1);
+      const value = Math.round(target * (1 - Math.pow(1 - progress, 3)));
+      el.textContent = `${value.toLocaleString()}${suffix}`;
+      if (progress < 1) requestAnimationFrame(step);
     };
-    const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json;charset=utf-8' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = 'databanq-audit-pack.json';
-    link.click();
-    URL.revokeObjectURL(url);
-    addFeedItem('Audit report exported', 'A signed governance evidence package was downloaded');
-    showToast('Audit report exported', 'The regulator-ready package has been downloaded.');
+
+    requestAnimationFrame(step);
   };
 
-  const addFeedItem = (title, detail) => {
-    if (!activityFeed) return;
-    const item = document.createElement('div');
-    item.className = 'feed-item';
-    item.innerHTML = `<strong>${title}</strong><span>${detail}</span>`;
-    activityFeed.prepend(item);
-    while (activityFeed.children.length > 5) {
-      activityFeed.removeChild(activityFeed.lastElementChild);
-    }
+  const animateMetricsIn = (screen) => {
+    if (!screen) return;
+    screen.querySelectorAll('.metric').forEach(animateMetric);
+  };
+
+  const setScreen = (screenId) => {
+    screens.forEach((screen) => screen.classList.toggle('active', screen.id === screenId));
+    navItems.forEach((item) => item.classList.toggle('active', item.dataset.screen === screenId));
+    if (breadcrumb) breadcrumb.textContent = screenNames[screenId] || 'Overview / Dashboard';
+    document.title = `DataBanq — ${screenNames[screenId] || 'Platform Demo'}`;
+    history.replaceState(null, '', `#${screenId}`);
+    animateMetricsIn(document.getElementById(screenId));
   };
 
   navItems.forEach((item) => {
-    item.addEventListener('click', () => openScreen(item.dataset.screen));
+    item.addEventListener('click', () => setScreen(item.dataset.screen));
   });
 
-  if (sidebarToggle && sidebar) {
-    sidebarToggle.addEventListener('click', () => {
-      const isOpen = sidebar.classList.toggle('open');
-      document.body.classList.toggle('demo-menu-open', isOpen);
+  document.querySelectorAll('[data-screen-jump]').forEach((button) => {
+    button.addEventListener('click', () => setScreen(button.dataset.screenJump));
+  });
+
+  document.querySelectorAll('.subtab').forEach((tab) => {
+    tab.addEventListener('click', () => {
+      const group = tab.dataset.tabGroup;
+      const targetId = tab.dataset.tabTarget;
+      document.querySelectorAll(`.subtab[data-tab-group="${group}"]`).forEach((btn) => btn.classList.remove('active'));
+      tab.classList.add('active');
+      document.querySelectorAll(`#${tab.closest('.screen').id} .tab-pane`).forEach((pane) => pane.classList.remove('active'));
+      const targetPane = document.getElementById(targetId);
+      if (targetPane) targetPane.classList.add('active');
+    });
+  });
+
+  document.querySelectorAll('[data-close-modal]').forEach((button) => {
+    button.addEventListener('click', () => closeModal(button.dataset.closeModal));
+  });
+
+  document.querySelectorAll('.modal').forEach((modal) => {
+    modal.addEventListener('click', (event) => {
+      if (event.target === modal) modal.classList.remove('open');
+    });
+  });
+
+  const addFeedItem = (text) => {
+    if (!liveFeed) return;
+    const item = document.createElement('div');
+    item.className = 'feed-row';
+    item.innerHTML = `<div class="feed-time">now</div><div class="feed-text">${text}</div>`;
+    liveFeed.prepend(item);
+    while (liveFeed.children.length > 6) {
+      liveFeed.removeChild(liveFeed.lastElementChild);
+    }
+  };
+
+  const addConnectedRow = (name, type, status = 'Connected', scope = 'Requested scope', lastSync = 'just now') => {
+    if (!connectedTableBody) return;
+    const row = document.createElement('tr');
+    const badgeClass = status === 'Pending Review' ? 'warn' : 'ok';
+    row.innerHTML = `
+      <td>${name}</td>
+      <td>${type}</td>
+      <td><span class="status-badge ${badgeClass}">${status}</span></td>
+      <td>${scope}</td>
+      <td>${lastSync}</td>
+      <td><button class="small-btn" data-action="integration-settings" data-name="${name}">Settings</button></td>
+    `;
+    connectedTableBody.prepend(row);
+  };
+
+  const addChatMessage = (who, text) => {
+    if (!chatBox) return;
+    const msg = document.createElement('div');
+    msg.className = `chat-msg ${who}`;
+    msg.textContent = text;
+    chatBox.appendChild(msg);
+    chatBox.scrollTop = chatBox.scrollHeight;
+  };
+
+  const botReplyFor = (message) => {
+    const lower = message.toLowerCase();
+    if (lower.includes('audit')) {
+      return 'You can open the audit pack from the top right or from the Audit & Compliance page. It exports the combined agent registry, ledger, and compliance evidence.';
+    }
+    if (lower.includes('integration')) {
+      return 'Use Browse Catalog to connect supported systems instantly, or Request Integration to push a new connector into review.';
+    }
+    if (lower.includes('trust')) {
+      return 'The trust graph shows parent-child delegation. Green paths are signed and verified. The highlighted warning path needs a second human review.';
+    }
+    if (lower.includes('settings')) {
+      return 'Settings are now split into organization, access, notifications, and audit defaults so each area is easier to manage.';
+    }
+    return 'I can help with audit exports, governance pages, connected systems, or support workflows. Ask me about any part of the demo.';
+  };
+
+  const sendChat = (customText) => {
+    const text = (customText || chatInput?.value || '').trim();
+    if (!text) return;
+    addChatMessage('user', text);
+    if (chatInput) chatInput.value = '';
+    setTimeout(() => addChatMessage('bot', botReplyFor(text)), 300);
+  };
+
+  document.querySelectorAll('[data-chat-prompt]').forEach((button) => {
+    button.addEventListener('click', () => sendChat(button.dataset.chatPrompt));
+  });
+
+  if (chatInput) {
+    chatInput.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter') {
+        event.preventDefault();
+        sendChat();
+      }
     });
   }
 
-  if (openIssue && issueModal) {
-    openIssue.addEventListener('click', () => issueModal.classList.add('open'));
-  }
-
-  closeIssue.forEach((button) => {
-    button.addEventListener('click', () => issueModal && issueModal.classList.remove('open'));
-  });
-
-  if (closeDetail) {
-    closeDetail.addEventListener('click', closeDetailModal);
-  }
-
-  if (detailModal) {
-    detailModal.addEventListener('click', (event) => {
-      if (event.target === detailModal) closeDetailModal();
-    });
-  }
-
-  if (issueForm && registryTable) {
-    issueForm.addEventListener('submit', (event) => {
+  if (requestForm) {
+    requestForm.addEventListener('submit', (event) => {
       event.preventDefault();
-      const formData = new FormData(issueForm);
-      const agentName = formData.get('agentName') || 'new-agent';
-      const principal = formData.get('principal') || 'Auto-policy';
-      const checkedScopes = Array.from(issueForm.querySelectorAll('input[name="scope"]:checked')).map((node) => node.value);
-      const scopeText = checkedScopes.length ? checkedScopes.slice(0, 2).join(', ') : 'read:documents';
-      const row = document.createElement('tr');
-      row.innerHTML = `
-        <td class="name">${agentName}</td>
-        <td class="mono">AIT-0043</td>
-        <td><span class="status active">Active</span></td>
-        <td>${scopeText}</td>
-        <td>${principal}</td>
-        <td>just now</td>
-        <td>
-          <div class="action-row">
-            <button class="action-pill">View</button>
-            <button class="action-pill">Revoke</button>
-          </div>
-        </td>`;
-      registryTable.prepend(row);
-      updateRegistrySummary();
-      issueModal.classList.remove('open');
-      issueForm.reset();
-      addFeedItem('Agent identity issued', `${agentName} · ${scopeText} · just now`);
-      showToast('Identity issued', `Agent Identity Token AIT-0043 was signed and registered.`);
+      const data = new FormData(requestForm);
+      const system = data.get('system');
+      const type = data.get('type');
+      addConnectedRow(system, type, 'Pending Review', 'Awaiting scoped approval');
+      closeModal('requestModal');
+      requestForm.reset();
+      addFeedItem(`<strong>${system}</strong> integration request submitted for review.`);
+      showToast('Integration request submitted', `${system} was added to the review queue.`);
     });
   }
-
-  document.querySelectorAll('.tab[data-framework]').forEach((tab) => {
-    tab.addEventListener('click', () => applyFramework(tab.dataset.framework));
-  });
-
-  integrationTabs.forEach((tab) => {
-    tab.addEventListener('click', () => applyIntegrationPanel(tab.dataset.integrationsTab));
-  });
-
-  lineageNodes.forEach((node) => {
-    node.addEventListener('click', () => {
-      openDetailModal(node.textContent.trim(), '<div class="inline-list"><div class="inline-item"><strong>Governance detail</strong><span class="muted">This artifact is linked to the active decision chain and is available in the audit package.</span></div></div>');
-    });
-  });
 
   document.addEventListener('click', (event) => {
-    const target = event.target;
-    if (!(target instanceof HTMLElement)) return;
+    const target = event.target.closest('[data-action]');
+    if (!target) return;
+    const action = target.dataset.action;
 
-    const openScreenButton = target.closest('[data-open-screen]');
-    if (openScreenButton instanceof HTMLElement) {
-      openScreen(openScreenButton.dataset.openScreen || 'dashboard');
-      return;
-    }
-
-    if (target.matches('[data-export-registry]')) {
-      exportRegistry();
-      return;
-    }
-
-    if (target.matches('[data-export-report]')) {
-      exportAuditReport();
-      return;
-    }
-
-    if (target.matches('[data-review-chain]')) {
-      openScreen('trust');
-      showToast('Trust chain focused', 'The violating delegation path is now highlighted for review.', 'warning');
-      return;
-    }
-
-    if (target.matches('[data-connect-action]')) {
-      const mode = target.dataset.connectAction || 'proxy';
-      showToast('Connection started', `${mode} integration is now syncing with the live workspace.`);
-      addFeedItem('Integration synced', `${mode} connection is now linked to the governance ledger`);
-      return;
-    }
-
-    if (target.matches('[data-simulate-radius]')) {
-      if (radiusStatus) {
-        radiusStatus.innerHTML = '<strong>Current state</strong><span class="muted">A simulated overreach request was contained immediately and logged to the audit ledger.</span>';
+    switch (action) {
+      case 'open-support':
+        openModal('supportModal');
+        showToast('Support assistant opened', 'The virtual assistant is ready to help.');
+        break;
+      case 'open-audit':
+        openModal('auditModal');
+        showToast('Audit pack ready', 'The compliance preview is open.');
+        break;
+      case 'open-catalog':
+        openModal('catalogModal');
+        break;
+      case 'open-request-integration':
+        openModal('requestModal');
+        break;
+      case 'run-radius-test':
+        if (radiusResult) {
+          radiusResult.textContent = 'Containment test passed. Payment APIs stayed blocked, the escalation was logged, and the policy trail was written to the ledger.';
+        }
+        addFeedItem('<strong>Containment test</strong> completed with no permission leakage.');
+        showToast('Containment test complete', 'Blocked systems stayed outside the active scope.');
+        break;
+      case 'trust-audit':
+        if (trustNote) {
+          trustNote.textContent = 'Trust boundary audit initiated. Signed parent-child permissions are being revalidated for the flagged escalation path.';
+        }
+        addFeedItem('<strong>Trust boundary audit</strong> launched for the fraud escalation path.');
+        showToast('Trust audit started', 'The flagged delegation path is under review.');
+        break;
+      case 'focus-risk-path':
+        if (trustNote) {
+          trustNote.textContent = 'Focused the high-risk path: Fraud AI to Case Escalator. Recommendation: require a second human approval on resolution actions.';
+        }
+        showToast('High-risk path focused', 'The professional trust review has been highlighted.');
+        break;
+      case 'export-governance':
+        createDownload('databanq-governance-report.json', JSON.stringify({ exportedAt: new Date().toISOString(), sections: ['usage governance', 'data governance'], score: 94 }, null, 2));
+        showToast('Governance report exported', 'A JSON snapshot was downloaded.');
+        break;
+      case 'download-report':
+        createDownload('databanq-audit-pack.json', JSON.stringify({ exportedAt: new Date().toISOString(), frameworks: ['SOC 2', 'HIPAA', 'EU AI Act', 'NIST AI RMF'], readiness: { soc2: 87, hipaa: 89, euai: 81 } }, null, 2));
+        showToast('Audit report downloaded', 'The demo audit pack was exported.');
+        break;
+      case 'verify-ledger':
+        showToast('Ledger verified', 'All visible hashes passed integrity checks.');
+        break;
+      case 'export-ledger':
+        createDownload('databanq-usage-ledger.json', JSON.stringify({ exportedAt: new Date().toISOString(), records: 2363, includes: ['agent actions', 'AI inferences'] }, null, 2));
+        showToast('Ledger export complete', 'The combined ledger was downloaded.');
+        break;
+      case 'save-settings':
+        showToast('Settings saved', 'Configuration changes were applied in the demo workspace.');
+        break;
+      case 'integration-settings':
+        showToast(`${target.dataset.name} settings opened`, 'Connector policy and scope controls are available.');
+        break;
+      case 'connect-catalog': {
+        const name = target.dataset.name;
+        const type = target.dataset.type;
+        addConnectedRow(name, type, 'Connected', 'Read + alert scope');
+        target.disabled = true;
+        target.textContent = 'Connected';
+        addFeedItem(`<strong>${name}</strong> connected from the integration catalog.`);
+        showToast('Integration connected', `${name} is now part of the governed workspace.`);
+        break;
       }
-      if (radiusVisual) {
-        radiusVisual.classList.add('simulated');
-      }
-      addFeedItem('Containment test completed', 'blocked access to payment APIs during a simulated overreach event');
-      showToast('Containment test complete', 'Blocked systems remained outside the active permission set.');
-      return;
-    }
-
-    if (target.matches('[data-block-delegation]')) {
-      const notice = document.querySelector('#trust .notice strong');
-      if (notice) {
-        notice.textContent = 'Delegation blocked and parent permissions tightened for loan-agent-v2.';
-      }
-      addFeedItem('Delegation blocked', 'loan-agent-v2 policy tightened and parent chain preserved');
-      showToast('Delegation blocked', 'Parent and child scopes were reconciled and logged.');
-      return;
-    }
-
-    if (target.matches('[data-generate-audit]')) {
-      target.setAttribute('disabled', 'true');
-      target.textContent = 'Building audit package…';
-      setTimeout(() => {
-        target.removeAttribute('disabled');
-        target.textContent = 'Generate SOC 2 Audit Package';
-        openScreen('audit');
-        showToast('Audit package ready', 'Governance evidence for SOC 2 CC6.1–CC9.2 has been assembled.');
-      }, 1400);
-      return;
-    }
-
-    if (target.matches('.action-pill')) {
-      const action = target.textContent.trim();
-      const row = target.closest('tr');
-      const cells = row ? Array.from(row.children).map((cell) => cell.textContent.trim()) : [];
-      const subject = cells[0] || 'Selected record';
-
-      if (action === 'View') {
-        openDetailModal(subject, `
-          <div class="inline-list">
-            <div class="inline-item"><strong>Status</strong><span>${cells[2] || 'Tracked'}</span></div>
-            <div class="inline-item"><strong>Scope / Coverage</strong><span>${cells[3] || 'Details available in the live audit ledger.'}</span></div>
-            <div class="inline-item"><strong>Authorized By</strong><span>${cells[4] || 'DataBanq policy engine'}</span></div>
-            <div class="inline-item"><strong>Last Activity</strong><span>${cells[5] || 'just now'}</span></div>
-          </div>`);
-        return;
-      }
-
-      if (action === 'Revoke' && row) {
-        row.classList.remove('row-warning', 'row-unverified');
-        row.classList.add('row-revoked');
-        if (row.children[2]) row.children[2].innerHTML = '<span class="status revoked">Revoked</span>';
-        if (row.children[3]) row.children[3].textContent = '—';
-        target.remove();
-        updateRegistrySummary();
-        addFeedItem('Agent revoked', `${subject} access withdrawn by policy admin`);
-        showToast('Agent revoked', `${subject} can no longer act on enterprise systems.`, 'warning');
-        return;
-      }
-
-      if (action === 'Verify' && row) {
-        row.classList.remove('row-unverified');
-        if (row.children[1]) row.children[1].textContent = 'AIT-0044';
-        if (row.children[2]) row.children[2].innerHTML = '<span class="status active">Active</span>';
-        if (row.children[3]) row.children[3].textContent = 'read:documents';
-        if (row.children[4]) row.children[4].textContent = 'Auto-policy';
-        const actionsCell = row.querySelector('.action-row');
-        if (actionsCell) actionsCell.innerHTML = '<button class="action-pill">View</button><button class="action-pill">Revoke</button>';
-        updateRegistrySummary();
-        addFeedItem('Unknown process verified', `${subject} converted into a governed agent identity`);
-        showToast('Agent verified', `${subject} is now governed under an approved token.`);
-        return;
-      }
-
-      if (action === 'Block' && row) {
-        row.classList.remove('row-unverified');
-        row.classList.add('row-revoked');
-        if (row.children[2]) row.children[2].innerHTML = '<span class="status revoked">Blocked</span>';
-        const actionsCell = row.querySelector('.action-row');
-        if (actionsCell) actionsCell.innerHTML = '<button class="action-pill">View</button>';
-        updateRegistrySummary();
-        addFeedItem('Process blocked', `${subject} was denied access and written to the audit ledger`);
-        showToast('Process blocked', `${subject} has been contained.`, 'error');
-        return;
-      }
-
-      if (action === 'Audit') {
-        openScreen('audit');
-        showToast('Audit view opened', `${subject} evidence trail is ready for export.`);
-        return;
-      }
-
-      if (action === 'Edit Policy' || action === 'Unblock') {
-        openDetailModal(subject, `
-          <div class="inline-list">
-            <div class="inline-item"><strong>Policy Mode</strong><span>Scoped allow-list with review thresholds</span></div>
-            <div class="inline-item"><strong>Recent Calls</strong><span>${cells[3] || 'No recent calls'} monitored in the last 24 hours.</span></div>
-            <div class="inline-item"><strong>Recommended Action</strong><span>Keep current guardrails and review exceptions weekly.</span></div>
-          </div>`);
-        showToast('Policy panel opened', `${subject} governance controls are available for review.`);
-      }
+      case 'view-agent':
+        showToast(`${target.dataset.name} opened`, 'Agent identity, model lineage, and policy state are available for review.');
+        break;
+      case 'issue-agent':
+        demoAgentCount += 1;
+        addFeedItem(`<strong>New agent identity</strong> issued as DBQ-AGT-00${demoAgentCount}.`);
+        showToast('Agent identity issued', 'A new governed agent entry has been created.');
+        break;
+      case 'send-chat':
+        sendChat();
+        break;
+      default:
+        break;
     }
   });
 
-  const feedMessages = [
-    ['MCP call logged', 'compliance-checker · audit-mcp · policy approved'],
-    ['Policy sync complete', 'updated deny-list pushed to 4 governed agents'],
-    ['Scope review requested', 'payment-gateway-mcp exceeded daily threshold'],
-    ['Usage ledger sealed', 'latest governance events hash-signed successfully']
-  ];
+  const hash = (window.location.hash || '#dashboard').replace('#', '');
+  setScreen(screenNames[hash] ? hash : 'dashboard');
 
-  let feedIndex = 0;
+  screens.forEach((screen) => animateMetricsIn(screen));
+
   setInterval(() => {
-    const [title, detail] = feedMessages[feedIndex % feedMessages.length];
-    addFeedItem(title, detail);
-    feedIndex += 1;
+    if (!document.getElementById('dashboard')?.classList.contains('active')) return;
+    const events = [
+      '<strong>Usage ledger</strong> wrote a new signed event for AI policy enforcement.',
+      '<strong>Agent registry</strong> synced owner metadata from Okta.',
+      '<strong>Audit evidence</strong> package updated with a fresh trust review.',
+      '<strong>Consent registry</strong> recorded a downstream renewal acknowledgment.'
+    ];
+    const choice = events[Math.floor(Math.random() * events.length)];
+    addFeedItem(choice);
   }, 9000);
-
-  applyFramework('soc2');
-  applyIntegrationPanel('proxy');
-  updateRegistrySummary();
-  openScreen(location.hash.replace('#', '') || 'dashboard', false);
-};
-
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', initDemo);
-} else {
-  initDemo();
-}
+});
