@@ -30,25 +30,26 @@
     <div class="demo-layout">
       <aside class="demo-sidebar">
         <div class="demo-nav-label">Overview</div>
-        <button class="demo-nav-item active" data-screen="dashboard">▦ Dashboard</button>
+        <button class="demo-nav-item active" data-screen="dashboard">Dashboard</button>
+        <button class="demo-nav-item" data-screen="integrations">Integrations</button>
 
         <div class="demo-nav-label primary">Agent Governance</div>
-        <button class="demo-nav-item" data-screen="registry">◉ Agent Registry <span class="demo-badge-new">NEW</span></button>
-        <button class="demo-nav-item" data-screen="trust">⇄ A2A Trust Map</button>
-        <button class="demo-nav-item" data-screen="radius">◎ Blast Radius</button>
-        <button class="demo-nav-item" data-screen="lineage">⑂ Model Lineage</button>
-        <button class="demo-nav-item" data-screen="mcp">▣ MCP Governance</button>
-        <button class="demo-nav-item" data-screen="workflow">🗺 Workflow Compliance</button>
+        <button class="demo-nav-item" data-screen="registry">Agent Registry <span class="demo-badge-new">New</span></button>
+        <button class="demo-nav-item" data-screen="trust">A2A Trust Map</button>
+        <button class="demo-nav-item" data-screen="radius">Blast Radius</button>
+        <button class="demo-nav-item" data-screen="lineage">Model Lineage</button>
+        <button class="demo-nav-item" data-screen="mcp">MCP Governance</button>
+        <button class="demo-nav-item" data-screen="workflow">Workflow Compliance</button>
 
         <div class="demo-nav-label">AI Governance</div>
-        <button class="demo-nav-item" data-screen="shadow">◌ Shadow AI</button>
-        <button class="demo-nav-item" data-screen="consent">🔒 Consent Registry</button>
-        <button class="demo-nav-item" data-screen="policy">🛡 Policy Engine</button>
-        <button class="demo-nav-item" data-screen="vendor">▥ Vendor Chain</button>
+        <button class="demo-nav-item" data-screen="shadow">Shadow AI</button>
+        <button class="demo-nav-item" data-screen="consent">Consent Registry</button>
+        <button class="demo-nav-item" data-screen="policy">Policy Engine</button>
+        <button class="demo-nav-item" data-screen="vendor">Vendor Chain</button>
 
         <div class="demo-nav-label">Compliance</div>
-        <button class="demo-nav-item" data-screen="audit">🗎 Audit Pack</button>
-        <button class="demo-nav-item" data-screen="usage">☷ Usage Ledger</button>
+        <button class="demo-nav-item" data-screen="audit">Audit Pack</button>
+        <button class="demo-nav-item" data-screen="usage">Usage Ledger</button>
       </aside>
 
       <main class="demo-main">
@@ -56,47 +57,48 @@
           <div class="screen-header">
             <div>
               <div class="section-label"><span class="eyebrow-dot"></span>Overview</div>
-              <h1>Agent Governance Dashboard</h1>
-              <div class="screen-sub">AI agent posture · Acme Fintech Inc. · Refreshed 2 min ago</div>
+              <h1>Governed AI Operations</h1>
+              <div class="screen-sub">Live posture across agents, AI usage, consent, and downstream vendors</div>
             </div>
           </div>
 
-          <div class="metric-grid">
-            <div class="metric-card">
-              <div class="metric-label">Registered Agents</div>
-              <div class="metric-value">14</div>
-              <div class="metric-foot">↑ 3 this week</div>
+          <div class="kpi-row live-kpi-row">
+            <div class="kpi good">
+              <div class="kpi-lbl">Governed Agents</div>
+              <div class="kpi-val green">14</div>
+              <div class="kpi-foot"><span class="sd sd-g"></span>3 added this week</div>
             </div>
-            <div class="metric-card danger">
-              <div class="metric-label">Unverified Agent Attempts</div>
-              <div class="metric-value danger">2</div>
-              <div class="metric-foot">Requires immediate review</div>
+            <div class="kpi warn">
+              <div class="kpi-lbl">Shadow AI Alerts</div>
+              <div class="kpi-val red">3</div>
+              <div class="kpi-foot"><span class="sd sd-r"></span>requires review</div>
             </div>
-            <div class="metric-card warning">
-              <div class="metric-label">A2A Trust Violations</div>
-              <div class="metric-value warning">1</div>
-              <div class="metric-foot">Sub-agent exceeded parent scope</div>
+            <div class="kpi">
+              <div class="kpi-lbl">Consent Coverage</div>
+              <div class="kpi-val yellow">84%</div>
+              <div class="kpi-foot"><span class="trend-up">up 6%</span> this month</div>
             </div>
-            <div class="metric-card success">
-              <div class="metric-label">Compliance Coverage</div>
-              <div class="metric-value success">91%</div>
-              <div class="metric-foot">↑ 7% last 30 days</div>
+            <div class="kpi good">
+              <div class="kpi-lbl">Audit Readiness</div>
+              <div class="kpi-val green">72%</div>
+              <div class="kpi-foot"><span class="trend-up">up 12%</span> this quarter</div>
             </div>
           </div>
 
           <div class="dashboard-grid">
             <div class="table-card">
               <div class="card-header">
-                <h2>Agent Activity by Type — Last 30 Days</h2>
-                <span class="muted">Violations overlay</span>
+                <h2>AI and Agent Usage by Function</h2>
+                <span class="muted">Last 30 days</span>
               </div>
               <div class="card-body chart-surface">
-                <div class="bar-chart">
-                  <div class="bar-col"><div class="bar-stack"><div class="bar" style="height: 78%;"></div><span class="line-dot" style="bottom: 24%;"></span></div><div class="bar-label">Identity Auth</div></div>
-                  <div class="bar-col"><div class="bar-stack"><div class="bar" style="height: 62%;"></div><span class="line-dot" style="bottom: 15%;"></span></div><div class="bar-label">A2A Calls</div></div>
-                  <div class="bar-col"><div class="bar-stack"><div class="bar" style="height: 86%;"></div><span class="line-dot" style="bottom: 11%;"></span></div><div class="bar-label">MCP Invocations</div></div>
-                  <div class="bar-col"><div class="bar-stack"><div class="bar" style="height: 58%;"></div><span class="line-dot" style="bottom: 18%;"></span></div><div class="bar-label">Policy Checks</div></div>
-                  <div class="bar-col"><div class="bar-stack"><div class="bar" style="height: 70%;"></div><span class="line-dot" style="bottom: 28%;"></span></div><div class="bar-label">Audit Events</div></div>
+                <div class="bar-chart compact-chart">
+                  <div class="bar-col"><div class="bar-stack"><div class="bar" style="height: 42%;"></div></div><div class="bar-label">Legal</div></div>
+                  <div class="bar-col"><div class="bar-stack"><div class="bar" style="height: 78%;"></div></div><div class="bar-label">Engineering</div></div>
+                  <div class="bar-col"><div class="bar-stack"><div class="bar" style="height: 55%;"></div></div><div class="bar-label">Sales</div></div>
+                  <div class="bar-col"><div class="bar-stack"><div class="bar" style="height: 31%;"></div></div><div class="bar-label">HR</div></div>
+                  <div class="bar-col"><div class="bar-stack"><div class="bar" style="height: 91%;"></div><span class="line-dot" style="bottom: 24%;"></span></div><div class="bar-label">Risk</div></div>
+                  <div class="bar-col"><div class="bar-stack"><div class="bar" style="height: 47%;"></div></div><div class="bar-label">Ops</div></div>
                 </div>
               </div>
             </div>
@@ -106,12 +108,91 @@
                 <h2>Activity Feed</h2>
                 <span class="muted">Live</span>
               </div>
-              <div class="card-body activity-feed">
-                <div class="feed-item"><strong>🔴 Unverified agent attempt blocked</strong><span>2 min ago · Agent: unknown-proc-447 · Risk: Critical</span></div>
-                <div class="feed-item"><strong>🟡 A2A trust violation — scope exceeded</strong><span>14 min ago · loan-agent-v2 attempted to delegate read:PII to sub-agent</span></div>
-                <div class="feed-item"><strong>🟢 Agent identity issued</strong><span>1 hr ago · underwriting-agent-v3 · Scope: read:applications</span></div>
-                <div class="feed-item"><strong>▣ MCP server call logged</strong><span>2 hr ago · compliance-checker · doc-retrieval-mcp · 847 calls</span></div>
-                <div class="feed-item"><strong>🟢 Compliance mapping updated</strong><span>3 hr ago · 12 actions mapped to SOC 2 CC6.1</span></div>
+              <div class="card-body activity-feed timeline-feed">
+                <div class="feed-item"><strong>Blocked unknown process</strong><span>2 min ago · unknown-proc-447 was denied access to customer data</span></div>
+                <div class="feed-item"><strong>Delegation review triggered</strong><span>14 min ago · loan-agent-v2 attempted to exceed inherited scope</span></div>
+                <div class="feed-item"><strong>Agent identity issued</strong><span>1 hr ago · underwriting-agent-v3 was signed and linked to policy</span></div>
+                <div class="feed-item"><strong>MCP call logged</strong><span>2 hr ago · compliance-checker called doc-retrieval-mcp 847 times</span></div>
+                <div class="feed-item"><strong>Consent evidence refreshed</strong><span>3 hr ago · 12 controls re-mapped to audit coverage</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="table-card" style="margin-top:14px;">
+            <div class="card-header">
+              <h2>Vendor and Governance Status</h2>
+              <span class="muted">Live controls</span>
+            </div>
+            <div class="card-body">
+              <table class="data-table">
+                <thead><tr><th>Vendor</th><th>Use Case</th><th>Consent</th><th>Risk</th><th>Status</th><th>Action</th></tr></thead>
+                <tbody>
+                  <tr><td>OpenAI GPT-4</td><td>Underwriting summaries</td><td><span class="status active">Active</span></td><td><span class="status medium">Medium</span></td><td><span class="status active">Approved</span></td><td><div class="action-row"><button class="action-pill">View</button></div></td></tr>
+                  <tr><td>AWS Bedrock</td><td>Transaction analysis</td><td><span class="status active">Active</span></td><td><span class="status low">Low</span></td><td><span class="status active">Approved</span></td><td><div class="action-row"><button class="action-pill">View</button></div></td></tr>
+                  <tr class="row-warning"><td>Azure OpenAI</td><td>PII enrichment</td><td><span class="status warning">Expiring</span></td><td><span class="status high">High</span></td><td><span class="status warning">Review</span></td><td><div class="action-row"><button class="action-pill">Edit Policy</button></div></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <section id="integrations" class="screen">
+          <div class="screen-header">
+            <div>
+              <div class="section-label"><span class="eyebrow-dot"></span>Setup</div>
+              <h1>Connect and Sync</h1>
+              <div class="screen-sub">Choose the fastest path to govern agent and AI traffic across your environment</div>
+            </div>
+          </div>
+
+          <div class="itabs">
+            <button class="itab active" type="button" data-integrations-tab="proxy">API Proxy</button>
+            <button class="itab" type="button" data-integrations-tab="sdk">SDK</button>
+            <button class="itab" type="button" data-integrations-tab="logs">Log Ingestion</button>
+          </div>
+
+          <div class="integration-panel active" data-integrations-panel="proxy">
+            <div class="table-card mb14">
+              <div class="card-header"><h2>Recommended path</h2><span class="muted">one URL change</span></div>
+              <div class="card-body">
+                <div class="flow-row">
+                  <div class="flow-box hl"><div class="flow-name">Your Apps</div><div class="flow-sub">Agents and copilots</div></div>
+                  <div class="flow-arrow">→</div>
+                  <div class="flow-box hl"><div class="flow-name">DataBanq Proxy</div><div class="flow-sub">identity, policy, audit</div></div>
+                  <div class="flow-arrow">→</div>
+                  <div class="flow-box"><div class="flow-name">AI Vendors</div><div class="flow-sub">approved providers only</div></div>
+                </div>
+                <div class="code-block mono">POST /v1/governed-completions
+x-databanq-workspace: acme-fintech
+x-databanq-policy: agent-governance-default</div>
+                <div class="btn-row" style="margin-top:14px;"><button class="btn btn-primary" type="button" data-connect-action="proxy">Connect and Sync</button><button class="btn btn-ghost" type="button" data-open-screen="workflow">View mapped controls</button></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="integration-panel" data-integrations-panel="sdk">
+            <div class="table-card mb14">
+              <div class="card-header"><h2>SDK instrumentation</h2><span class="muted">deep telemetry</span></div>
+              <div class="card-body">
+                <div class="inline-list">
+                  <div class="inline-item"><strong>Native identity issuance</strong><span class="muted">Bind agents to signed credentials at runtime.</span></div>
+                  <div class="inline-item"><strong>Policy hooks</strong><span class="muted">Approve, block, and escalate before actions execute.</span></div>
+                  <div class="inline-item"><strong>Event sync</strong><span class="muted">Push logs into the usage ledger in real time.</span></div>
+                </div>
+                <div class="btn-row" style="margin-top:14px;"><button class="btn btn-primary" type="button" data-connect-action="sdk">Link SDK</button></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="integration-panel" data-integrations-panel="logs">
+            <div class="table-card mb14">
+              <div class="card-header"><h2>Log ingestion</h2><span class="muted">fastest retrofit</span></div>
+              <div class="card-body">
+                <div class="inline-list">
+                  <div class="inline-item"><strong>SIEM ingestion</strong><span class="muted">Import existing telemetry from Splunk, Elastic, or cloud logging.</span></div>
+                  <div class="inline-item"><strong>Vendor sync</strong><span class="muted">Normalize events from model providers into one ledger.</span></div>
+                </div>
+                <div class="btn-row" style="margin-top:14px;"><button class="btn btn-primary" type="button" data-connect-action="logs">Start Sync</button></div>
               </div>
             </div>
           </div>
@@ -141,35 +222,35 @@
                 </thead>
                 <tbody data-registry-body>
                   <tr>
-                    <td class="name">underwriting-agent-v3</td><td class="mono">AIT-0042</td><td><span class="status active">● Active</span></td><td>read:apps, write:decisions</td><td>J. Rivera (CCO)</td><td>2 min ago</td>
+                    <td class="name">underwriting-agent-v3</td><td class="mono">AIT-0042</td><td><span class="status active">Active</span></td><td>read:apps, write:decisions</td><td>J. Rivera (CCO)</td><td>2 min ago</td>
                     <td><div class="action-row"><button class="action-pill">View</button><button class="action-pill">Revoke</button></div></td>
                   </tr>
                   <tr>
-                    <td class="name">compliance-checker-v1</td><td class="mono">AIT-0039</td><td><span class="status active">● Active</span></td><td>read:policies, read:audit</td><td>M. Chen (CTO)</td><td>14 min ago</td>
+                    <td class="name">compliance-checker-v1</td><td class="mono">AIT-0039</td><td><span class="status active">Active</span></td><td>read:policies, read:audit</td><td>M. Chen (CTO)</td><td>14 min ago</td>
                     <td><div class="action-row"><button class="action-pill">View</button><button class="action-pill">Revoke</button></div></td>
                   </tr>
                   <tr>
-                    <td class="name">doc-retrieval-agent</td><td class="mono">AIT-0038</td><td><span class="status active">● Active</span></td><td>read:docs (scoped)</td><td>M. Chen (CTO)</td><td>1 hr ago</td>
+                    <td class="name">doc-retrieval-agent</td><td class="mono">AIT-0038</td><td><span class="status active">Active</span></td><td>read:docs (scoped)</td><td>M. Chen (CTO)</td><td>1 hr ago</td>
                     <td><div class="action-row"><button class="action-pill">View</button><button class="action-pill">Revoke</button></div></td>
                   </tr>
                   <tr>
-                    <td class="name">customer-comms-v2</td><td class="mono">AIT-0035</td><td><span class="status active">● Active</span></td><td>write:emails, read:crm</td><td>J. Rivera (CCO)</td><td>3 hr ago</td>
+                    <td class="name">customer-comms-v2</td><td class="mono">AIT-0035</td><td><span class="status active">Active</span></td><td>write:emails, read:crm</td><td>J. Rivera (CCO)</td><td>3 hr ago</td>
                     <td><div class="action-row"><button class="action-pill">View</button><button class="action-pill">Revoke</button></div></td>
                   </tr>
                   <tr>
-                    <td class="name">risk-scoring-agent</td><td class="mono">AIT-0031</td><td><span class="status active">● Active</span></td><td>read:transactions</td><td>Auto-policy</td><td>6 hr ago</td>
+                    <td class="name">risk-scoring-agent</td><td class="mono">AIT-0031</td><td><span class="status active">Active</span></td><td>read:transactions</td><td>Auto-policy</td><td>6 hr ago</td>
                     <td><div class="action-row"><button class="action-pill">View</button><button class="action-pill">Revoke</button></div></td>
                   </tr>
                   <tr class="row-warning">
-                    <td class="name">loan-agent-v2</td><td class="mono">AIT-0028</td><td><span class="status warning">⚠ Warning</span></td><td>read:apps (review needed)</td><td>J. Rivera (CCO)</td><td>8 hr ago</td>
+                    <td class="name">loan-agent-v2</td><td class="mono">AIT-0028</td><td><span class="status warning">Review</span></td><td>read:apps (review needed)</td><td>J. Rivera (CCO)</td><td>8 hr ago</td>
                     <td><div class="action-row"><button class="action-pill">View</button><button class="action-pill">Audit</button></div></td>
                   </tr>
                   <tr class="row-revoked">
-                    <td class="name">legacy-data-agent</td><td class="mono">AIT-0019</td><td><span class="status revoked">✕ Revoked</span></td><td>—</td><td>M. Chen (CTO)</td><td>2 days ago</td>
+                    <td class="name">legacy-data-agent</td><td class="mono">AIT-0019</td><td><span class="status revoked">Revoked</span></td><td>—</td><td>M. Chen (CTO)</td><td>2 days ago</td>
                     <td><div class="action-row"><button class="action-pill">View</button></div></td>
                   </tr>
                   <tr class="row-unverified">
-                    <td class="name">unknown-proc-447</td><td class="mono">NONE</td><td><span class="status unverified">● Unverified</span></td><td>—</td><td>None</td><td>4 min ago</td>
+                    <td class="name">unknown-proc-447</td><td class="mono">NONE</td><td><span class="status unverified">Unverified</span></td><td>—</td><td>None</td><td>4 min ago</td>
                     <td><div class="action-row"><button class="action-pill">Verify</button><button class="action-pill">Block</button></div></td>
                   </tr>
                 </tbody>
@@ -189,7 +270,7 @@
 
           <div class="notice warning">
             <div>
-              <strong>⚠ Trust violation: loan-agent-v2 attempted to delegate read:customer-PII to sub-agent — scope exceeds parent authorization.</strong>
+              <strong>Trust violation detected: loan-agent-v2 attempted to delegate read:customer-PII to a sub-agent outside approved scope.</strong>
             </div>
             <div class="btn-row"><button class="btn btn-ghost" type="button" data-review-chain>Review Chain</button><button class="btn btn-primary" type="button" data-block-delegation>Block Delegation</button></div>
           </div>
@@ -236,24 +317,44 @@
             <div>
               <div class="section-label"><span class="eyebrow-dot"></span>Agent Governance</div>
               <h1>Blast Radius Control</h1>
-              <div class="screen-sub">Per-agent access boundaries · 0 violations today</div>
+              <div class="screen-sub">This view shows what the selected agent can access now, what is watched closely, and what is blocked outright</div>
             </div>
             <div class="demo-company">Viewing: underwriting-agent-v3</div>
           </div>
 
-          <div class="table-card">
-            <div class="card-body">
-              <div class="rings">
-                <div class="ring-outer">
-                  <div class="ring-middle">
-                    <div class="ring-inner"><div class="ring-label">read:applications<br>write:decisions<br>read:underwriting-rules</div></div>
+          <div class="notice info radius-note">
+            <div>
+              <strong>How to read this map</strong>
+              <span>The center is the active permission set. The middle ring is monitored access that is allowed but logged. The outer ring is hard blocked by policy and cannot be reached.</span>
+            </div>
+            <div class="btn-row"><button class="btn btn-primary" type="button" data-simulate-radius>Run Containment Test</button></div>
+          </div>
+
+          <div class="two-col radius-layout">
+            <div class="table-card">
+              <div class="card-header"><h2>Live containment map</h2><span class="muted">policy enforced</span></div>
+              <div class="card-body">
+                <div class="rings active-rings" data-radius-visual>
+                  <div class="ring-outer">
+                    <div class="ring-middle">
+                      <div class="ring-inner"><div class="ring-label">Authorized core<br>read applications<br>write decisions</div></div>
+                    </div>
                   </div>
                 </div>
+                <div class="legend">
+                  <span><i class="green"></i>Authorized</span>
+                  <span><i class="amber"></i>Monitored</span>
+                  <span><i class="red"></i>Blocked</span>
+                </div>
               </div>
-              <div class="legend">
-                <span><i class="green"></i>Authorized</span>
-                <span><i class="amber"></i>Monitored</span>
-                <span><i class="red"></i>Blocked</span>
+            </div>
+            <div class="table-card">
+              <div class="card-header"><h2>What you are looking at</h2><span class="muted">underwriting-agent-v3</span></div>
+              <div class="card-body inline-list">
+                <div class="inline-item"><strong>Authorized core</strong><span class="muted">Loan applications, decision output, and underwriting rules are inside the signed token scope.</span></div>
+                <div class="inline-item"><strong>Monitored zone</strong><span class="muted">Customer profile access is allowed with extra logging and anomaly checks.</span></div>
+                <div class="inline-item"><strong>Blocked edge</strong><span class="muted">PII vault, payments, and sub-agent spawning are denied by hard policy.</span></div>
+                <div class="inline-item" data-radius-status><strong>Current state</strong><span class="muted">No containment event has fired in the last 24 hours.</span></div>
               </div>
             </div>
           </div>
@@ -262,16 +363,14 @@
             <div class="card-header"><h2>Boundary Rules</h2></div>
             <div class="card-body">
               <table class="data-table">
-                <thead><tr><th>Resource / System</th><th>Permission</th><th>Enforcement</th><th>Last Accessed</th></tr></thead>
+                <thead><tr><th>Resource / System</th><th>Permission</th><th>Enforcement</th><th>What it means</th><th>Last Accessed</th></tr></thead>
                 <tbody>
-                  <tr><td>Loan applications</td><td><span class="status active">Authorized</span></td><td>Token scope</td><td>2 min ago</td></tr>
-                  <tr><td>Decision engine</td><td><span class="status active">Authorized</span></td><td>Signed policy</td><td>4 min ago</td></tr>
-                  <tr><td>Underwriting rules</td><td><span class="status active">Authorized</span></td><td>Role grant</td><td>8 min ago</td></tr>
-                  <tr><td>Customer profile</td><td><span class="status warning">Monitored</span></td><td>Session logging</td><td>1 hr ago</td></tr>
-                  <tr><td>PII vault</td><td><span class="status danger">Blocked</span></td><td>Hard deny</td><td>Never</td></tr>
-                  <tr><td>Financial records</td><td><span class="status danger">Blocked</span></td><td>Hard deny</td><td>Never</td></tr>
-                  <tr><td>Payment APIs</td><td><span class="status danger">Blocked</span></td><td>Hard deny</td><td>Never</td></tr>
-                  <tr><td>Sub-agent spawn</td><td><span class="status danger">Blocked</span></td><td>Delegation policy</td><td>Never</td></tr>
+                  <tr><td>Loan applications</td><td><span class="status active">Authorized</span></td><td>Token scope</td><td>Agent can read and summarize application data.</td><td>2 min ago</td></tr>
+                  <tr><td>Decision engine</td><td><span class="status active">Authorized</span></td><td>Signed policy</td><td>Approvals stay inside governed decision rules.</td><td>4 min ago</td></tr>
+                  <tr><td>Customer profile</td><td><span class="status warning">Monitored</span></td><td>Session logging</td><td>Allowed only with heightened review and alerting.</td><td>1 hr ago</td></tr>
+                  <tr><td>PII vault</td><td><span class="status danger">Blocked</span></td><td>Hard deny</td><td>Direct PII retrieval is never permitted for this agent.</td><td>Never</td></tr>
+                  <tr><td>Payment APIs</td><td><span class="status danger">Blocked</span></td><td>Hard deny</td><td>Financial actions require a separate governed workflow.</td><td>Never</td></tr>
+                  <tr><td>Sub-agent spawn</td><td><span class="status danger">Blocked</span></td><td>Delegation policy</td><td>This agent cannot create new child agents without approval.</td><td>Never</td></tr>
                 </tbody>
               </table>
             </div>
@@ -282,32 +381,42 @@
           <div class="screen-header">
             <div>
               <div class="section-label"><span class="eyebrow-dot"></span>Agent Governance</div>
-              <h1>Agent Provenance &amp; Model Lineage</h1>
-              <div class="screen-sub">Model version · Fine-tune history · Prompt template versioning</div>
+              <h1>Agent Provenance and Model Lineage</h1>
+              <div class="screen-sub">See which data sources, models, prompts, and release bundles contributed to a governed decision</div>
             </div>
           </div>
 
           <div class="summary-grid">
             <div class="metric-card"><div class="metric-label">Active Model Versions</div><div class="metric-value">6</div></div>
-            <div class="metric-card warning"><div class="metric-label">Fine-tuned on Customer Data</div><div class="metric-value warning">2</div></div>
-            <div class="metric-card"><div class="metric-label">Prompt Templates Versioned</div><div class="metric-value">18</div></div>
+            <div class="metric-card warning"><div class="metric-label">Customer Data Fine-Tunes</div><div class="metric-value warning">2</div></div>
+            <div class="metric-card"><div class="metric-label">Prompt Templates</div><div class="metric-value">18</div></div>
+          </div>
+
+          <div class="table-card mb14">
+            <div class="card-header"><h2>Lineage map</h2><span class="muted">click nodes for details</span></div>
+            <div class="card-body">
+              <div class="lineage-map">
+                <div class="lineage-node source"><strong>Applications DB</strong><span>source data</span></div>
+                <div class="lineage-arrow">→</div>
+                <div class="lineage-node vendor"><strong>Foundation Model</strong><span>GPT-4.1</span></div>
+                <div class="lineage-arrow">→</div>
+                <div class="lineage-node internal"><strong>Prompt Set</strong><span>UW-DECISION-v18</span></div>
+                <div class="lineage-arrow">→</div>
+                <div class="lineage-node output"><strong>Agent Release</strong><span>underwriting-agent-v3</span></div>
+              </div>
+            </div>
           </div>
 
           <div class="table-card">
-            <div class="card-header"><h2>Lineage Chain</h2></div>
+            <div class="card-header"><h2>Lineage chain</h2></div>
             <div class="card-body">
-              <div class="chip-row" style="justify-content:flex-start; margin-top:0; margin-bottom:14px;">
-                <span class="chip">Base model: GPT-4.1</span>
-                <span class="chip">Prompt template: UW-DECISION-v18</span>
-                <span class="chip">Signed by DataBanq</span>
-              </div>
               <table class="data-table">
                 <thead><tr><th>Stage</th><th>Artifact</th><th>Version</th><th>Status</th></tr></thead>
                 <tbody>
-                  <tr><td>Base Model</td><td>Underwriting foundation model</td><td>v4.1</td><td><span class="status active">Tracked</span></td></tr>
-                  <tr><td>Fine-tune</td><td>Fintech credit risk tuning</td><td>ft-2026-03</td><td><span class="status warning">Customer data review</span></td></tr>
-                  <tr><td>Prompt Template</td><td>UW-DECISION</td><td>v18</td><td><span class="status active">Versioned</span></td></tr>
-                  <tr><td>Release Bundle</td><td>underwriting-agent-v3</td><td>rel-88</td><td><span class="status active">Approved</span></td></tr>
+                  <tr><td>Base model</td><td>Underwriting foundation model</td><td>v4.1</td><td><span class="status active">Tracked</span></td></tr>
+                  <tr><td>Fine-tune</td><td>Fintech credit risk tuning</td><td>ft-2026-03</td><td><span class="status warning">Review</span></td></tr>
+                  <tr><td>Prompt template</td><td>UW-DECISION</td><td>v18</td><td><span class="status active">Versioned</span></td></tr>
+                  <tr><td>Release bundle</td><td>underwriting-agent-v3</td><td>rel-88</td><td><span class="status active">Approved</span></td></tr>
                 </tbody>
               </table>
             </div>
@@ -329,12 +438,12 @@
               <table class="data-table">
                 <thead><tr><th>Server Name</th><th>Risk Level</th><th>Authorized Agents</th><th>Calls Today</th><th>Status</th><th>Actions</th></tr></thead>
                 <tbody>
-                  <tr><td>doc-retrieval-mcp</td><td><span class="status low">Low</span></td><td>3 agents</td><td>412 calls</td><td><span class="status active">● Active</span></td><td><div class="action-row"><button class="action-pill">View</button><button class="action-pill">Edit Policy</button></div></td></tr>
-                  <tr><td>crm-mcp</td><td><span class="status medium">Medium</span></td><td>2 agents</td><td>289 calls</td><td><span class="status active">● Active</span></td><td><div class="action-row"><button class="action-pill">View</button><button class="action-pill">Edit Policy</button></div></td></tr>
-                  <tr><td>audit-mcp</td><td><span class="status low">Low</span></td><td>4 agents</td><td>103 calls</td><td><span class="status active">● Active</span></td><td><div class="action-row"><button class="action-pill">View</button><button class="action-pill">Edit Policy</button></div></td></tr>
-                  <tr><td>payment-gateway-mcp</td><td><span class="status high">High</span></td><td>1 agent</td><td>43 calls</td><td><span class="status warning">⚠ Review</span></td><td><div class="action-row"><button class="action-pill">View</button><button class="action-pill">Edit Policy</button></div></td></tr>
-                  <tr class="row-revoked"><td>external-llm-mcp</td><td><span class="status high">High</span></td><td>0 agents</td><td>0 calls</td><td><span class="status revoked">✕ Blocked</span></td><td><div class="action-row"><button class="action-pill">View</button><button class="action-pill">Unblock</button></div></td></tr>
-                  <tr><td>vector-db-mcp</td><td><span class="status medium">Medium</span></td><td>2 agents</td><td>0 calls</td><td><span class="status active">● Active</span></td><td><div class="action-row"><button class="action-pill">View</button><button class="action-pill">Edit Policy</button></div></td></tr>
+                  <tr><td>doc-retrieval-mcp</td><td><span class="status low">Low</span></td><td>3 agents</td><td>412 calls</td><td><span class="status active">Active</span></td><td><div class="action-row"><button class="action-pill">View</button><button class="action-pill">Edit Policy</button></div></td></tr>
+                  <tr><td>crm-mcp</td><td><span class="status medium">Medium</span></td><td>2 agents</td><td>289 calls</td><td><span class="status active">Active</span></td><td><div class="action-row"><button class="action-pill">View</button><button class="action-pill">Edit Policy</button></div></td></tr>
+                  <tr><td>audit-mcp</td><td><span class="status low">Low</span></td><td>4 agents</td><td>103 calls</td><td><span class="status active">Active</span></td><td><div class="action-row"><button class="action-pill">View</button><button class="action-pill">Edit Policy</button></div></td></tr>
+                  <tr><td>payment-gateway-mcp</td><td><span class="status high">High</span></td><td>1 agent</td><td>43 calls</td><td><span class="status warning">Review</span></td><td><div class="action-row"><button class="action-pill">View</button><button class="action-pill">Edit Policy</button></div></td></tr>
+                  <tr class="row-revoked"><td>external-llm-mcp</td><td><span class="status high">High</span></td><td>0 agents</td><td>0 calls</td><td><span class="status revoked">Blocked</span></td><td><div class="action-row"><button class="action-pill">View</button><button class="action-pill">Unblock</button></div></td></tr>
+                  <tr><td>vector-db-mcp</td><td><span class="status medium">Medium</span></td><td>2 agents</td><td>0 calls</td><td><span class="status active">Active</span></td><td><div class="action-row"><button class="action-pill">View</button><button class="action-pill">Edit Policy</button></div></td></tr>
                 </tbody>
               </table>
             </div>
@@ -383,11 +492,11 @@
               <table class="data-table">
                 <thead><tr><th>Control ID</th><th>Control Name</th><th>Mapped Agent Actions</th><th>Coverage</th><th>Status</th></tr></thead>
                 <tbody data-framework-body>
-                  <tr><td>CC6.1</td><td>Logical access controls</td><td>Agent identity tokens, scope enforcement</td><td>●●●● Full</td><td><span class="status active">✓</span></td></tr>
-                  <tr><td>CC6.2</td><td>New access provisioning</td><td>AIT issuance, approval chain</td><td>●●●○ Strong</td><td><span class="status active">✓</span></td></tr>
-                  <tr><td>CC7.1</td><td>System monitoring</td><td>Activity feed, MCP call logging</td><td>●●●● Full</td><td><span class="status active">✓</span></td></tr>
-                  <tr class="row-warning"><td>CC9.2</td><td>Risk mitigation</td><td>Blast radius, A2A trust</td><td>●●○○ Partial</td><td><span class="status warning">⚠</span></td></tr>
-                  <tr class="row-warning"><td>A1.1</td><td>Availability commitments</td><td>Agent health monitoring</td><td>●○○○ Weak</td><td><span class="status danger">✕</span></td></tr>
+                  <tr><td>CC6.1</td><td>Logical access controls</td><td>Agent identity tokens, scope enforcement</td><td>Full</td><td><span class="status active">Complete</span></td></tr>
+                  <tr><td>CC6.2</td><td>New access provisioning</td><td>AIT issuance, approval chain</td><td>Strong</td><td><span class="status active">Complete</span></td></tr>
+                  <tr><td>CC7.1</td><td>System monitoring</td><td>Activity feed, MCP call logging</td><td>Full</td><td><span class="status active">Complete</span></td></tr>
+                  <tr class="row-warning"><td>CC9.2</td><td>Risk mitigation</td><td>Blast radius, A2A trust</td><td>Partial</td><td><span class="status warning">Review</span></td></tr>
+                  <tr class="row-warning"><td>A1.1</td><td>Availability commitments</td><td>Agent health monitoring</td><td>Weak</td><td><span class="status danger">Gap</span></td></tr>
                 </tbody>
               </table>
             </div>
@@ -398,13 +507,23 @@
           <div class="screen-header">
             <div>
               <div class="section-label"><span class="eyebrow-dot"></span>AI Governance</div>
-              <h1>Shadow AI</h1>
-              <div class="screen-sub">Secondary expansion layer beyond agent governance</div>
+              <h1>Shadow AI Monitor</h1>
+              <div class="screen-sub">Observed tools, risky uploads, and approval workflows outside the governed agent layer</div>
             </div>
           </div>
 
-          <div class="notice info"><div><strong>Shadow AI monitoring is part of DataBanq’s Enterprise AI Governance layer.</strong><span>This is the expansion layer beyond agent governance.</span></div></div>
-          <div class="table-card"><div class="card-body"><table class="data-table"><thead><tr><th>Tool</th><th>Department</th><th>Risk</th><th>Status</th></tr></thead><tbody><tr><td>Unknown summarizer</td><td>Support</td><td><span class="status warning">Medium</span></td><td>Observed</td></tr><tr><td>External AI note taker</td><td>Sales</td><td><span class="status high">High</span></td><td>Reviewing</td></tr><tr><td>Sandbox coding tool</td><td>Engineering</td><td><span class="status low">Low</span></td><td>Allowed</td></tr></tbody></table></div></div>
+          <div class="kpi-row mini-kpi-row">
+            <div class="kpi warn"><div class="kpi-lbl">Detected Tools</div><div class="kpi-val red">7</div><div class="kpi-foot">2 high risk</div></div>
+            <div class="kpi"><div class="kpi-lbl">Approved Apps</div><div class="kpi-val green">12</div><div class="kpi-foot">policy backed</div></div>
+            <div class="kpi"><div class="kpi-lbl">Uploads Blocked</div><div class="kpi-val yellow">19</div><div class="kpi-foot">last 30 days</div></div>
+          </div>
+
+          <div class="table-card mb14"><div class="card-header"><h2>Detected AI tools</h2><span class="muted">network and browser telemetry</span></div><div class="card-body"><table class="data-table"><thead><tr><th>Tool</th><th>Category</th><th>Users</th><th>Department</th><th>Risk</th><th>Status</th><th>Action</th></tr></thead><tbody><tr><td>Notion AI</td><td>Summarization</td><td>4</td><td>Risk</td><td><span class="status warning">Medium</span></td><td><span class="status warning">Reviewing</span></td><td><div class="action-row"><button class="action-pill">View</button><button class="action-pill">Edit Policy</button></div></td></tr><tr class="row-warning"><td>External AI note taker</td><td>Meeting capture</td><td>6</td><td>Sales</td><td><span class="status high">High</span></td><td><span class="status danger">Open</span></td><td><div class="action-row"><button class="action-pill">Block</button></div></td></tr><tr><td>Sandbox coding assistant</td><td>Development</td><td>11</td><td>Engineering</td><td><span class="status low">Low</span></td><td><span class="status active">Allowed</span></td><td><div class="action-row"><button class="action-pill">View</button></div></td></tr></tbody></table></div></div>
+
+          <div class="two-col">
+            <div class="table-card"><div class="card-header"><h2>Department risk distribution</h2></div><div class="card-body chart-surface"><div class="bar-chart compact-chart"><div class="bar-col"><div class="bar-stack"><div class="bar" style="height:45%;"></div></div><div class="bar-label">Legal</div></div><div class="bar-col"><div class="bar-stack"><div class="bar" style="height:88%;"></div><span class="line-dot" style="bottom:22%;"></span></div><div class="bar-label">Risk</div></div><div class="bar-col"><div class="bar-stack"><div class="bar" style="height:76%;"></div></div><div class="bar-label">Sales</div></div><div class="bar-col"><div class="bar-stack"><div class="bar" style="height:34%;"></div></div><div class="bar-label">HR</div></div></div></div></div>
+            <div class="table-card"><div class="card-header"><h2>Active policy rules</h2></div><div class="card-body inline-list"><div class="inline-item"><strong>Block PII uploads to unapproved tools</strong><span class="muted">Enabled</span></div><div class="inline-item"><strong>Escalate new AI domains to security</strong><span class="muted">Enabled</span></div><div class="inline-item"><strong>Allow approved copilots for engineering</strong><span class="muted">Scoped</span></div></div></div>
+          </div>
         </section>
 
         <section id="consent" class="screen">
@@ -412,10 +531,26 @@
             <div>
               <div class="section-label"><span class="eyebrow-dot"></span>AI Governance</div>
               <h1>Consent Registry</h1>
-              <div class="screen-sub">Consent types and evidence quality remain unchanged</div>
+              <div class="screen-sub">Evidence quality, expiration tracking, and consent type validation across AI workflows</div>
             </div>
           </div>
-          <div class="table-card"><div class="card-body"><table class="data-table"><thead><tr><th>Record</th><th>Type</th><th>Data Quality</th><th>Status</th></tr></thead><tbody><tr><td>Customer onboarding disclosures</td><td><span class="status active">Explicit</span></td><td>Validated</td><td>Exportable</td></tr><tr><td>Support email processing</td><td><span class="status muted">Implied</span></td><td>Warning dismissed</td><td>Monitored</td></tr><tr><td>Vendor enrichment workflow</td><td><span class="status warning">Inferred</span></td><td>Needs review</td><td>Open</td></tr><tr><td>Partner servicing agreement</td><td><span class="status muted">Contractual</span></td><td>Validated</td><td>Exportable</td></tr></tbody></table></div></div>
+
+          <div class="validator-panel">
+            <div class="validator-hd">
+              <div class="validator-hd-left"><strong>Data quality warnings</strong></div>
+              <div class="muted">3 open items</div>
+            </div>
+            <div class="validator-body">
+              <div class="inline-item"><strong>Consent after inference detected</strong><span class="muted">Vendor enrichment workflow requires review before reuse.</span></div>
+              <div class="inline-item"><strong>Missing expiration window</strong><span class="muted">Support email retention policy should be re-signed.</span></div>
+              <div class="inline-item"><strong>High-risk inferred consent</strong><span class="muted">Escalation required for customer profile enrichment.</span></div>
+            </div>
+          </div>
+
+          <div class="two-col">
+            <div class="table-card"><div class="card-header"><h2>Consent records</h2></div><div class="card-body"><table class="data-table"><thead><tr><th>Record</th><th>Type</th><th>Granted</th><th>Expires</th><th>Status</th></tr></thead><tbody><tr><td>Customer onboarding disclosures</td><td><span class="status active">Explicit</span></td><td>2026-01-04</td><td>2027-01-04</td><td><span class="status active">Exportable</span></td></tr><tr><td>Support email processing</td><td><span class="status muted">Implied</span></td><td>2025-11-14</td><td>2026-11-14</td><td><span class="status warning">Monitored</span></td></tr><tr><td>Vendor enrichment workflow</td><td><span class="status warning">Inferred</span></td><td>2026-03-09</td><td>Pending</td><td><span class="status danger">Needs review</span></td></tr><tr><td>Partner servicing agreement</td><td><span class="status muted">Contractual</span></td><td>2026-02-18</td><td>2027-02-18</td><td><span class="status active">Exportable</span></td></tr></tbody></table></div></div>
+            <div class="table-card"><div class="card-header"><h2>How consent enters the ledger</h2></div><div class="card-body inline-list"><div class="inline-item"><strong>Data subject requests</strong><span class="muted">Manual approvals and revocations are signed and versioned.</span></div><div class="inline-item"><strong>Contractual workflows</strong><span class="muted">Partner clauses are linked directly to approved vendor actions.</span></div><div class="inline-item"><strong>Policy-triggered renewal</strong><span class="muted">Records nearing expiration are pushed into review automatically.</span></div></div></div>
+          </div>
         </section>
 
         <section id="policy" class="screen">
@@ -428,7 +563,7 @@
           </div>
           <div class="two-col">
             <div class="table-card"><div class="card-header"><h2>Active Policies</h2></div><div class="card-body inline-list"><div class="inline-item"><strong>Block unsanctioned PII access</strong><span class="muted">Enabled</span></div><div class="inline-item"><strong>Require human approval for payments</strong><span class="muted">Enabled</span></div><div class="inline-item"><strong>Log all MCP calls to external systems</strong><span class="muted">Enabled</span></div></div></div>
-            <div class="empty-state"><div class="empty-icon">🛡</div><strong>No policy conflicts detected.</strong><div>Current rules are enforcing cleanly across all active agents.</div></div>
+            <div class="empty-state"><div class="empty-icon">OK</div><strong>No policy conflicts detected.</strong><div>Current rules are enforcing cleanly across all active agents.</div></div>
           </div>
         </section>
 
@@ -437,10 +572,10 @@
             <div>
               <div class="section-label"><span class="eyebrow-dot"></span>AI Governance</div>
               <h1>Vendor Chain</h1>
-              <div class="screen-sub">Downstream vendor intelligence and liability exposure</div>
+              <div class="screen-sub">Downstream providers, consent status, and liability exposure across the AI stack</div>
             </div>
           </div>
-          <div class="table-card"><div class="card-body"><table class="data-table"><thead><tr><th>Vendor</th><th>Service</th><th>Data Type</th><th>Exposure</th></tr></thead><tbody><tr><td>Azure OpenAI</td><td>Foundation model</td><td>Application summaries</td><td><span class="status low">Low</span></td></tr><tr><td>Elastic</td><td>Log storage</td><td>Audit metadata</td><td><span class="status low">Low</span></td></tr><tr><td>External CRM</td><td>Customer outreach</td><td>Customer records</td><td><span class="status medium">Medium</span></td></tr></tbody></table></div></div>
+          <div class="table-card"><div class="card-body"><table class="data-table"><thead><tr><th>Vendor</th><th>Service</th><th>Data Processed</th><th>Consent</th><th>Risk</th><th>Status</th><th>Action</th></tr></thead><tbody><tr><td>OpenAI GPT-4</td><td>Foundation model</td><td>Financial record summaries</td><td><span class="status active">Active</span></td><td><span class="status medium">Medium</span></td><td><span class="status active">Approved</span></td><td><div class="action-row"><button class="action-pill">View</button></div></td></tr><tr><td>AWS Bedrock</td><td>Cloud AI</td><td>Transaction logs</td><td><span class="status active">Active</span></td><td><span class="status low">Low</span></td><td><span class="status active">Approved</span></td><td><div class="action-row"><button class="action-pill">View</button></div></td></tr><tr class="row-warning"><td>Azure OpenAI</td><td>PII enrichment</td><td>Customer profile data</td><td><span class="status warning">Expiring</span></td><td><span class="status high">High</span></td><td><span class="status warning">Review</span></td><td><div class="action-row"><button class="action-pill">Edit Policy</button></div></td></tr><tr><td>Elastic</td><td>Audit storage</td><td>Hash ledger metadata</td><td><span class="status active">Active</span></td><td><span class="status low">Low</span></td><td><span class="status active">Approved</span></td><td><div class="action-row"><button class="action-pill">View</button></div></td></tr></tbody></table></div></div>
         </section>
 
         <section id="audit" class="screen">
@@ -450,7 +585,7 @@
               <h1>Audit Pack</h1>
               <div class="screen-sub">Includes agent governance evidence for SOC 2 CC6.1–CC9.2</div>
             </div>
-            <button class="btn btn-primary" type="button">Export Report</button>
+            <button class="btn btn-primary" type="button" data-export-report>Export Report</button>
           </div>
           <div class="table-card"><div class="card-body inline-list"><div class="inline-item"><strong>Agent Identity Tokens</strong><span class="muted">14 registered</span></div><div class="inline-item"><strong>A2A Trust Violations</strong><span class="muted">1 flagged, resolved</span></div><div class="inline-item"><strong>MCP Server Call Logs</strong><span class="muted">847 calls, 30 days</span></div><div class="inline-item"><strong>Consent and policy evidence</strong><span class="muted">Bundled with lineage history and usage ledger</span></div></div></div>
         </section>

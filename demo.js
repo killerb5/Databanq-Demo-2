@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   const screenTitles = {
     dashboard: 'Agent Governance Dashboard — DataBanq',
+    integrations: 'Integrations — DataBanq',
     registry: 'Agent Registry — DataBanq',
     trust: 'A2A Trust Map — DataBanq',
     radius: 'Blast Radius — DataBanq',
@@ -17,6 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const breadcrumbTitles = {
     dashboard: 'Dashboard',
+    integrations: 'Integrations',
     registry: 'Agent Registry',
     trust: 'A2A Trust Map',
     radius: 'Blast Radius',
@@ -37,41 +39,41 @@ document.addEventListener('DOMContentLoaded', () => {
       summary: '87 Covered · 13 Gaps',
       fill: '87%',
       rows: `
-        <tr><td>CC6.1</td><td>Logical access controls</td><td>Agent identity tokens, scope enforcement</td><td>●●●● Full</td><td><span class="status active">✓</span></td></tr>
-        <tr><td>CC6.2</td><td>New access provisioning</td><td>AIT issuance, approval chain</td><td>●●●○ Strong</td><td><span class="status active">✓</span></td></tr>
-        <tr><td>CC7.1</td><td>System monitoring</td><td>Activity feed, MCP call logging</td><td>●●●● Full</td><td><span class="status active">✓</span></td></tr>
-        <tr class="row-warning"><td>CC9.2</td><td>Risk mitigation</td><td>Blast radius, A2A trust</td><td>●●○○ Partial</td><td><span class="status warning">⚠</span></td></tr>
-        <tr class="row-warning"><td>A1.1</td><td>Availability commitments</td><td>Agent health monitoring</td><td>●○○○ Weak</td><td><span class="status danger">✕</span></td></tr>`
+        <tr><td>CC6.1</td><td>Logical access controls</td><td>Agent identity tokens, scope enforcement</td><td>Full</td><td><span class="status active">Complete</span></td></tr>
+        <tr><td>CC6.2</td><td>New access provisioning</td><td>AIT issuance, approval chain</td><td>Strong</td><td><span class="status active">Complete</span></td></tr>
+        <tr><td>CC7.1</td><td>System monitoring</td><td>Activity feed, MCP call logging</td><td>Full</td><td><span class="status active">Complete</span></td></tr>
+        <tr class="row-warning"><td>CC9.2</td><td>Risk mitigation</td><td>Blast radius, A2A trust</td><td>Partial</td><td><span class="status warning">Review</span></td></tr>
+        <tr class="row-warning"><td>A1.1</td><td>Availability commitments</td><td>Agent health monitoring</td><td>Weak</td><td><span class="status danger">Gap</span></td></tr>`
     },
     hipaa: {
       title: 'HIPAA Coverage: 34 of 38 safeguards mapped',
       summary: '34 Covered · 4 Open Items',
       fill: '89%',
       rows: `
-        <tr><td>164.308</td><td>Administrative safeguards</td><td>Principal approval chain and policy enforcement</td><td>●●●● Full</td><td><span class="status active">✓</span></td></tr>
-        <tr><td>164.312(a)</td><td>Access control</td><td>Scoped agent identities for PHI systems</td><td>●●●● Full</td><td><span class="status active">✓</span></td></tr>
-        <tr><td>164.312(b)</td><td>Audit controls</td><td>Usage ledger and signed event exports</td><td>●●●○ Strong</td><td><span class="status active">✓</span></td></tr>
-        <tr class="row-warning"><td>164.312(e)</td><td>Transmission security</td><td>MCP transfer restrictions</td><td>●●○○ Partial</td><td><span class="status warning">⚠</span></td></tr>`
+        <tr><td>164.308</td><td>Administrative safeguards</td><td>Principal approval chain and policy enforcement</td><td>Full</td><td><span class="status active">Complete</span></td></tr>
+        <tr><td>164.312(a)</td><td>Access control</td><td>Scoped agent identities for PHI systems</td><td>Full</td><td><span class="status active">Complete</span></td></tr>
+        <tr><td>164.312(b)</td><td>Audit controls</td><td>Usage ledger and signed event exports</td><td>Strong</td><td><span class="status active">Complete</span></td></tr>
+        <tr class="row-warning"><td>164.312(e)</td><td>Transmission security</td><td>MCP transfer restrictions</td><td>Partial</td><td><span class="status warning">Review</span></td></tr>`
     },
     euai: {
       title: 'EU AI Act: 22 of 27 duties covered',
       summary: '22 Covered · 5 Gaps',
       fill: '81%',
       rows: `
-        <tr><td>Art. 9</td><td>Risk management</td><td>Blast radius controls and policy checks</td><td>●●●○ Strong</td><td><span class="status active">✓</span></td></tr>
-        <tr><td>Art. 12</td><td>Record-keeping</td><td>Immutable agent event logging</td><td>●●●● Full</td><td><span class="status active">✓</span></td></tr>
-        <tr><td>Art. 13</td><td>Transparency</td><td>Model lineage and explanation trail</td><td>●●●○ Strong</td><td><span class="status active">✓</span></td></tr>
-        <tr class="row-warning"><td>Art. 14</td><td>Human oversight</td><td>Escalation rules for regulated actions</td><td>●●○○ Partial</td><td><span class="status warning">⚠</span></td></tr>`
+        <tr><td>Art. 9</td><td>Risk management</td><td>Blast radius controls and policy checks</td><td>Strong</td><td><span class="status active">Complete</span></td></tr>
+        <tr><td>Art. 12</td><td>Record-keeping</td><td>Immutable agent event logging</td><td>Full</td><td><span class="status active">Complete</span></td></tr>
+        <tr><td>Art. 13</td><td>Transparency</td><td>Model lineage and explanation trail</td><td>Strong</td><td><span class="status active">Complete</span></td></tr>
+        <tr class="row-warning"><td>Art. 14</td><td>Human oversight</td><td>Escalation rules for regulated actions</td><td>Partial</td><td><span class="status warning">Review</span></td></tr>`
     },
     nist: {
       title: 'NIST AI RMF: 31 of 36 outcomes aligned',
       summary: '31 Aligned · 5 In Progress',
       fill: '86%',
       rows: `
-        <tr><td>GOV-1</td><td>Governance policies</td><td>Central policy engine and approval workflow</td><td>●●●● Full</td><td><span class="status active">✓</span></td></tr>
-        <tr><td>MAP-2</td><td>Context mapping</td><td>Workflow-level control mapping</td><td>●●●○ Strong</td><td><span class="status active">✓</span></td></tr>
-        <tr><td>MANAGE-3</td><td>Risk response</td><td>Delegation blocking and incident response</td><td>●●●○ Strong</td><td><span class="status active">✓</span></td></tr>
-        <tr class="row-warning"><td>MEASURE-4</td><td>Monitoring depth</td><td>Cross-agent drift review</td><td>●●○○ Partial</td><td><span class="status warning">⚠</span></td></tr>`
+        <tr><td>GOV-1</td><td>Governance policies</td><td>Central policy engine and approval workflow</td><td>Full</td><td><span class="status active">Complete</span></td></tr>
+        <tr><td>MAP-2</td><td>Context mapping</td><td>Workflow-level control mapping</td><td>Strong</td><td><span class="status active">Complete</span></td></tr>
+        <tr><td>MANAGE-3</td><td>Risk response</td><td>Delegation blocking and incident response</td><td>Strong</td><td><span class="status active">Complete</span></td></tr>
+        <tr class="row-warning"><td>MEASURE-4</td><td>Monitoring depth</td><td>Cross-agent drift review</td><td>Partial</td><td><span class="status warning">Review</span></td></tr>`
     }
   };
 
@@ -92,6 +94,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const detailBody = document.querySelector('[data-detail-body]');
   const closeDetail = document.querySelector('[data-close-detail]');
   const activityFeed = document.querySelector('.activity-feed');
+  const integrationTabs = document.querySelectorAll('[data-integrations-tab]');
+  const integrationPanels = document.querySelectorAll('[data-integrations-panel]');
+  const radiusStatus = document.querySelector('[data-radius-status]');
+  const radiusVisual = document.querySelector('[data-radius-visual]');
+  const lineageNodes = document.querySelectorAll('.lineage-node');
   const frameworkTitle = document.querySelector('[data-framework-title]');
   const frameworkSummary = document.querySelector('[data-framework-summary]');
   const frameworkFill = document.querySelector('[data-framework-fill]');
@@ -159,6 +166,11 @@ document.addEventListener('DOMContentLoaded', () => {
     if (frameworkBody) frameworkBody.innerHTML = data.rows;
   };
 
+  const applyIntegrationPanel = (panelKey) => {
+    integrationTabs.forEach((tab) => tab.classList.toggle('active', tab.dataset.integrationsTab === panelKey));
+    integrationPanels.forEach((panel) => panel.classList.toggle('active', panel.dataset.integrationsPanel === panelKey));
+  };
+
   const exportRegistry = () => {
     if (!registryTable) return;
     const rows = Array.from(registryTable.querySelectorAll('tr')).map((row) => {
@@ -174,6 +186,26 @@ document.addEventListener('DOMContentLoaded', () => {
     link.click();
     URL.revokeObjectURL(url);
     showToast('Registry exported', 'A CSV snapshot of governed agents was generated.');
+  };
+
+  const exportAuditReport = () => {
+    const payload = {
+      workspace: 'Acme Fintech Inc.',
+      generatedAt: new Date().toISOString(),
+      controlsCovered: 87,
+      governedAgents: 14,
+      openReviews: 3,
+      evidence: ['identity registry', 'trust chain log', 'mcp governance', 'consent registry', 'usage ledger']
+    };
+    const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'databanq-audit-pack.json';
+    link.click();
+    URL.revokeObjectURL(url);
+    addFeedItem('Audit report exported', 'A signed governance evidence package was downloaded');
+    showToast('Audit report exported', 'The regulator-ready package has been downloaded.');
   };
 
   const addFeedItem = (title, detail) => {
@@ -228,7 +260,7 @@ document.addEventListener('DOMContentLoaded', () => {
       row.innerHTML = `
         <td class="name">${agentName}</td>
         <td class="mono">AIT-0043</td>
-        <td><span class="status active">● Active</span></td>
+        <td><span class="status active">Active</span></td>
         <td>${scopeText}</td>
         <td>${principal}</td>
         <td>just now</td>
@@ -242,13 +274,23 @@ document.addEventListener('DOMContentLoaded', () => {
       updateRegistrySummary();
       issueModal.classList.remove('open');
       issueForm.reset();
-      addFeedItem('🟢 Agent identity issued', `${agentName} · ${scopeText} · just now`);
+      addFeedItem('Agent identity issued', `${agentName} · ${scopeText} · just now`);
       showToast('Identity issued', `Agent Identity Token AIT-0043 was signed and registered.`);
     });
   }
 
   document.querySelectorAll('.tab[data-framework]').forEach((tab) => {
     tab.addEventListener('click', () => applyFramework(tab.dataset.framework));
+  });
+
+  integrationTabs.forEach((tab) => {
+    tab.addEventListener('click', () => applyIntegrationPanel(tab.dataset.integrationsTab));
+  });
+
+  lineageNodes.forEach((node) => {
+    node.addEventListener('click', () => {
+      openDetailModal(node.textContent.trim(), '<div class="inline-list"><div class="inline-item"><strong>Governance detail</strong><span class="muted">This artifact is linked to the active decision chain and is available in the audit package.</span></div></div>');
+    });
   });
 
   document.addEventListener('click', (event) => {
@@ -266,21 +308,42 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
+    if (target.matches('[data-export-report]')) {
+      exportAuditReport();
+      return;
+    }
+
     if (target.matches('[data-review-chain]')) {
       openScreen('trust');
       showToast('Trust chain focused', 'The violating delegation path is now highlighted for review.', 'warning');
       return;
     }
 
+    if (target.matches('[data-connect-action]')) {
+      const mode = target.dataset.connectAction || 'proxy';
+      showToast('Connection started', `${mode} integration is now syncing with the live workspace.`);
+      addFeedItem('Integration synced', `${mode} connection is now linked to the governance ledger`);
+      return;
+    }
+
+    if (target.matches('[data-simulate-radius]')) {
+      if (radiusStatus) {
+        radiusStatus.innerHTML = '<strong>Current state</strong><span class="muted">A simulated overreach request was contained immediately and logged to the audit ledger.</span>';
+      }
+      if (radiusVisual) {
+        radiusVisual.classList.add('simulated');
+      }
+      addFeedItem('Containment test completed', 'blocked access to payment APIs during a simulated overreach event');
+      showToast('Containment test complete', 'Blocked systems remained outside the active permission set.');
+      return;
+    }
+
     if (target.matches('[data-block-delegation]')) {
       const notice = document.querySelector('#trust .notice strong');
       if (notice) {
-        notice.textContent = '✓ Delegation blocked and parent permissions tightened for loan-agent-v2.';
+        notice.textContent = 'Delegation blocked and parent permissions tightened for loan-agent-v2.';
       }
-      addFeedItem('🟢 Delegation blocked', 'loan-agent-v2 policy tightened · parent chain preserved');
-      showToast('Delegation blocked', 'Parent and child scopes were reconciled and logged.');
-      return;
-    }
+      addFeedItem('Delegation blocked', 'loan-agent-v2 policy tightened and parent chain preserved');
 
     if (target.matches('[data-generate-audit]')) {
       target.setAttribute('disabled', 'true');
@@ -314,11 +377,11 @@ document.addEventListener('DOMContentLoaded', () => {
       if (action === 'Revoke' && row) {
         row.classList.remove('row-warning', 'row-unverified');
         row.classList.add('row-revoked');
-        if (row.children[2]) row.children[2].innerHTML = '<span class="status revoked">✕ Revoked</span>';
+        if (row.children[2]) row.children[2].innerHTML = '<span class="status revoked">Revoked</span>';
         if (row.children[3]) row.children[3].textContent = '—';
         target.remove();
         updateRegistrySummary();
-        addFeedItem('🔴 Agent revoked', `${subject} access withdrawn by policy admin`);
+        addFeedItem('Agent revoked', `${subject} access withdrawn by policy admin`);
         showToast('Agent revoked', `${subject} can no longer act on enterprise systems.`, 'warning');
         return;
       }
@@ -326,13 +389,13 @@ document.addEventListener('DOMContentLoaded', () => {
       if (action === 'Verify' && row) {
         row.classList.remove('row-unverified');
         if (row.children[1]) row.children[1].textContent = 'AIT-0044';
-        if (row.children[2]) row.children[2].innerHTML = '<span class="status active">● Active</span>';
+        if (row.children[2]) row.children[2].innerHTML = '<span class="status active">Active</span>';
         if (row.children[3]) row.children[3].textContent = 'read:documents';
         if (row.children[4]) row.children[4].textContent = 'Auto-policy';
         const actionsCell = row.querySelector('.action-row');
         if (actionsCell) actionsCell.innerHTML = '<button class="action-pill">View</button><button class="action-pill">Revoke</button>';
         updateRegistrySummary();
-        addFeedItem('🟢 Unknown process verified', `${subject} converted into a governed agent identity`);
+        addFeedItem('Unknown process verified', `${subject} converted into a governed agent identity`);
         showToast('Agent verified', `${subject} is now governed under an approved token.`);
         return;
       }
@@ -340,11 +403,11 @@ document.addEventListener('DOMContentLoaded', () => {
       if (action === 'Block' && row) {
         row.classList.remove('row-unverified');
         row.classList.add('row-revoked');
-        if (row.children[2]) row.children[2].innerHTML = '<span class="status revoked">✕ Blocked</span>';
+        if (row.children[2]) row.children[2].innerHTML = '<span class="status revoked">Blocked</span>';
         const actionsCell = row.querySelector('.action-row');
         if (actionsCell) actionsCell.innerHTML = '<button class="action-pill">View</button>';
         updateRegistrySummary();
-        addFeedItem('🔴 Process blocked', `${subject} was denied access and written to the audit ledger`);
+        addFeedItem('Process blocked', `${subject} was denied access and written to the audit ledger`);
         showToast('Process blocked', `${subject} has been contained.`, 'error');
         return;
       }
@@ -368,10 +431,10 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   const feedMessages = [
-    ['▣ MCP call logged', 'compliance-checker · audit-mcp · policy approved'],
-    ['🟢 Policy sync complete', 'updated deny-list pushed to 4 governed agents'],
-    ['🟡 Scope review requested', 'payment-gateway-mcp exceeded daily threshold'],
-    ['🟢 Usage ledger sealed', 'latest governance events hash-signed successfully']
+    ['MCP call logged', 'compliance-checker · audit-mcp · policy approved'],
+    ['Policy sync complete', 'updated deny-list pushed to 4 governed agents'],
+    ['Scope review requested', 'payment-gateway-mcp exceeded daily threshold'],
+    ['Usage ledger sealed', 'latest governance events hash-signed successfully']
   ];
 
   let feedIndex = 0;
@@ -382,6 +445,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }, 9000);
 
   applyFramework('soc2');
+  applyIntegrationPanel('proxy');
   updateRegistrySummary();
   openScreen(location.hash.replace('#', '') || 'dashboard', false);
 });
