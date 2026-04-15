@@ -1210,7 +1210,7 @@ button {
 
 .demo-layout {
   display: grid;
-  grid-template-columns: 240px minmax(0, 1fr);
+  grid-template-columns: 220px minmax(0, 1fr);
 }
 
 .demo-sidebar {
@@ -1239,16 +1239,17 @@ button {
 .demo-nav-item {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   width: 100%;
-  padding: 10px 12px;
-  margin-bottom: 4px;
+  padding: 8px 10px;
+  margin-bottom: 3px;
   text-align: left;
   border: 0;
   border-left: 2px solid transparent;
   border-radius: 0 8px 8px 0;
   background: transparent;
   color: var(--color-text-muted);
+  font-size: 0.82rem;
 }
 
 .demo-nav-item:hover {
@@ -1273,7 +1274,25 @@ button {
 }
 
 .demo-main {
-  padding: 16px 18px 24px;
+  padding: 14px 16px 22px;
+}
+
+.demo-shell .btn {
+  min-height: 32px;
+  padding: 0 12px;
+  font-size: 0.78rem;
+  border-radius: 7px;
+}
+
+.demo-shell .section-label {
+  margin-bottom: 8px;
+  font-size: 0.58rem;
+  letter-spacing: 0.14em;
+}
+
+.demo-shell .action-pill {
+  padding: 4px 8px;
+  font-size: 0.72rem;
 }
 
 .screen {
