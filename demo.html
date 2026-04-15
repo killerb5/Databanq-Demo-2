@@ -433,7 +433,6 @@ x-databanq-policy: agent-governance-default</div>
 
           <div class="table-card mb14">
             <div class="card-body">
-              <div class="skeleton-row"><div class="skeleton-bar"></div><div class="skeleton-bar" style="width: 60%;"></div></div>
               <table class="data-table">
                 <thead><tr><th>Server Name</th><th>Risk Level</th><th>Authorized Agents</th><th>Calls Today</th><th>Status</th><th>Actions</th></tr></thead>
                 <tbody>
@@ -582,11 +581,56 @@ x-databanq-policy: agent-governance-default</div>
             <div>
               <div class="section-label"><span class="eyebrow-dot"></span>Compliance</div>
               <h1>Audit Pack</h1>
-              <div class="screen-sub">Includes agent governance evidence for SOC 2 CC6.1–CC9.2</div>
+              <div class="screen-sub">Original readiness view with the evidence bundle, mapped controls, and exportable audit materials</div>
             </div>
-            <button class="btn btn-primary" type="button" data-export-report>Export Report</button>
+            <div class="btn-row">
+              <button class="btn btn-ghost" type="button" data-generate-audit>Generate Audit Package</button>
+              <button class="btn btn-primary" type="button" data-export-report>Export Report</button>
+            </div>
           </div>
-          <div class="table-card"><div class="card-body inline-list"><div class="inline-item"><strong>Agent Identity Tokens</strong><span class="muted">14 registered</span></div><div class="inline-item"><strong>A2A Trust Violations</strong><span class="muted">1 flagged, resolved</span></div><div class="inline-item"><strong>MCP Server Call Logs</strong><span class="muted">847 calls, 30 days</span></div><div class="inline-item"><strong>Consent and policy evidence</strong><span class="muted">Bundled with lineage history and usage ledger</span></div></div></div>
+
+          <div class="kpi-row mini-kpi-row">
+            <div class="kpi good">
+              <div class="kpi-lbl">Audit Readiness</div>
+              <div class="kpi-val green">72%</div>
+              <div class="kpi-foot"><span class="trend-up">up 12%</span> this quarter</div>
+            </div>
+            <div class="kpi">
+              <div class="kpi-lbl">Evidence Items</div>
+              <div class="kpi-val green">847</div>
+              <div class="kpi-foot">last 30 days</div>
+            </div>
+            <div class="kpi warn">
+              <div class="kpi-lbl">Open Gaps</div>
+              <div class="kpi-val red">3</div>
+              <div class="kpi-foot">needs review</div>
+            </div>
+          </div>
+
+          <div class="progress-wrap table-card" style="padding:16px; margin-bottom:14px;">
+            <div class="progress-meta"><strong>SOC 2 Type II package readiness</strong><span>72 percent complete</span></div>
+            <div class="progress-track"><div class="progress-fill" style="width:72%;"></div></div>
+          </div>
+
+          <div class="two-col">
+            <div class="table-card">
+              <div class="card-header"><h2>What is included</h2><span class="muted">export bundle</span></div>
+              <div class="card-body inline-list">
+                <div class="inline-item"><strong>Agent Identity Tokens</strong><span class="muted">14 registered with approver and scope history</span></div>
+                <div class="inline-item"><strong>A2A Trust Violations</strong><span class="muted">1 flagged event with containment evidence</span></div>
+                <div class="inline-item"><strong>MCP Server Call Logs</strong><span class="muted">847 calls mapped to policies and approvals</span></div>
+                <div class="inline-item"><strong>Consent and policy evidence</strong><span class="muted">Bundled with lineage history and usage ledger</span></div>
+              </div>
+            </div>
+            <div class="table-card">
+              <div class="card-header"><h2>Readiness summary</h2><span class="muted">current status</span></div>
+              <div class="card-body inline-list">
+                <div class="inline-item"><strong>Ready now</strong><span class="muted">Identity registry, usage ledger, MCP call history, and trust log exports.</span></div>
+                <div class="inline-item"><strong>In progress</strong><span class="muted">Availability evidence and expanded monitoring depth documentation.</span></div>
+                <div class="inline-item"><strong>Recommended next step</strong><span class="muted">Generate the audit package and review the three remaining gaps.</span></div>
+              </div>
+            </div>
+          </div>
         </section>
 
         <section id="usage" class="screen">
