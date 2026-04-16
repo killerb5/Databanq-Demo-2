@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="DataBanq platform demo for agent governance, AI governance, audit readiness, and usage ledger controls.">
-  <title>DataBanq — Platform Demo</title>
+  <title>Dashboard — DataBanq</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Serif+Display&display=swap" rel="stylesheet">
@@ -466,13 +466,385 @@
     }
 
     .subtab.active {
-      background: rgba(16,195,126,0.08);
+      background: transparent;
       color: var(--demo-green);
-      border-color: rgba(16,195,126,0.18);
+      border-color: transparent transparent rgba(16,195,126,0.95) transparent;
+    }
+
+    .nav-label-primary {
+      color: var(--demo-green);
+      font-weight: 700;
+    }
+
+    .nav-label-secondary {
+      color: var(--demo-muted);
+      font-weight: 400;
+    }
+
+    .primary-nav {
+      font-size: 14px;
+      border-left: 2px solid rgba(16,195,126,0.4);
+      padding-left: 12px;
+    }
+
+    .demo-nav-icon svg {
+      display: block;
+    }
+
+    .subtabs {
+      gap: 0;
+      border-bottom: 1px solid var(--demo-border);
+      margin-bottom: 24px;
+    }
+
+    .subtab {
+      padding: 10px 20px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      border: none;
+      border-bottom: 2px solid transparent;
+      border-radius: 0;
+      color: var(--demo-muted);
+      background: transparent;
+    }
+
+    .subtab:hover {
+      color: rgba(232,237,233,0.88);
     }
 
     .tab-pane { display: none; }
     .tab-pane.active { display: block; }
+
+    .alert-banner {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      padding: 16px 20px;
+      margin-bottom: 14px;
+      border-left: 4px solid #F59E0B;
+      background: rgba(245,158,11,0.08);
+      border-radius: 10px;
+      border-top: 1px solid rgba(245,158,11,0.15);
+      border-right: 1px solid rgba(245,158,11,0.15);
+      border-bottom: 1px solid rgba(245,158,11,0.15);
+    }
+
+    .alert-banner-copy {
+      font-size: 13px;
+      color: var(--demo-text);
+      line-height: 1.55;
+    }
+
+    .alert-banner-actions {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-shrink: 0;
+    }
+
+    .warn-fill {
+      background: rgba(245,158,11,0.18);
+      color: #FBBF24;
+      border-color: rgba(245,158,11,0.35);
+    }
+
+    .kpi-suffix-label {
+      color: var(--demo-green);
+      font-weight: 700;
+    }
+
+    tbody tr:nth-child(odd) {
+      background: #0D1A10;
+    }
+
+    tbody tr:nth-child(even) {
+      background: #0A1510;
+    }
+
+    tbody tr:hover {
+      background: #132018;
+      transition: 150ms ease;
+    }
+
+    .sorted-col {
+      color: var(--demo-green);
+    }
+
+    .registry-warning td:first-child {
+      border-left: 3px solid #F59E0B;
+    }
+
+    .registry-revoked {
+      opacity: 0.5;
+    }
+
+    .registry-revoked .agent-name {
+      text-decoration: line-through;
+    }
+
+    .registry-unverified {
+      background: rgba(239,68,68,0.03) !important;
+    }
+
+    .registry-unverified td:first-child {
+      border-left: 3px solid #EF4444;
+    }
+
+    .trust-graph-box {
+      width: 100%;
+      height: 380px;
+      background: #080F0B;
+      border: 1px solid var(--demo-border);
+      border-radius: 8px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .trust-tooltip {
+      position: fixed;
+      z-index: 9998;
+      display: none;
+      padding: 10px 12px;
+      background: #0D1A10;
+      border: 1px solid var(--demo-green);
+      border-radius: 8px;
+      font-size: 11px;
+      line-height: 1.45;
+      pointer-events: none;
+      box-shadow: 0 10px 28px rgba(0,0,0,0.34);
+    }
+
+    .trust-svg .node-group,
+    .trust-svg .edge {
+      transition: opacity .18s ease, filter .18s ease, stroke-width .18s ease;
+      cursor: pointer;
+    }
+
+    .trust-svg.dimmed .node-group,
+    .trust-svg.dimmed .edge {
+      opacity: .4;
+    }
+
+    .trust-svg.dimmed .node-group.active-node,
+    .trust-svg.dimmed .edge.active-edge {
+      opacity: 1;
+      filter: drop-shadow(0 0 10px rgba(16,195,126,.2));
+    }
+
+    .graph-stat-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+      color: var(--demo-text);
+      font-size: 12px;
+    }
+
+    .bullseye-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .agent-select {
+      min-height: 40px;
+      min-width: 280px;
+      padding: 9px 12px;
+      border-radius: 10px;
+      border: 1px solid rgba(16,195,126,0.2);
+      background: #0D1A10;
+      color: var(--demo-text);
+    }
+
+    .ring-explainer {
+      font-size: 13px;
+      color: #4A7A5C;
+      font-style: italic;
+      margin-bottom: 8px;
+      text-align: center;
+    }
+
+    .legend-row {
+      display: flex;
+      gap: 18px;
+      flex-wrap: wrap;
+      justify-content: center;
+      font-size: 12px;
+      color: var(--demo-text);
+    }
+
+    .legend-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      display: inline-block;
+      margin-right: 6px;
+    }
+
+    .simulator-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin: 12px 0;
+    }
+
+    .simulator-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      padding: 10px 12px;
+      border-radius: 10px;
+      background: #101a17;
+      border: 1px solid var(--demo-border);
+      font-size: 12px;
+    }
+
+    .status-awaiting { background: #132018; color: #4A7A5C; }
+    .status-running { background: rgba(245,158,11,0.15); color: #F59E0B; }
+    .status-blocked { background: rgba(239,68,68,0.12); color: #EF4444; }
+    .status-passed { background: #064E3B; color: #10B981; }
+
+    .mcp-chip-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+
+    .mcp-live-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .feed-entry-new {
+      animation: flashNew .4s ease;
+    }
+
+    @keyframes flashNew {
+      from { background: rgba(16,195,126,0.18); transform: translateY(-6px); }
+      to { background: transparent; transform: translateY(0); }
+    }
+
+    .toast-stack {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      pointer-events: none;
+    }
+
+    .toast-item {
+      min-width: 280px;
+      max-width: 360px;
+      padding: 12px 14px;
+      border-radius: 10px;
+      border-left: 3px solid var(--demo-green);
+      background: #064E3B;
+      color: var(--demo-text);
+      box-shadow: 0 12px 28px rgba(0,0,0,0.28);
+      transform: translateX(120%);
+      transition: transform .3s ease;
+      pointer-events: auto;
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: start;
+    }
+
+    .toast-item.show {
+      transform: translateX(0);
+    }
+
+    .toast-item.warning {
+      background: rgba(245,158,11,0.1);
+      border-left-color: #F59E0B;
+    }
+
+    .toast-item.error {
+      background: rgba(239,68,68,0.08);
+      border-left-color: #EF4444;
+    }
+
+    .toast-item button {
+      background: transparent;
+      border: none;
+      color: inherit;
+      cursor: pointer;
+    }
+
+    .side-panel {
+      justify-content: flex-end;
+      padding: 0;
+    }
+
+    .side-panel .modal-panel {
+      width: min(420px, 100%);
+      height: 100vh;
+      max-height: 100vh;
+      border-radius: 0;
+      transform: translateX(100%);
+      transition: transform .3s ease;
+    }
+
+    .side-panel.open .modal-panel {
+      transform: translateX(0);
+    }
+
+    .full-width {
+      width: 100%;
+      justify-content: center;
+    }
+
+    .field-error {
+      border-color: rgba(239,68,68,0.45) !important;
+    }
+
+    .field-note {
+      font-size: 11px;
+      color: #EF4444;
+      margin-top: 4px;
+    }
+
+    .simulation-summary {
+      font-size: 12px;
+      color: var(--demo-text);
+      margin-top: 10px;
+    }
+
+    .simulation-summary a {
+      color: var(--demo-green);
+    }
+
+    .demo-main.is-loading .screen.active .demo-card,
+    .demo-main.is-loading .screen.active .alert-banner {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .demo-main.is-loading .screen.active .demo-card::after,
+    .demo-main.is-loading .screen.active .alert-banner::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, #132018 0%, #1A2E20 50%, #132018 100%);
+      background-size: 200% 100%;
+      animation: shimmer 1.2s infinite;
+      opacity: .45;
+    }
+
+    @keyframes shimmer {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
 
     table {
       width: 100%;
@@ -1091,13 +1463,13 @@
           <span class="brand-text"><strong>Data</strong><span>Banq</span></span>
         </a>
         <div class="live-pill"><span class="pulse-dot"></span>Live demo workspace</div>
-        <div class="demo-crumb" id="demoBreadcrumb">Overview / Dashboard</div>
+        <div class="demo-crumb" id="demoBreadcrumb">Acme Fintech Inc. / Agent Governance / Dashboard</div>
       </div>
       <div class="demo-topbar-right">
         <div class="context-pill">Acme Fintech Inc.</div>
-        <button class="btn btn-ghost demo-btn" data-action="open-support">Support</button>
+        <button class="btn btn-ghost demo-btn" data-action="open-support">Platform Guide</button>
         <button class="btn btn-primary demo-btn" data-action="open-audit">Open Audit Pack</button>
-        <div class="demo-avatar">DB</div>
+        <div class="demo-avatar" title="J. Rivera — Chief Compliance Officer">JR</div>
       </div>
     </header>
 
@@ -1105,22 +1477,25 @@
       <aside class="demo-sidebar">
         <div class="demo-nav-group">
           <div class="demo-nav-label">Workspace</div>
-          <button class="demo-nav-item active" data-screen="dashboard"><span class="demo-nav-icon">◈</span><span>Dashboard</span></button>
-          <button class="demo-nav-item" data-screen="integrations"><span class="demo-nav-icon">⌁</span><span>Integrations</span></button>
+          <button class="demo-nav-item active" data-screen="dashboard"><span class="demo-nav-icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"></rect><rect x="14" y="3" width="7" height="7" rx="1.5"></rect><rect x="3" y="14" width="7" height="7" rx="1.5"></rect><rect x="14" y="14" width="7" height="7" rx="1.5"></rect></svg></span><span>Dashboard</span></button>
+          <button class="demo-nav-item" data-screen="integrations"><span class="demo-nav-icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 8h5a4 4 0 0 1 0 8H8"></path><path d="M16 16H11a4 4 0 1 1 0-8h5"></path></svg></span><span>Integrations</span></button>
         </div>
         <div class="demo-nav-group">
-          <div class="demo-nav-label">Governance</div>
-          <button class="demo-nav-item" data-screen="agents"><span class="demo-nav-icon">🤖</span><span>Agent Governance</span></button>
-          <button class="demo-nav-item" data-screen="ai"><span class="demo-nav-icon">🏛</span><span>AI Governance</span></button>
-          <button class="demo-nav-item" data-screen="audit"><span class="demo-nav-icon">🔏</span><span>Audit & Compliance</span></button>
-          <button class="demo-nav-item" data-screen="usage"><span class="demo-nav-icon">#</span><span>Usage & Hash Ledger</span></button>
+          <div class="demo-nav-label nav-label-primary">Agent Governance</div>
+          <button class="demo-nav-item primary-nav" data-screen="agents"><span class="demo-nav-icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="7" width="10" height="10" rx="2"></rect><path d="M9 1v3M15 1v3M9 20v3M15 20v3M20 9h3M20 15h3M1 9h3M1 15h3"></path></svg></span><span>Agent Governance</span></button>
+        </div>
+        <div class="demo-nav-group">
+          <div class="demo-nav-label nav-label-secondary">AI Governance</div>
+          <button class="demo-nav-item" data-screen="ai"><span class="demo-nav-icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a3 3 0 0 0-3 3v1.5A4.5 4.5 0 0 0 6 12a4.5 4.5 0 0 0 3 4.24V18a3 3 0 0 0 6 0v-1.76A4.5 4.5 0 0 0 18 12a4.5 4.5 0 0 0-3-4.5V6a3 3 0 0 0-3-3Z"></path><path d="M9.5 10.5h5M9.5 13.5h5"></path></svg></span><span>AI Governance</span></button>
+          <button class="demo-nav-item" data-screen="audit"><span class="demo-nav-icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H7a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7z"></path><path d="M14 2v5h5"></path><path d="m9 15 2 2 4-4"></path></svg></span><span>Audit &amp; Compliance</span></button>
+          <button class="demo-nav-item" data-screen="usage"><span class="demo-nav-icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h12M8 12h12M8 18h12"></path><path d="m3 6 1.5 1.5L6.5 5"></path><path d="m3 12 1.5 1.5L6.5 11"></path><path d="m3 18 1.5 1.5L6.5 17"></path></svg></span><span>Usage &amp; Hash Ledger</span></button>
         </div>
         <div class="demo-nav-group">
           <div class="demo-nav-label">Admin</div>
-          <button class="demo-nav-item" data-screen="settings"><span class="demo-nav-icon">⚙</span><span>Settings</span></button>
+          <button class="demo-nav-item" data-screen="settings"><span class="demo-nav-icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06A2 2 0 1 1 7.04 3.4l.06.06a1.65 1.65 0 0 0 1.82.33h0A1.65 1.65 0 0 0 9.91 2.28V2a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51h0a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82v0a1.65 1.65 0 0 0 1.51 1H22a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg></span><span>Settings</span></button>
         </div>
         <div class="demo-sidebar-foot">
-          <button class="demo-nav-item" data-action="open-support"><span class="demo-nav-icon">💬</span><span>Support Assistant</span></button>
+          <button class="demo-nav-item" data-action="open-support"><span class="demo-nav-icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg></span><span>Platform Guide</span></button>
         </div>
       </aside>
 
@@ -1129,20 +1504,20 @@
           <div class="screen-head">
             <div>
               <div class="screen-kicker"><span class="pulse-dot"></span>Overview</div>
-              <h1 class="screen-title">Governed AI Operations</h1>
-              <div class="screen-subtitle">A merged executive overview using the original DataBanq demo style with cleaner status separation, live movement, and stronger next actions.</div>
+              <h1 class="screen-title">AI Agent Operations Center</h1>
+              <div class="screen-subtitle">Live governance posture for Acme Fintech Inc.</div>
             </div>
             <div class="screen-actions">
-              <button class="btn btn-ghost demo-btn" data-action="open-support">Ask Assistant</button>
+              <button class="btn btn-ghost demo-btn" data-action="open-support">Open Platform Guide</button>
               <button class="btn btn-primary demo-btn" data-action="open-audit">Generate Audit Pack</button>
             </div>
           </div>
 
-          <div class="page-guide">
-            <div class="guide-grid">
-              <div class="guide-item"><strong>What this page does</strong>Shows the live health of your governed AI environment, current alerts, and the fastest next actions.</div>
-              <div class="guide-item"><strong>How to navigate</strong>Use the left menu for major areas and the action buttons here for a direct jump into controls.</div>
-              <div class="guide-item"><strong>Best next step</strong>Open Agent Governance for trust review or Audit to export regulator-ready evidence.</div>
+          <div class="alert-banner" id="dashboardAlert">
+            <div class="alert-banner-copy">⚠ Action required — Fraud Detection AI (AIT-0063) has a trust boundary review pending. An escalation path requires a second human reviewer before case action can continue.</div>
+            <div class="alert-banner-actions">
+              <button class="small-btn warn-fill" data-action="review-trust-now">Review Now →</button>
+              <button class="icon-close" data-action="dismiss-alert" aria-label="Dismiss alert">✕</button>
             </div>
           </div>
 
@@ -1150,22 +1525,22 @@
             <div class="demo-card kpi kpi-good">
               <div class="kpi-label">Governed Agents</div>
               <div class="kpi-value metric" data-target="18">0</div>
-              <div class="kpi-foot">3 added this week</div>
+              <div class="kpi-foot">Registered and policy-bound</div>
             </div>
             <div class="demo-card kpi kpi-risk">
               <div class="kpi-label">High-risk Alerts</div>
-              <div class="kpi-value metric" data-target="3">0</div>
+              <div class="kpi-value metric" data-target="2">0</div>
               <div class="kpi-foot">1 path awaiting review</div>
             </div>
             <div class="demo-card kpi kpi-warn">
               <div class="kpi-label">AI Governance Score</div>
-              <div class="kpi-value metric" data-target="94" data-suffix="%">0</div>
-              <div class="kpi-foot">Usage and privacy controls combined</div>
+              <div class="kpi-value metric" data-target="91">0</div>
+              <div class="kpi-foot">Governance posture <span class="kpi-suffix-label">%</span></div>
             </div>
             <div class="demo-card kpi kpi-good">
               <div class="kpi-label">Audit Readiness</div>
-              <div class="kpi-value metric" data-target="87" data-suffix="%">0</div>
-              <div class="kpi-foot">3 evidence gaps remain</div>
+              <div class="kpi-value metric" data-target="87">0</div>
+              <div class="kpi-foot">Readiness score <span class="kpi-suffix-label">%</span></div>
             </div>
           </div>
 
@@ -1173,8 +1548,8 @@
             <div class="demo-card">
               <div class="demo-card-head">
                 <div>
-                  <div class="demo-card-title">Enterprise governance overview</div>
-                  <div class="demo-card-meta">Clean summary borrowed from the JSX overview, aligned to the original DataBanq styling</div>
+                  <div class="demo-card-title">Executive posture summary</div>
+                  <div class="demo-card-meta">Threat investigation, containment, and audit evidence in one control plane</div>
                 </div>
                 <span class="status-badge ok">Live</span>
               </div>
@@ -1182,30 +1557,30 @@
                 <div class="card-grid-2">
                   <div class="catalog-item">
                     <div class="demo-card-title">Agent governance</div>
-                    <p class="screen-subtitle" style="margin-top:6px">Identity registry, trust boundaries, blast radius, and model lineage are separated into focused subpages.</p>
+                    <p class="screen-subtitle" style="margin-top:6px">Signed identity tokens, trust boundaries, blast radius enforcement, and lineage visibility are active across the estate.</p>
                     <div class="progress"><span style="width: 91%"></span></div>
                     <div class="quick-replies" style="margin-top:10px">
-                      <span class="chip ok">18 active</span>
-                      <span class="chip neutral">2 staged</span>
+                      <span class="chip ok">18 registered</span>
                       <span class="chip warn">1 review</span>
+                      <span class="chip neutral">0 unsigned</span>
                     </div>
                   </div>
                   <div class="catalog-item">
-                    <div class="demo-card-title">AI governance</div>
-                    <p class="screen-subtitle" style="margin-top:6px">Now split into two governance types: usage governance and data governance.</p>
+                    <div class="demo-card-title">Enterprise AI governance</div>
+                    <p class="screen-subtitle" style="margin-top:6px">Consent posture, shadow AI detection, vendor oversight, and policy evidence are ready for executive review.</p>
                     <div class="progress"><span style="width: 88%"></span></div>
                     <div class="quick-replies" style="margin-top:10px">
-                      <span class="chip blue">Usage</span>
-                      <span class="chip purple">Data</span>
+                      <span class="chip blue">Consent</span>
+                      <span class="chip purple">Vendor risk</span>
                       <span class="chip ok">Policy enforced</span>
                     </div>
                   </div>
                 </div>
 
                 <div class="list-stack" style="margin-top:12px">
-                  <div class="info-row"><strong>Strongest control</strong><span class="status-badge ok">Hash ledger + audit exports</span></div>
-                  <div class="info-row"><strong>Needs attention</strong><span class="status-badge risk">Cross-agent fraud escalation path</span></div>
-                  <div class="info-row"><strong>Next milestone</strong><span class="status-badge warn">Close EU data residency evidence gap</span></div>
+                  <div class="info-row"><strong>Strongest control</strong><span class="status-badge ok">Hash-signed audit evidence</span></div>
+                  <div class="info-row"><strong>Needs attention</strong><span class="status-badge warn">Fraud AI escalation requires reviewer two</span></div>
+                  <div class="info-row"><strong>Next milestone</strong><span class="status-badge ok">Close human oversight task and restore score</span></div>
                 </div>
               </div>
             </div>
@@ -1213,14 +1588,9 @@
             <div class="demo-card">
               <div class="demo-card-head">
                 <div class="demo-card-title">Live activity</div>
-                <div class="demo-card-meta">Past 15 minutes</div>
+                <div class="demo-card-meta">Real-time governance events</div>
               </div>
-              <div class="demo-card-body list-stack" id="liveFeed">
-                <div class="feed-row"><div class="feed-time">00:12</div><div class="feed-text"><strong>Fraud Detection AI</strong> triggered a trust boundary review and routed to compliance.</div></div>
-                <div class="feed-row"><div class="feed-time">00:08</div><div class="feed-text"><strong>Audit evidence</strong> hash committed for workflow WF-204.</div></div>
-                <div class="feed-row"><div class="feed-time">00:04</div><div class="feed-text"><strong>New integration</strong> GitHub request queued for security sign-off.</div></div>
-                <div class="feed-row"><div class="feed-time">00:02</div><div class="feed-text"><strong>Consent renewal</strong> propagated to downstream model vendors.</div></div>
-              </div>
+              <div class="demo-card-body list-stack" id="liveFeed"></div>
             </div>
           </div>
 
@@ -1228,27 +1598,27 @@
             <div class="demo-card">
               <div class="demo-card-head">
                 <div class="demo-card-title">Quick actions</div>
-                <div class="demo-card-meta">All working</div>
+                <div class="demo-card-meta">Narrative flow</div>
               </div>
               <div class="demo-card-body actions-row">
-                <button class="small-btn primary" data-action="run-radius-test">Run containment test</button>
-                <button class="small-btn" data-screen-jump="agents">Open agent controls</button>
-                <button class="small-btn" data-screen-jump="ai">Review AI governance</button>
+                <button class="small-btn primary" data-action="open-containment">Run containment test</button>
+                <button class="small-btn" data-action="open-agent-registry">Open agent controls</button>
+                <button class="small-btn" data-action="open-ai-overview">Review AI governance</button>
                 <button class="small-btn" data-action="open-support">Open support chat</button>
               </div>
             </div>
             <div class="demo-card">
               <div class="demo-card-head">
                 <div class="demo-card-title">Connected environment</div>
-                <div class="demo-card-meta">What is already governed</div>
+                <div class="demo-card-meta">Currently governed systems</div>
               </div>
               <div class="demo-card-body">
                 <div class="quick-replies">
                   <span class="chip ok">Salesforce</span>
                   <span class="chip ok">Okta</span>
                   <span class="chip ok">Slack</span>
-                  <span class="chip warn">Snowflake</span>
-                  <span class="chip neutral">ServiceNow pending</span>
+                  <span class="chip warn">Snowflake scoped</span>
+                  <span class="chip neutral">GitHub pending</span>
                 </div>
               </div>
             </div>
@@ -1259,8 +1629,8 @@
           <div class="screen-head">
             <div>
               <div class="screen-kicker"><span class="pulse-dot"></span>Connections</div>
-              <h1 class="screen-title">Integrations</h1>
-              <div class="screen-subtitle">The original integrations view now includes a connected-state summary, catalog browsing, and a working request flow.</div>
+              <h1 class="screen-title">Connected Systems</h1>
+              <div class="screen-subtitle">Active connectors, scope approvals, and registry events</div>
             </div>
             <div class="screen-actions">
               <button class="btn btn-ghost demo-btn" data-action="open-catalog">Browse Catalog</button>
@@ -1268,19 +1638,11 @@
             </div>
           </div>
 
-          <div class="page-guide">
-            <div class="guide-grid">
-              <div class="guide-item"><strong>What this page does</strong>Lists every active connector, the approved scope, and the health of each sync relationship.</div>
-              <div class="guide-item"><strong>How to navigate</strong>Use the table for live systems, the settings buttons for connector policy, and the catalog for new requests.</div>
-              <div class="guide-item"><strong>Best next step</strong>Open a system setting to review scope, credentials, and registry actions before production use.</div>
-            </div>
-          </div>
-
           <div class="kpi-grid">
-            <div class="demo-card kpi kpi-good"><div class="kpi-label">Connected Now</div><div class="kpi-value metric" data-target="6">0</div><div class="kpi-foot">4 bi-directional syncs</div></div>
-            <div class="demo-card kpi"><div class="kpi-label">Pending Requests</div><div class="kpi-value metric" data-target="2">0</div><div class="kpi-foot">Awaiting security review</div></div>
-            <div class="demo-card kpi kpi-warn"><div class="kpi-label">Needs Scoped Access</div><div class="kpi-value metric" data-target="1">0</div><div class="kpi-foot">Snowflake write scope limited</div></div>
-            <div class="demo-card kpi"><div class="kpi-label">Catalog Matches</div><div class="kpi-value metric" data-target="24">0</div><div class="kpi-foot">Available to connect</div></div>
+            <div class="demo-card kpi kpi-good"><div class="kpi-label">Connected Now</div><div class="kpi-value metric" data-target="4">0</div><div class="kpi-foot">Core enterprise stack</div></div>
+            <div class="demo-card kpi"><div class="kpi-label">Pending Requests</div><div class="kpi-value metric" data-target="1">0</div><div class="kpi-foot">Queued for security sign-off</div></div>
+            <div class="demo-card kpi kpi-warn"><div class="kpi-label">Needs Scoped Access</div><div class="kpi-value metric" data-target="1">0</div><div class="kpi-foot">Snowflake remains read only</div></div>
+            <div class="demo-card kpi"><div class="kpi-label">Catalog Matches</div><div class="kpi-value metric" data-target="4">0</div><div class="kpi-foot">Recommended connectors</div></div>
           </div>
 
           <div class="demo-card">
@@ -1349,19 +1711,11 @@
             <div>
               <div class="screen-kicker"><span class="pulse-dot"></span>Agent Governance</div>
               <h1 class="screen-title">Agent Governance</h1>
-              <div class="screen-subtitle">The left navigation stays clean while each agent-control area now lives inside its own focused subpage.</div>
+              <div class="screen-subtitle">Identity, trust, blast radius, lineage, and compliance mapping</div>
             </div>
             <div class="screen-actions">
               <button class="btn btn-ghost demo-btn" data-action="trust-audit">Audit Trust Boundaries</button>
-              <button class="btn btn-primary demo-btn" data-action="issue-agent">Issue New Agent</button>
-            </div>
-          </div>
-
-          <div class="page-guide">
-            <div class="guide-grid">
-              <div class="guide-item"><strong>What this page does</strong>Tracks agent identity, delegation trust, blast radius, model lineage, and mapped workflow controls.</div>
-              <div class="guide-item"><strong>How to navigate</strong>Move through the subtabs from registry to workflows for a complete review of one agent estate.</div>
-              <div class="guide-item"><strong>Best next step</strong>Start in Registry, then open Trust Graph to understand why each edge is safe or under review.</div>
+              <button class="btn btn-primary demo-btn" data-action="issue-agent">+ Issue New Identity</button>
             </div>
           </div>
 
@@ -1370,6 +1724,7 @@
             <button class="subtab" data-tab-group="agent" data-tab-target="agent-trust">Trust Graph</button>
             <button class="subtab" data-tab-group="agent" data-tab-target="agent-radius">Blast Radius</button>
             <button class="subtab" data-tab-group="agent" data-tab-target="agent-lineage">Model Lineage</button>
+            <button class="subtab" data-tab-group="agent" data-tab-target="agent-mcp">MCP Governance</button>
             <button class="subtab" data-tab-group="agent" data-tab-target="agent-workflows">Workflow Controls</button>
           </div>
 
@@ -1380,18 +1735,86 @@
                   <div class="demo-card-title">Governed agent registry</div>
                   <div class="demo-card-meta">Identity, owner, model, and environment in one place</div>
                 </div>
-                <span class="status-badge ok">18 registered</span>
+                <span class="status-badge ok" id="agentRegistryCountBadge">18 registered</span>
               </div>
               <div class="demo-card-body">
                 <table>
                   <thead>
                     <tr><th>Agent</th><th>Model</th><th>Risk</th><th>Owner</th><th>Environment</th><th>Status</th><th>Actions</th></tr>
                   </thead>
-                  <tbody>
-                    <tr><td><strong>RevenueOps Agent</strong><div class="mono">DBQ-AGT-0041</div></td><td>GPT-4o</td><td><span class="status-badge ok">Low</span></td><td>M. Chen</td><td>Production</td><td><span class="status-badge ok">Active</span></td><td><button class="small-btn" data-action="view-agent" data-name="RevenueOps Agent">View</button></td></tr>
-                    <tr><td><strong>Contract Reviewer</strong><div class="mono">DBQ-AGT-0038</div></td><td>Claude 3.5</td><td><span class="status-badge warn">Medium</span></td><td>A. Torres</td><td>Staging</td><td><span class="status-badge ok">Active</span></td><td><button class="small-btn" data-action="view-agent" data-name="Contract Reviewer">View</button></td></tr>
-                    <tr><td><strong>Customer Support AI</strong><div class="mono">DBQ-AGT-0029</div></td><td>GPT-4o mini</td><td><span class="status-badge ok">Low</span></td><td>J. Kim</td><td>Production</td><td><span class="status-badge ok">Active</span></td><td><button class="small-btn" data-action="view-agent" data-name="Customer Support AI">View</button></td></tr>
-                    <tr><td><strong>Fraud Detection AI</strong><div class="mono">DBQ-AGT-0063</div></td><td>Internal ensemble</td><td><span class="status-badge risk">Critical</span></td><td>D. Williams</td><td>Production</td><td><span class="status-badge warn">Review</span></td><td><button class="small-btn" data-action="view-agent" data-name="Fraud Detection AI">View</button></td></tr>
+                  <tbody id="agentRegistryBody">
+                    <tr>
+                      <td><strong class="agent-name">RevenueOps Agent</strong></td>
+                      <td class="mono">AIT-0041</td>
+                      <td><span class="status-badge ok">Active</span></td>
+                      <td>read:crm, write:notes</td>
+                      <td>M. Chen (CTO)</td>
+                      <td>2 min ago</td>
+                      <td><button class="small-btn" data-action="view-agent" data-name="RevenueOps Agent">View</button> <button class="small-btn" data-action="revoke-agent" data-name="RevenueOps Agent" data-token="AIT-0041">Revoke</button></td>
+                    </tr>
+                    <tr>
+                      <td><strong class="agent-name">Contract Reviewer</strong></td>
+                      <td class="mono">AIT-0038</td>
+                      <td><span class="status-badge ok">Active</span></td>
+                      <td>read:docs, read:legal</td>
+                      <td>A. Torres (CCO)</td>
+                      <td>14 min ago</td>
+                      <td><button class="small-btn" data-action="view-agent" data-name="Contract Reviewer">View</button> <button class="small-btn" data-action="revoke-agent" data-name="Contract Reviewer" data-token="AIT-0038">Revoke</button></td>
+                    </tr>
+                    <tr>
+                      <td><strong class="agent-name">Customer Support AI</strong></td>
+                      <td class="mono">AIT-0029</td>
+                      <td><span class="status-badge ok">Active</span></td>
+                      <td>read:tickets, write:replies</td>
+                      <td>J. Kim (VP Eng)</td>
+                      <td>1 hr ago</td>
+                      <td><button class="small-btn" data-action="view-agent" data-name="Customer Support AI">View</button> <button class="small-btn" data-action="revoke-agent" data-name="Customer Support AI" data-token="AIT-0029">Revoke</button></td>
+                    </tr>
+                    <tr class="registry-warning">
+                      <td><strong class="agent-name">Fraud Detection AI</strong></td>
+                      <td class="mono">AIT-0063</td>
+                      <td><span class="status-badge warn">⚠ Warning</span></td>
+                      <td>read:transactions (review)</td>
+                      <td>D. Williams</td>
+                      <td>8 hr ago</td>
+                      <td><button class="small-btn" data-action="view-agent" data-name="Fraud Detection AI">View</button> <button class="small-btn" data-action="audit-agent" data-name="Fraud Detection AI" data-token="AIT-0063">Audit</button></td>
+                    </tr>
+                    <tr>
+                      <td><strong class="agent-name">HR Onboarding Bot</strong></td>
+                      <td class="mono">AIT-0055</td>
+                      <td><span class="status-badge ok">Active</span></td>
+                      <td>read:hr-data, write:records</td>
+                      <td>J. Rivera (CCO)</td>
+                      <td>3 hr ago</td>
+                      <td><button class="small-btn" data-action="view-agent" data-name="HR Onboarding Bot">View</button> <button class="small-btn" data-action="revoke-agent" data-name="HR Onboarding Bot" data-token="AIT-0055">Revoke</button></td>
+                    </tr>
+                    <tr class="registry-revoked">
+                      <td><strong class="agent-name">Legacy Data Agent</strong></td>
+                      <td class="mono">AIT-0019</td>
+                      <td><span class="status-badge risk">✕ Revoked</span></td>
+                      <td>—</td>
+                      <td>M. Chen (CTO)</td>
+                      <td>2 days ago</td>
+                      <td><button class="small-btn" data-action="view-agent" data-name="Legacy Data Agent">View</button></td>
+                    </tr>
+                    <tr>
+                      <td><strong class="agent-name">Compliance Reporter</strong></td>
+                      <td class="mono">AIT-0071</td>
+                      <td><span class="status-badge ok">Active</span></td>
+                      <td>read:audit, read:policies</td>
+                      <td>A. Torres (CCO)</td>
+                      <td>45 min ago</td>
+                      <td><button class="small-btn" data-action="view-agent" data-name="Compliance Reporter">View</button> <button class="small-btn" data-action="revoke-agent" data-name="Compliance Reporter" data-token="AIT-0071">Revoke</button></td>
+                    </tr>
+                    <tr class="registry-unverified">
+                      <td><strong class="agent-name">unknown-proc-881</strong></td>
+                      <td class="mono">NONE</td>
+                      <td><span class="status-badge risk">🔴 Unverified</span></td>
+                      <td>—</td>
+                      <td>None</td>
+                      <td>6 min ago</td>
+                      <td><button class="small-btn" data-action="verify-agent" data-name="unknown-proc-881">Verify</button> <button class="small-btn" data-action="block-agent" data-name="unknown-proc-881">Block</button></td>
+                    </tr>
                   </tbody>
                 </table>
               </div>
@@ -1539,9 +1962,9 @@
           <div class="tab-pane" id="agent-lineage">
             <div class="card-grid-2">
               <div class="demo-card">
-                <div class="demo-card-head"><div class="demo-card-title">Model lineage chain</div><div class="demo-card-meta">Improved from the older view</div></div>
+                <div class="demo-card-head"><div class="demo-card-title">Model lineage chain</div><div class="demo-card-meta">Verified lineage and release attestation</div></div>
                 <div class="demo-card-body list-stack">
-                  <div class="split-row"><div><strong>Foundation model</strong><div class="mono">gpt-4o-2026-03</div></div><span class="status-badge ok">Vendor attested</span></div>
+                  <div class="split-row"><div><strong>Foundation model</strong><div class="mono">gpt-4o-2024-11-20</div></div><span class="status-badge ok">Vendor attested</span></div>
                   <div class="split-row"><div><strong>Policy prompt set</strong><div class="mono">prompt-pack-fraud-v12</div></div><span class="status-badge blue">Signed</span></div>
                   <div class="split-row"><div><strong>Retrieval source set</strong><div class="mono">knowledge-bundle-18a6</div></div><span class="status-badge purple">Indexed</span></div>
                   <div class="split-row"><div><strong>Release hash</strong><div class="mono">sha256:8f4d1c9b…e42c</div></div><span class="status-badge ok">Verified</span></div>
@@ -1560,6 +1983,44 @@
                   </table>
                 </div>
               </div>
+            </div>
+          </div>
+
+          <div class="tab-pane" id="agent-mcp">
+            <div class="demo-card">
+              <div class="demo-card-head">
+                <div>
+                  <div class="demo-card-title">MCP Governance</div>
+                  <div class="demo-card-meta">Server policies, agent allowlists, and live call logging</div>
+                </div>
+                <span class="status-badge ok">Live</span>
+              </div>
+              <div class="demo-card-body">
+                <div class="mcp-chip-row">
+                  <span class="chip ok">8 Registered</span>
+                  <span class="chip ok">847 Calls Today</span>
+                  <span class="chip ok">0 Violations</span>
+                  <span class="chip warn">1 Review Needed</span>
+                </div>
+                <table>
+                  <thead><tr><th>Server Name</th><th>Risk</th><th>Authorized Agents</th><th>Calls Today</th><th>Status</th><th>Actions</th></tr></thead>
+                  <tbody>
+                    <tr><td>doc-retrieval-mcp</td><td><span class="status-badge ok">Low</span></td><td>3 agents</td><td>412 calls</td><td><span class="status-badge ok">● Active</span></td><td><button class="small-btn" data-action="view-mcp" data-name="doc-retrieval-mcp">View</button> <button class="small-btn" data-action="edit-mcp" data-name="doc-retrieval-mcp">Edit Policy</button></td></tr>
+                    <tr><td>crm-mcp</td><td><span class="status-badge warn">Medium</span></td><td>2 agents</td><td>289 calls</td><td><span class="status-badge ok">● Active</span></td><td><button class="small-btn" data-action="view-mcp" data-name="crm-mcp">View</button> <button class="small-btn" data-action="edit-mcp" data-name="crm-mcp">Edit Policy</button></td></tr>
+                    <tr><td>audit-mcp</td><td><span class="status-badge ok">Low</span></td><td>4 agents</td><td>103 calls</td><td><span class="status-badge ok">● Active</span></td><td><button class="small-btn" data-action="view-mcp" data-name="audit-mcp">View</button> <button class="small-btn" data-action="edit-mcp" data-name="audit-mcp">Edit Policy</button></td></tr>
+                    <tr class="registry-warning"><td>payment-gateway-mcp</td><td><span class="status-badge risk">High</span></td><td>1 agent</td><td>43 calls</td><td><span class="status-badge warn">⚠ Review</span></td><td><button class="small-btn" data-action="view-mcp" data-name="payment-gateway-mcp">View</button> <button class="small-btn" data-action="edit-mcp" data-name="payment-gateway-mcp">Edit Policy</button></td></tr>
+                    <tr class="registry-unverified registry-revoked"><td>external-llm-mcp</td><td><span class="status-badge risk">High</span></td><td>0 agents</td><td>0 calls</td><td><span class="status-badge risk">✕ Blocked</span></td><td><button class="small-btn" data-action="view-mcp" data-name="external-llm-mcp">View</button> <button class="small-btn" data-action="edit-mcp" data-name="external-llm-mcp">Unblock</button></td></tr>
+                    <tr><td>vector-db-mcp</td><td><span class="status-badge warn">Medium</span></td><td>2 agents</td><td>0 calls</td><td><span class="status-badge ok">● Active</span></td><td><button class="small-btn" data-action="view-mcp" data-name="vector-db-mcp">View</button> <button class="small-btn" data-action="edit-mcp" data-name="vector-db-mcp">Edit Policy</button></td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="demo-card" style="margin-top:12px;">
+              <div class="demo-card-head">
+                <div class="mcp-live-title"><span class="pulse-dot"></span><div class="demo-card-title">Live MCP Call Log</div></div>
+                <div class="demo-card-meta">Live</div>
+              </div>
+              <div class="demo-card-body list-stack" id="mcpCallFeed"></div>
             </div>
           </div>
 
@@ -1590,21 +2051,14 @@
           <div class="screen-head">
             <div>
               <div class="screen-kicker"><span class="pulse-dot"></span>AI Governance</div>
-              <h1 class="screen-title">AI Governance</h1>
-              <div class="screen-subtitle">This area is now split into two governance types so the experience stays clean: usage governance and data governance.</div>
+              <h1 class="screen-title">Enterprise AI Governance</h1>
+              <div class="screen-subtitle">Consent, shadow AI, vendor risk, policy, and audit vault</div>
             </div>
             <div class="screen-actions">
               <button class="btn btn-ghost demo-btn" data-action="export-governance">Export Governance Report</button>
             </div>
           </div>
 
-          <div class="page-guide">
-            <div class="guide-grid">
-              <div class="guide-item"><strong>What this page does</strong>Combines usage controls, consent evidence, vendor risk, policy enforcement, and the governance vault.</div>
-              <div class="guide-item"><strong>How to navigate</strong>Select a subtab for the exact control surface you want to inspect without clutter or overlap.</div>
-              <div class="guide-item"><strong>Best next step</strong>Review consent first, then vendor intelligence, then export a full governance summary.</div>
-            </div>
-          </div>
 
           <div class="subtabs">
             <button class="subtab active" data-tab-group="ai" data-tab-target="ai-overview">Overview</button>
@@ -1673,7 +2127,7 @@
                     <tr><td class="mono">CNS-2841</td><td><span class="status-badge ok">Explicit</span></td><td>Consumer lending support</td><td>Customer Support AI</td><td>2026-11-12</td><td><span class="status-badge ok">Valid</span></td></tr>
                     <tr><td class="mono">CNS-2822</td><td><span class="status-badge blue">Contractual</span></td><td>Employee onboarding</td><td>HR Onboarding Bot</td><td>2026-06-18</td><td><span class="status-badge warn">Review</span></td></tr>
                     <tr><td class="mono">CNS-2798</td><td><span class="status-badge warn">Implied</span></td><td>Fraud operations</td><td>Fraud Detection AI</td><td>2026-04-01</td><td><span class="status-badge risk">Renew</span></td></tr>
-                    <tr><td class="mono">CNS-2756</td><td><span class="status-badge purple">Legitimate interest</span></td><td>Contract analysis</td><td>Contract Reviewer</td><td>2026-09-24</td><td><span class="status-badge ok">Valid</span></td></tr>
+                    <tr><td class="mono">CNS-2756</td><td><span class="status-badge purple">Contractual</span></td><td>Contract analysis</td><td>Contract Reviewer</td><td>2026-09-24</td><td><span class="status-badge ok">Valid</span></td></tr>
                   </tbody>
                 </table>
               </div>
@@ -1754,7 +2208,7 @@
             <div>
               <div class="screen-kicker"><span class="pulse-dot"></span>Audit & Compliance</div>
               <h1 class="screen-title">Audit & Compliance</h1>
-              <div class="screen-subtitle">A blended version of the old audit pack with the cleaner compliance framing from the JSX page, without overloading the interface.</div>
+              <div class="screen-subtitle">Framework readiness, evidence coverage, and regulator-ready exports</div>
             </div>
             <div class="screen-actions">
               <button class="btn btn-ghost demo-btn" data-action="download-report">Download Report</button>
@@ -1762,19 +2216,12 @@
             </div>
           </div>
 
-          <div class="page-guide">
-            <div class="guide-grid">
-              <div class="guide-item"><strong>What this page does</strong>Summarizes framework readiness, evidence coverage, and the export package seen by auditors or regulators.</div>
-              <div class="guide-item"><strong>How to navigate</strong>Use the KPI row for posture, the alignment table for gaps, and the audit pack for a ready-to-download report.</div>
-              <div class="guide-item"><strong>Best next step</strong>Download the report or verify the ledger before sharing compliance evidence externally.</div>
-            </div>
-          </div>
 
           <div class="kpi-grid">
-            <div class="demo-card kpi kpi-good"><div class="kpi-label">SOC 2</div><div class="kpi-value metric" data-target="87" data-suffix="%">0</div><div class="kpi-foot">13 gaps mapped</div></div>
-            <div class="demo-card kpi kpi-good"><div class="kpi-label">HIPAA</div><div class="kpi-value metric" data-target="89" data-suffix="%">0</div><div class="kpi-foot">4 open safeguards</div></div>
-            <div class="demo-card kpi kpi-warn"><div class="kpi-label">EU AI Act</div><div class="kpi-value metric" data-target="81" data-suffix="%">0</div><div class="kpi-foot">Human oversight task open</div></div>
-            <div class="demo-card kpi"><div class="kpi-label">Evidence Packs</div><div class="kpi-value metric" data-target="12">0</div><div class="kpi-foot">Signed and exportable</div></div>
+            <div class="demo-card kpi kpi-good"><div class="kpi-label">SOC 2</div><div class="kpi-value metric" data-target="87" data-suffix="/100">0</div><div class="kpi-foot">13 gaps mapped</div></div>
+            <div class="demo-card kpi kpi-good"><div class="kpi-label">HIPAA</div><div class="kpi-value metric" data-target="34" data-suffix="/38">0</div><div class="kpi-foot">Review transmission safeguards</div></div>
+            <div class="demo-card kpi kpi-warn"><div class="kpi-label">EU AI Act</div><div class="kpi-value metric" data-target="22" data-suffix="/27">0</div><div class="kpi-foot">Human oversight task open</div></div>
+            <div class="demo-card kpi"><div class="kpi-label">Evidence Packs</div><div class="kpi-value metric" data-target="6" data-suffix=" ready">0</div><div class="kpi-foot">Signed and exportable</div></div>
           </div>
 
           <div class="card-grid-2">
@@ -1809,7 +2256,7 @@
             <div>
               <div class="screen-kicker"><span class="pulse-dot"></span>Usage & Hash Ledger</div>
               <h1 class="screen-title">Usage & Hash Ledger</h1>
-              <div class="screen-subtitle">The ledger now tracks both AI inference activity and autonomous agent actions in one tamper-evident view.</div>
+              <div class="screen-subtitle">Tamper-evident log of every AI and agent action</div>
             </div>
             <div class="screen-actions">
               <button class="btn btn-ghost demo-btn" data-action="verify-ledger">Verify Ledger</button>
@@ -1817,19 +2264,12 @@
             </div>
           </div>
 
-          <div class="page-guide">
-            <div class="guide-grid">
-              <div class="guide-item"><strong>What this page does</strong>Shows the signed history of AI and agent actions with policy outcomes and tamper-evident hashes.</div>
-              <div class="guide-item"><strong>How to navigate</strong>Use the page-size selector to browse records, verify the ledger, or export the appendix for review.</div>
-              <div class="guide-item"><strong>Best next step</strong>Look for blocked or warned actions first, then export a ledger package for evidence sharing.</div>
-            </div>
-          </div>
 
           <div class="kpi-grid">
-            <div class="demo-card kpi"><div class="kpi-label">Total Events</div><div class="kpi-value metric" data-target="2363">0</div><div class="kpi-foot">Q1 combined capture</div></div>
-            <div class="demo-card kpi kpi-good"><div class="kpi-label">Hash Verified</div><div class="kpi-value metric" data-target="2363">0</div><div class="kpi-foot">No tampering detected</div></div>
-            <div class="demo-card kpi"><div class="kpi-label">Agent Actions</div><div class="kpi-value metric" data-target="941">0</div><div class="kpi-foot">Scoped and signed</div></div>
-            <div class="demo-card kpi"><div class="kpi-label">AI Inferences</div><div class="kpi-value metric" data-target="1422">0</div><div class="kpi-foot">Policy-checked</div></div>
+            <div class="demo-card kpi"><div class="kpi-label">Total Events</div><div class="kpi-value metric" data-target="9847" data-format="comma">0</div><div class="kpi-foot">Q1 combined capture</div></div>
+            <div class="demo-card kpi kpi-good"><div class="kpi-label">Hash Verified</div><div class="kpi-value metric" data-target="9847" data-format="comma">0</div><div class="kpi-foot">No tampering detected</div></div>
+            <div class="demo-card kpi"><div class="kpi-label">Agent Actions</div><div class="kpi-value metric" data-target="3241" data-format="comma">0</div><div class="kpi-foot">Scoped and signed</div></div>
+            <div class="demo-card kpi"><div class="kpi-label">AI Inferences</div><div class="kpi-value metric" data-target="6606" data-format="comma">0</div><div class="kpi-foot">Policy-checked</div></div>
           </div>
 
           <div class="demo-card">
@@ -1859,13 +2299,13 @@
                 <thead><tr><th>Event ID</th><th>Type</th><th>Actor</th><th>Target</th><th>Policy</th><th>Hash</th></tr></thead>
                 <tbody id="ledgerTableBody">
                   <tr><td class="mono">EVT-9847</td><td><span class="status-badge ok">Agent</span></td><td>RevenueOps Agent</td><td>Renewal note sync</td><td>Pass</td><td class="mono">f1c9d7a2</td></tr>
-                  <tr><td class="mono">EVT-9846</td><td><span class="status-badge ok">AI</span></td><td>Support Copilot</td><td>Policy-guided reply</td><td>Pass</td><td class="mono">df92aa41</td></tr>
+                  <tr><td class="mono">EVT-9846</td><td><span class="status-badge ok">AI</span></td><td>Support Copilot</td><td>Policy-guided reply</td><td>Pass</td><td class="mono">3e87bc14</td></tr>
                   <tr><td class="mono">EVT-9845</td><td><span class="status-badge warn">AI</span></td><td>Customer Support AI</td><td>Refund summary draft</td><td>Warn</td><td class="mono">ca18b0d4</td></tr>
-                  <tr><td class="mono">EVT-9844</td><td><span class="status-badge ok">Agent</span></td><td>Contract Reviewer</td><td>Clause extraction</td><td>Pass</td><td class="mono">98afce11</td></tr>
-                  <tr><td class="mono">EVT-9843</td><td><span class="status-badge ok">AI</span></td><td>GPT-4</td><td>Fraud scoring</td><td>Pass</td><td class="mono">b7e1f4a9</td></tr>
+                  <tr><td class="mono">EVT-9844</td><td><span class="status-badge ok">Agent</span></td><td>Contract Reviewer</td><td>Clause extraction</td><td>Pass</td><td class="mono">7f23ae91</td></tr>
+                  <tr><td class="mono">EVT-9843</td><td><span class="status-badge ok">AI</span></td><td>gpt-4o-2024-11-20</td><td>Fraud scoring</td><td>Pass</td><td class="mono">2d5f8c30</td></tr>
                   <tr><td class="mono">EVT-9842</td><td><span class="status-badge warn">Agent</span></td><td>Case Escalator</td><td>Manual approval hold</td><td>Warn</td><td class="mono">b33ef7c2</td></tr>
                   <tr><td class="mono">EVT-9841</td><td><span class="status-badge risk">Agent</span></td><td>Fraud Detection AI</td><td>Case escalation</td><td>Blocked</td><td class="mono">a3f8c2d1</td></tr>
-                  <tr><td class="mono">EVT-9840</td><td><span class="status-badge ok">AI</span></td><td>GPT-4</td><td>Fraud scoring</td><td>Pass</td><td class="mono">b7e1f4a9</td></tr>
+                  <tr><td class="mono">EVT-9840</td><td><span class="status-badge ok">AI</span></td><td>gpt-4o-2024-11-20</td><td>Fraud scoring</td><td>Pass</td><td class="mono">9e4d1b77</td></tr>
                   <tr><td class="mono">EVT-9839</td><td><span class="status-badge ok">Agent</span></td><td>RevenueOps Agent</td><td>CRM note write</td><td>Pass</td><td class="mono">c2d9e7f3</td></tr>
                   <tr><td class="mono">EVT-9838</td><td><span class="status-badge warn">AI</span></td><td>Customer Support AI</td><td>PII response draft</td><td>Warn</td><td class="mono">d4f2b8e1</td></tr>
                   <tr><td class="mono">EVT-9837</td><td><span class="status-badge ok">Agent</span></td><td>Identity Broker</td><td>Token validation</td><td>Pass</td><td class="mono">e7c1d994</td></tr>
@@ -1881,20 +2321,13 @@
             <div>
               <div class="screen-kicker"><span class="pulse-dot"></span>Settings</div>
               <h1 class="screen-title">Settings</h1>
-              <div class="screen-subtitle">The settings area now has real pages instead of placeholders, while keeping the original demo look and spacing.</div>
+              <div class="screen-subtitle">Workspace defaults, approvals, notifications, and reporting settings</div>
             </div>
             <div class="screen-actions">
               <button class="btn btn-primary demo-btn" data-action="save-settings">Save Changes</button>
             </div>
           </div>
 
-          <div class="page-guide">
-            <div class="guide-grid">
-              <div class="guide-item"><strong>What this page does</strong>Controls organization setup, access rules, notification routing, and audit defaults for the workspace.</div>
-              <div class="guide-item"><strong>How to navigate</strong>Use the tabs to move from org details to approvals, alerts, and export settings without crowding the page.</div>
-              <div class="guide-item"><strong>Best next step</strong>Update the company profile first, then review approvers and default reporting rules.</div>
-            </div>
-          </div>
 
           <div class="subtabs">
             <button class="subtab active" data-tab-group="settings" data-tab-target="settings-org">Organization</button>
@@ -1960,8 +2393,8 @@
     <div class="modal-panel compact">
       <div class="modal-head">
         <div>
-          <div class="modal-title">DataBanq Support Assistant</div>
-          <div class="demo-card-meta">Quick guidance for navigation, audit exports, integrations, and trust review</div>
+          <div class="modal-title">DataBanq Platform Guide</div>
+          <div class="demo-card-meta">Quick guidance for trust review, blast radius, audit exports, and consent controls</div>
         </div>
         <button class="icon-close" data-close-modal="supportModal">✕</button>
       </div>
@@ -2152,10 +2585,7 @@
     </div>
   </div>
 
-  <div class="toast" id="demoToast">
-    <div class="toast-title" id="toastTitle">Update</div>
-    <div class="toast-desc" id="toastDesc">Done.</div>
-  </div>
+  <div class="toast-stack" id="toastStack"></div>
 
   <script src="demo.js"></script>
 </body>
