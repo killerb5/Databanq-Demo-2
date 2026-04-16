@@ -25,6 +25,10 @@
       --demo-yellow: #fbbf24;
       --demo-purple: #a78bfa;
       --demo-blue: #7dd3fc;
+      --accent: var(--demo-green);
+      --border: var(--demo-border);
+      --text-muted: var(--demo-muted);
+      --text-secondary: rgba(232,237,233,0.88);
     }
 
     html, body {
@@ -163,9 +167,9 @@
       border-radius: 8px;
       border: 1px solid transparent;
       background: transparent;
-      color: rgba(232,237,233,0.72);
+      color: #4A7A5C;
       text-align: left;
-      font-size: 12.5px;
+      font-size: 13px;
       transition: 0.16s ease;
     }
 
@@ -177,7 +181,7 @@
     .demo-nav-item.active {
       background: rgba(16,195,126,0.08);
       border-color: rgba(16,195,126,0.15);
-      color: var(--demo-green);
+      color: #10B981;
       font-weight: 600;
     }
 
@@ -451,49 +455,9 @@
 
     .subtabs {
       display: flex;
-      gap: 6px;
-      margin-bottom: 12px;
-      flex-wrap: wrap;
-    }
-
-    .subtab {
-      border: 1px solid var(--demo-border);
-      background: transparent;
-      color: rgba(232,237,233,0.72);
-      border-radius: 8px;
-      padding: 6px 12px;
-      font-size: 12px;
-    }
-
-    .subtab.active {
-      background: transparent;
-      color: var(--demo-green);
-      border-color: transparent transparent rgba(16,195,126,0.95) transparent;
-    }
-
-    .nav-label-primary {
-      color: var(--demo-green);
-      font-weight: 700;
-    }
-
-    .nav-label-secondary {
-      color: var(--demo-muted);
-      font-weight: 400;
-    }
-
-    .primary-nav {
-      font-size: 14px;
-      border-left: 2px solid rgba(16,195,126,0.4);
-      padding-left: 12px;
-    }
-
-    .demo-nav-icon svg {
-      display: block;
-    }
-
-    .subtabs {
       gap: 0;
-      border-bottom: 1px solid var(--demo-border);
+      flex-wrap: wrap;
+      border-bottom: 1px solid var(--border);
       margin-bottom: 24px;
     }
 
@@ -505,12 +469,38 @@
       border: none;
       border-bottom: 2px solid transparent;
       border-radius: 0;
-      color: var(--demo-muted);
+      color: var(--text-muted);
       background: transparent;
     }
 
     .subtab:hover {
-      color: rgba(232,237,233,0.88);
+      color: var(--text-secondary);
+    }
+
+    .subtab.active {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+      background: transparent;
+    }
+
+    .nav-label-primary {
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    .nav-label-secondary {
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+
+    .primary-nav {
+      font-size: 14px;
+      border-left: 3px solid rgba(16,195,126,0.55);
+      padding-left: 12px;
+    }
+
+    .demo-nav-icon svg {
+      display: block;
     }
 
     .tab-pane { display: none; }
@@ -596,10 +586,16 @@
       width: 100%;
       height: 380px;
       background: #080F0B;
-      border: 1px solid var(--demo-border);
+      border: 1px solid var(--border);
       border-radius: 8px;
       overflow: hidden;
       position: relative;
+    }
+
+    .trust-svg {
+      width: 100%;
+      height: 380px;
+      display: block;
     }
 
     .trust-tooltip {
@@ -608,29 +604,95 @@
       display: none;
       padding: 10px 12px;
       background: #0D1A10;
-      border: 1px solid var(--demo-green);
+      border: 1px solid var(--accent);
       border-radius: 8px;
       font-size: 11px;
       line-height: 1.45;
       pointer-events: none;
       box-shadow: 0 10px 28px rgba(0,0,0,0.34);
+      color: #F0FDF4;
+    }
+
+    .trust-tooltip strong {
+      display: block;
+      margin-bottom: 4px;
+      color: #F0FDF4;
     }
 
     .trust-svg .node-group,
     .trust-svg .edge {
       transition: opacity .18s ease, filter .18s ease, stroke-width .18s ease;
+    }
+
+    .trust-svg .node-group {
       cursor: pointer;
     }
 
-    .trust-svg.dimmed .node-group,
-    .trust-svg.dimmed .edge {
+    .trust-svg.dimmed .node-group:not(.active-node),
+    .trust-svg.dimmed .edge:not(.active-edge) {
       opacity: .4;
     }
 
-    .trust-svg.dimmed .node-group.active-node,
-    .trust-svg.dimmed .edge.active-edge {
+    .trust-svg.dimmed .node-group.active-node .node-core {
+      stroke-width: 3;
+      filter: drop-shadow(0 0 10px rgba(16,195,126,.28));
+    }
+
+    .trust-svg .edge.active-edge {
       opacity: 1;
-      filter: drop-shadow(0 0 10px rgba(16,195,126,.2));
+      stroke-width: 3;
+      filter: drop-shadow(0 0 10px rgba(245,158,11,.35));
+    }
+
+    .trust-svg .edge.flow {
+      stroke-dasharray: 8 4;
+      animation: trustFlow 1s linear infinite;
+    }
+
+    .trust-svg .edge.review {
+      stroke-dasharray: 6 6;
+    }
+
+    .pulsing-ring {
+      animation: nodePulse 2s infinite;
+      transform-origin: center;
+      transform-box: fill-box;
+    }
+
+    .trust-node-label {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      line-height: 1.25;
+    }
+
+    .trust-node-label strong {
+      color: #F0FDF4;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .trust-node-label span {
+      color: #86EFAC;
+      font-size: 9px;
+      font-family: ui-monospace, SFMono-Regular, monospace;
+    }
+
+    .trust-node-label span.warn-text {
+      color: #F59E0B;
+      font-family: inherit;
+    }
+
+    @keyframes trustFlow {
+      from { stroke-dashoffset: 0; }
+      to { stroke-dashoffset: -24; }
+    }
+
+    @keyframes nodePulse {
+      0%, 100% { stroke-opacity: 1; }
+      50% { stroke-opacity: .4; }
     }
 
     .graph-stat-row {
@@ -651,20 +713,43 @@
 
     .agent-select {
       min-height: 40px;
-      min-width: 280px;
+      min-width: 320px;
       padding: 9px 12px;
       border-radius: 10px;
       border: 1px solid rgba(16,195,126,0.2);
       background: #0D1A10;
       color: var(--demo-text);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.02);
     }
 
     .ring-explainer {
       font-size: 13px;
       color: #4A7A5C;
       font-style: italic;
-      margin-bottom: 8px;
+      margin-bottom: 24px;
       text-align: center;
+      max-width: 720px;
+    }
+
+    .blast-diagram-shell {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+    }
+
+    .bullseye-svg {
+      width: 360px;
+      height: 360px;
+      display: block;
+      overflow: visible;
+    }
+
+    .bullseye-figure {
+      transition: opacity .2s ease;
+    }
+
+    .bullseye-figure.updating {
+      opacity: .35;
     }
 
     .legend-row {
@@ -689,6 +774,7 @@
       flex-direction: column;
       gap: 10px;
       margin: 12px 0;
+      width: 100%;
     }
 
     .simulator-row {
@@ -703,10 +789,52 @@
       font-size: 12px;
     }
 
+    .sim-label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .sim-icon {
+      width: 18px;
+      text-align: center;
+      font-size: 15px;
+    }
+
+    .sim-status {
+      min-width: 112px;
+      justify-content: center;
+    }
+
     .status-awaiting { background: #132018; color: #4A7A5C; }
     .status-running { background: rgba(245,158,11,0.15); color: #F59E0B; }
     .status-blocked { background: rgba(239,68,68,0.12); color: #EF4444; }
     .status-passed { background: #064E3B; color: #10B981; }
+
+    .blocked-ring-flash {
+      animation: ringRipple .45s ease;
+    }
+
+    .monitored-ring-flash {
+      animation: monitoredRipple .45s ease;
+    }
+
+    .probe-dot {
+      opacity: 0;
+    }
+
+    @keyframes ringRipple {
+      0% { stroke-width: 1.5; stroke-opacity: .75; }
+      50% { stroke-width: 4.5; stroke-opacity: 1; }
+      100% { stroke-width: 1.5; stroke-opacity: 1; }
+    }
+
+    @keyframes monitoredRipple {
+      0% { stroke-width: 1.5; stroke-opacity: .65; }
+      50% { stroke-width: 3; stroke-opacity: 1; }
+      100% { stroke-width: 1.5; stroke-opacity: 1; }
+    }
 
     .mcp-chip-row {
       display: flex;
@@ -740,6 +868,7 @@
       flex-direction: column;
       gap: 8px;
       pointer-events: none;
+      align-items: flex-end;
     }
 
     .toast-item {
@@ -747,7 +876,7 @@
       max-width: 360px;
       padding: 12px 14px;
       border-radius: 10px;
-      border-left: 3px solid var(--demo-green);
+      border-left: 3px solid #10B981;
       background: #064E3B;
       color: var(--demo-text);
       box-shadow: 0 12px 28px rgba(0,0,0,0.28);
@@ -755,7 +884,6 @@
       transition: transform .3s ease;
       pointer-events: auto;
       display: flex;
-      justify-content: space-between;
       gap: 10px;
       align-items: start;
     }
@@ -774,11 +902,26 @@
       border-left-color: #EF4444;
     }
 
-    .toast-item button {
+    .toast-icon {
+      flex-shrink: 0;
+      font-size: 14px;
+      line-height: 1.2;
+      margin-top: 1px;
+    }
+
+    .toast-copy {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .toast-close {
       background: transparent;
       border: none;
       color: inherit;
       cursor: pointer;
+      flex-shrink: 0;
+      padding: 0;
+      font-size: 13px;
     }
 
     .side-panel {
@@ -852,19 +995,20 @@
     }
 
     th, td {
-      padding: 10px 10px;
-      border-bottom: 1px solid rgba(255,255,255,0.04);
+      padding: 10px 16px;
+      border-bottom: 1px solid var(--border);
       text-align: left;
-      font-size: 12px;
-      vertical-align: top;
+      font-size: 14px;
+      vertical-align: middle;
+      min-height: 52px;
     }
 
     th {
-      color: rgba(232,237,233,0.3);
+      color: #4A7A5C;
       font-weight: 700;
-      font-size: 10px;
+      font-size: 11px;
       text-transform: uppercase;
-      letter-spacing: 0.12em;
+      letter-spacing: 0.08em;
     }
 
     tr:last-child td { border-bottom: none; }
@@ -1083,11 +1227,85 @@
     }
 
     .catalog-item,
-    .settings-pane {
+    .settings-pane,
+    .modal-section {
       background: var(--demo-surface-2);
       border: 1px solid var(--demo-border);
       border-radius: 12px;
       padding: 12px;
+    }
+
+    .modal-section h3 {
+      margin: 0 0 10px;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: rgba(232,237,233,0.6);
+    }
+
+    .checkbox-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .checkbox-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 10px;
+      border-radius: 10px;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid var(--demo-border);
+      font-size: 12px;
+      color: var(--demo-text);
+    }
+
+    .checkbox-item input {
+      accent-color: var(--demo-green);
+    }
+
+    .issue-modal-panel {
+      width: min(520px, 100%);
+      background: #0D1A10;
+      border: 1px solid #10B981;
+      border-radius: 8px;
+    }
+
+    .summary-token {
+      padding: 10px 12px;
+      border-radius: 10px;
+      background: rgba(16,195,126,0.08);
+      border: 1px solid rgba(16,195,126,0.18);
+      font-family: ui-monospace, SFMono-Regular, monospace;
+      color: #86EFAC;
+      font-size: 15px;
+      font-weight: 700;
+    }
+
+    .scope-chip-wrap {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .small-btn.danger {
+      background: rgba(239,68,68,0.14);
+      border-color: rgba(239,68,68,0.35);
+      color: #fca5a5;
+    }
+
+    .registry-enter td {
+      padding-top: 0 !important;
+      padding-bottom: 0 !important;
+      opacity: 0;
+    }
+
+    .registry-enter.registry-enter-active td {
+      padding-top: 10px !important;
+      padding-bottom: 10px !important;
+      opacity: 1;
+      transition: padding .3s ease, opacity .3s ease;
     }
 
     .support-layout {
@@ -1463,7 +1681,7 @@
           <span class="brand-text"><strong>Data</strong><span>Banq</span></span>
         </a>
         <div class="live-pill"><span class="pulse-dot"></span>Live demo workspace</div>
-        <div class="demo-crumb" id="demoBreadcrumb">Acme Fintech Inc. / Agent Governance / Dashboard</div>
+        <div class="demo-crumb" id="demoBreadcrumb">Acme Fintech Inc.&nbsp;&nbsp;/&nbsp;&nbsp;Agent Governance&nbsp;&nbsp;/&nbsp;&nbsp;Dashboard</div>
       </div>
       <div class="demo-topbar-right">
         <div class="context-pill">Acme Fintech Inc.</div>
@@ -1722,10 +1940,10 @@
           <div class="subtabs">
             <button class="subtab active" data-tab-group="agent" data-tab-target="agent-registry">Registry</button>
             <button class="subtab" data-tab-group="agent" data-tab-target="agent-trust">Trust Graph</button>
-            <button class="subtab" data-tab-group="agent" data-tab-target="agent-radius">Blast Radius</button>
+            <button class="subtab" data-tab-group="agent" data-tab-target="agent-blast">Blast Radius</button>
             <button class="subtab" data-tab-group="agent" data-tab-target="agent-lineage">Model Lineage</button>
             <button class="subtab" data-tab-group="agent" data-tab-target="agent-mcp">MCP Governance</button>
-            <button class="subtab" data-tab-group="agent" data-tab-target="agent-workflows">Workflow Controls</button>
+            <button class="subtab" data-tab-group="agent" data-tab-target="agent-workflow">Workflow Controls</button>
           </div>
 
           <div class="tab-pane active" id="agent-registry">
@@ -1740,7 +1958,7 @@
               <div class="demo-card-body">
                 <table>
                   <thead>
-                    <tr><th>Agent</th><th>Model</th><th>Risk</th><th>Owner</th><th>Environment</th><th>Status</th><th>Actions</th></tr>
+                    <tr><th>Agent</th><th>Token ID</th><th>Status</th><th>Scope</th><th>Owner</th><th>Last active</th><th>Actions</th></tr>
                   </thead>
                   <tbody id="agentRegistryBody">
                     <tr>
@@ -1837,122 +2055,191 @@
           </div>
 
           <div class="tab-pane" id="agent-trust">
-            <div class="graph-wrap">
-              <div class="trust-canvas">
-                <svg viewBox="0 0 760 320" width="100%" height="320" aria-label="Agent trust graph">
-                  <defs>
-                    <linearGradient id="linkGreen" x1="0" x2="1">
-                      <stop offset="0%" stop-color="rgba(16,195,126,0.15)" />
-                      <stop offset="100%" stop-color="rgba(16,195,126,0.65)" />
-                    </linearGradient>
-                    <linearGradient id="linkWarn" x1="0" x2="1">
-                      <stop offset="0%" stop-color="rgba(248,113,113,0.15)" />
-                      <stop offset="100%" stop-color="rgba(248,113,113,0.7)" />
-                    </linearGradient>
-                  </defs>
-                  <path class="trust-link-safe" d="M120 88 C220 88 250 88 330 118" stroke="url(#linkGreen)" stroke-width="4" fill="none" />
-                  <path class="trust-link-safe" d="M120 88 C220 88 250 88 330 230" stroke="url(#linkGreen)" stroke-width="4" fill="none" />
-                  <path class="trust-link-safe" d="M390 118 C480 118 515 118 610 100" stroke="url(#linkGreen)" stroke-width="4" fill="none" />
-                  <path class="trust-link-warn" d="M390 230 C470 230 520 220 610 230" stroke="url(#linkWarn)" stroke-width="5" fill="none" />
-
-                  <circle r="5" fill="#10c37e">
-                    <animateMotion dur="4.4s" repeatCount="indefinite" path="M120 88 C220 88 250 88 330 118" />
-                  </circle>
-                  <circle r="5" fill="#10c37e">
-                    <animateMotion dur="5.1s" repeatCount="indefinite" path="M120 88 C220 88 250 88 330 230" />
-                  </circle>
-                  <circle r="5" fill="#fbbf24">
-                    <animateMotion dur="3.8s" repeatCount="indefinite" path="M390 230 C470 230 520 220 610 230" />
-                  </circle>
-
-                  <g>
-                    <circle cx="110" cy="88" r="40" fill="#101a17" stroke="rgba(16,195,126,0.35)" stroke-width="2"></circle>
-                    <text x="110" y="82" text-anchor="middle" fill="#e8ede9" font-size="13" font-weight="700">Root</text>
-                    <text x="110" y="100" text-anchor="middle" fill="rgba(232,237,233,0.6)" font-size="11">Policy broker</text>
-                  </g>
-
-                  <g>
-                    <circle cx="360" cy="118" r="42" fill="#101a17" stroke="rgba(16,195,126,0.45)" stroke-width="2"></circle>
-                    <text x="360" y="112" text-anchor="middle" fill="#e8ede9" font-size="13" font-weight="700">RevenueOps</text>
-                    <text x="360" y="130" text-anchor="middle" fill="rgba(232,237,233,0.6)" font-size="11">Signed scope</text>
-                  </g>
-
-                  <g>
-                    <circle cx="360" cy="230" r="42" fill="#101a17" stroke="rgba(125,211,252,0.45)" stroke-width="2"></circle>
-                    <text x="360" y="224" text-anchor="middle" fill="#e8ede9" font-size="13" font-weight="700">Fraud AI</text>
-                    <text x="360" y="242" text-anchor="middle" fill="rgba(232,237,233,0.6)" font-size="11">Alert path</text>
-                  </g>
-
-                  <g>
-                    <circle cx="640" cy="100" r="38" fill="#101a17" stroke="rgba(16,195,126,0.45)" stroke-width="2"></circle>
-                    <text x="640" y="96" text-anchor="middle" fill="#e8ede9" font-size="12" font-weight="700">CRM Sync</text>
-                    <text x="640" y="114" text-anchor="middle" fill="rgba(232,237,233,0.6)" font-size="10">Trusted</text>
-                  </g>
-
-                  <g>
-                    <circle cx="640" cy="230" r="38" fill="#101a17" stroke="rgba(248,113,113,0.45)" stroke-width="2"></circle>
-                    <text x="640" y="226" text-anchor="middle" fill="#e8ede9" font-size="12" font-weight="700">Case Escalator</text>
-                    <text x="640" y="244" text-anchor="middle" fill="#fbbf24" font-size="10">Needs review</text>
-                  </g>
-                </svg>
-                <div class="graph-legend">
-                  <span class="chip ok"><span class="dot" style="background:#10c37e"></span>Trusted delegation</span>
-                  <span class="chip risk"><span class="dot" style="background:#f87171"></span>Escalation path</span>
-                  <span class="chip neutral">Animated flow shows live signed traffic</span>
+            <div class="demo-card">
+              <div class="demo-card-head">
+                <div>
+                  <div class="demo-card-title">Trust graph</div>
+                  <div class="demo-card-meta">Live delegation between governed agents, services, and review-required edges</div>
                 </div>
-                <div class="toolbar-info" style="margin-top:10px;">Green animated links are approved machine-to-machine handoffs. The amber path is still contained, but requires a second human reviewer before any case action continues.</div>
+                <span class="status-badge warn">Review path present</span>
               </div>
-              <div class="list-stack">
+              <div class="demo-card-body">
+                <div class="trust-graph-box" id="trustGraphBox">
+                  <div class="trust-tooltip" id="trustTooltip" aria-hidden="true"></div>
+                  <svg class="trust-svg" id="trustGraphSvg" viewBox="0 0 1000 380" width="100%" height="380" aria-label="Agent trust graph">
+                    <rect id="trustGraphBg" x="0" y="0" width="1000" height="380" fill="transparent"></rect>
+
+                    <path class="edge flow" data-edge="root-revenue" d="M500 116 C460 150 335 188 228 212" stroke="#10B981" stroke-width="2" fill="none" stroke-linecap="round"></path>
+                    <path class="edge flow" data-edge="root-fraud" d="M500 116 C470 160 430 194 392 214" stroke="#10B981" stroke-width="1.5" fill="none" stroke-linecap="round"></path>
+                    <path class="edge flow" data-edge="root-crm" d="M500 116 C548 152 595 183 606 210" stroke="#10B981" stroke-width="2" fill="none" stroke-linecap="round"></path>
+                    <path class="edge review" data-edge="fraud-case-review" d="M408 256 C510 262 640 280 752 304" stroke="#F59E0B" stroke-width="2" fill="none" stroke-linecap="round"></path>
+                    <text x="584" y="282" fill="#F59E0B" font-size="16">⚠</text>
+
+                    <g class="node-group" data-node="root" data-label="Root / Policy Broker" data-token="System Root" data-owner="DataBanq Governance Cloud" data-status="Authorized" data-last="Live">
+                      <circle class="node-core" cx="500" cy="80" r="36" fill="#064E3B" stroke="#10B981" stroke-width="2"></circle>
+                      <path d="M500 61l12 5v8c0 10-7 18-12 20-5-2-12-10-12-20v-8l12-5Z" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linejoin="round"></path>
+                      <path d="M500 69v12" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"></path>
+                      <path d="M495 76h10" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"></path>
+                      <foreignObject x="450" y="122" width="100" height="44">
+                        <div xmlns="http://www.w3.org/1999/xhtml" class="trust-node-label"><strong>Root</strong><span class="warn-text" style="color:#4A7A5C">Policy Broker</span></div>
+                      </foreignObject>
+                    </g>
+
+                    <g class="node-group" data-node="revenueops" data-label="RevenueOps Agent" data-token="AIT-0041" data-owner="M. Chen" data-status="Active" data-last="2 min ago">
+                      <circle class="node-core" cx="200" cy="220" r="28" fill="#0D1A10" stroke="#10B981" stroke-width="2"></circle>
+                      <foreignObject x="142" y="258" width="116" height="42">
+                        <div xmlns="http://www.w3.org/1999/xhtml" class="trust-node-label"><strong>RevenueOps</strong><span>AIT-0041</span></div>
+                      </foreignObject>
+                    </g>
+
+                    <g class="node-group" data-node="fraud-ai" data-label="Fraud Detection AI" data-token="AIT-0063" data-owner="D. Williams" data-status="Needs review" data-last="8 hr ago">
+                      <circle class="node-core pulsing-ring" cx="380" cy="240" r="28" fill="rgba(245,158,11,0.10)" stroke="#F59E0B" stroke-width="2"></circle>
+                      <foreignObject x="330" y="278" width="100" height="42">
+                        <div xmlns="http://www.w3.org/1999/xhtml" class="trust-node-label"><strong>Fraud AI</strong><span>AIT-0063</span></div>
+                      </foreignObject>
+                    </g>
+
+                    <g class="node-group" data-node="crm-sync" data-label="CRM Sync" data-token="Trusted service" data-owner="Revenue Systems" data-status="Trusted" data-last="Live sync">
+                      <circle class="node-core" cx="620" cy="220" r="28" fill="#0D1A10" stroke="#10B981" stroke-width="2"></circle>
+                      <foreignObject x="572" y="258" width="96" height="42">
+                        <div xmlns="http://www.w3.org/1999/xhtml" class="trust-node-label"><strong>CRM Sync</strong><span class="warn-text" style="color:#10B981">Trusted</span></div>
+                      </foreignObject>
+                    </g>
+
+                    <g class="node-group" data-node="case-escalator" data-label="Case Escalator" data-token="Review required" data-owner="Risk Operations" data-status="Needs review" data-last="Awaiting second approver">
+                      <circle class="node-core" cx="780" cy="310" r="28" fill="rgba(245,158,11,0.08)" stroke="#F59E0B" stroke-width="2"></circle>
+                      <text x="799" y="293" fill="#F59E0B" font-size="14">⚠</text>
+                      <foreignObject x="718" y="348" width="124" height="44">
+                        <div xmlns="http://www.w3.org/1999/xhtml" class="trust-node-label"><strong>Case Escalator</strong><span class="warn-text">Needs review</span></div>
+                      </foreignObject>
+                    </g>
+                  </svg>
+                </div>
+
+                <div class="graph-stat-row">
+                  <span><strong>Delegations checked:</strong> 42</span>
+                  <span>|</span>
+                  <span><strong>Unsigned handoffs:</strong> 0</span>
+                  <span>|</span>
+                  <span><strong>High-risk path:</strong> Fraud AI → Case Escalator</span>
+                </div>
+
+                <div class="actions-row" style="margin-top:12px;">
+                  <button class="small-btn primary" data-action="focus-risk-path">Focus high-risk path</button>
+                  <button class="small-btn" data-action="trust-audit">Audit Trust Boundaries</button>
+                </div>
+
                 <div class="panel-note" id="trustNote">The only flagged edge is the fraud escalation handoff into case resolution. Scope is limited, recorded, and awaiting a second reviewer.</div>
-                <div class="demo-card">
-                  <div class="demo-card-head"><div class="demo-card-title">Trust review</div><div class="demo-card-meta">What you are seeing</div></div>
-                  <div class="demo-card-body list-stack">
-                    <div class="info-row"><strong>Delegations checked</strong><span>42</span></div>
-                    <div class="info-row"><strong>Unsigned handoffs</strong><span class="status-badge ok">0</span></div>
-                    <div class="info-row"><strong>High-risk path</strong><span class="status-badge warn">Fraud AI → Case Escalator</span></div>
-                    <div class="actions-row">
-                      <button class="small-btn primary" data-action="focus-risk-path">Focus high-risk path</button>
-                      <button class="small-btn" data-action="trust-audit">Audit Trust Boundaries</button>
-                    </div>
-                  </div>
-                </div>
-                <div class="support-card">
-                  <div class="demo-card-title" style="margin-bottom:10px;">Trust graph guide</div>
-                  <div class="status-list">
-                    <div class="status-item"><strong>Root</strong><span>Central policy broker that issues signed scope</span></div>
-                    <div class="status-item"><strong>Green nodes</strong><span>Verified routes operating within approved permissions</span></div>
-                    <div class="status-item"><strong>Amber warning</strong><span>Contained handoff pending human oversight</span></div>
-                  </div>
-                </div>
               </div>
             </div>
           </div>
 
-          <div class="tab-pane" id="agent-radius">
-            <div class="card-grid-2">
-              <div class="demo-card">
-                <div class="demo-card-head"><div class="demo-card-title">Blast radius limits</div><div class="demo-card-meta">Current containment posture</div></div>
-                <div class="demo-card-body list-stack">
-                  <div class="rule-row"><strong>Production writes</strong><span class="status-badge ok">Allowed only to signed finance agents</span></div>
-                  <div class="rule-row"><strong>Payment APIs</strong><span class="status-badge risk">Blocked outside allowlist</span></div>
-                  <div class="rule-row"><strong>PII export</strong><span class="status-badge warn">Human approval required</span></div>
-                  <div class="rule-row"><strong>Downstream tool calls</strong><span class="status-badge ok">MCP guarded</span></div>
+          <div class="tab-pane" id="agent-blast">
+            <div class="demo-card">
+              <div class="demo-card-head">
+                <div>
+                  <div class="demo-card-title">Blast radius</div>
+                  <div class="demo-card-meta">Visual containment map for governed agent access</div>
                 </div>
+                <span id="containmentStatus" class="status-badge blue">Ready</span>
               </div>
-              <div class="demo-card">
-                <div class="demo-card-head"><div class="demo-card-title">Containment simulator</div><div class="demo-card-meta">Real dry-run workflow</div><span id="containmentStatus" class="status-badge blue">Ready</span></div>
-                <div class="demo-card-body">
-                  <p class="screen-subtitle" style="margin-top:0">Launch a realistic dry run against payment write access, sensitive export, and cross-agent escalation controls.</p>
-                  <div class="test-grid" style="margin-bottom:12px;">
-                    <div class="test-step ready" id="containmentStep1"><strong>Payment write attempt</strong><div>Awaiting dry run</div></div>
-                    <div class="test-step ready" id="containmentStep2"><strong>PII export attempt</strong><div>Awaiting dry run</div></div>
-                    <div class="test-step ready" id="containmentStep3"><strong>Cross-agent escalation</strong><div>Awaiting dry run</div></div>
-                    <div class="test-step ready" id="containmentStep4"><strong>Ledger proof</strong><div>Awaiting signed event</div></div>
+              <div class="demo-card-body">
+                <div class="bullseye-wrap">
+                  <select id="agentBlastSelector" class="agent-select" aria-label="Select governed agent for blast radius view">
+                    <option value="AIT-0041">underwriting-agent-v3 (AIT-0041)</option>
+                    <option value="AIT-0038">Contract Reviewer (AIT-0038)</option>
+                    <option value="AIT-0029">Customer Support AI (AIT-0029)</option>
+                    <option value="AIT-0063">Fraud Detection AI (AIT-0063)</option>
+                  </select>
+
+                  <div class="ring-explainer">Each ring shows what this agent can access. Green = authorized for this task. Amber = logged and monitored. Red = hard blocked regardless of instruction.</div>
+
+                  <div class="blast-diagram-shell">
+                    <svg id="blastRadiusSvg" class="bullseye-svg" viewBox="0 0 360 360" width="360" height="360" aria-label="Blast radius access map">
+                      <g id="bullseyeDiagram" class="bullseye-figure">
+                        <circle id="blastMonitoredRing" cx="180" cy="180" r="168" fill="rgba(245,158,11,0.05)" stroke="#F59E0B" stroke-width="1.5" stroke-dasharray="6 4"></circle>
+                        <circle id="blastBlockedRing" cx="180" cy="180" r="176" fill="rgba(239,68,68,0.04)" stroke="#EF4444" stroke-width="1.5" stroke-dasharray="4 4"></circle>
+                        <circle id="blastAuthorizedRing" cx="180" cy="180" r="108" fill="rgba(16,185,129,0.07)" stroke="#10B981" stroke-width="1.5"></circle>
+                        <circle cx="180" cy="180" r="44" fill="#064E3B" stroke="#10B981" stroke-width="2"></circle>
+
+                        <text id="blastCenterName" x="180" y="176" text-anchor="middle" font-size="11" font-weight="700" fill="#F0FDF4">Underwriting</text>
+                        <text id="blastCenterToken" x="180" y="192" text-anchor="middle" font-size="9" fill="#86EFAC">AIT-0041</text>
+
+                        <g id="authLabel1">
+                          <line x1="248" y1="140" x2="286" y2="116" stroke="#10B981" stroke-width="1"></line>
+                          <text id="authText1" x="290" y="112" font-size="10" fill="#10B981">read:applications</text>
+                        </g>
+                        <g id="authLabel2">
+                          <line x1="235" y1="218" x2="288" y2="244" stroke="#10B981" stroke-width="1"></line>
+                          <text id="authText2" x="292" y="248" font-size="10" fill="#10B981">write:decisions</text>
+                        </g>
+                        <g id="authLabel3">
+                          <line x1="180" y1="118" x2="180" y2="78" stroke="#10B981" stroke-width="1"></line>
+                          <text id="authText3" x="122" y="72" font-size="10" fill="#10B981">read:underwriting-rules</text>
+                        </g>
+
+                        <g id="monLabel1">
+                          <line x1="288" y1="180" x2="326" y2="180" stroke="#F59E0B" stroke-width="1"></line>
+                          <text id="monText1" x="330" y="184" font-size="10" fill="#F59E0B">read:customer-profile</text>
+                        </g>
+                        <g id="monLabel2">
+                          <line x1="257" y1="103" x2="286" y2="74" stroke="#F59E0B" stroke-width="1"></line>
+                          <text id="monText2" x="290" y="70" font-size="10" fill="#F59E0B">(logged)</text>
+                        </g>
+
+                        <g id="blockLabel1">
+                          <line x1="324" y1="104" x2="346" y2="86" stroke="#EF4444" stroke-width="1"></line>
+                          <text id="blockText1" x="224" y="76" font-size="10" fill="#EF4444">read:full-PII</text>
+                        </g>
+                        <g id="blockLabel2">
+                          <line x1="330" y1="252" x2="350" y2="268" stroke="#EF4444" stroke-width="1"></line>
+                          <text id="blockText2" x="216" y="292" font-size="10" fill="#EF4444">write:financial-records</text>
+                        </g>
+                        <g id="blockLabel3">
+                          <line x1="150" y1="28" x2="138" y2="8" stroke="#EF4444" stroke-width="1"></line>
+                          <text id="blockText3" x="44" y="18" font-size="10" fill="#EF4444">call:payment-apis</text>
+                        </g>
+                        <g id="blockLabel4">
+                          <line x1="26" y1="212" x2="8" y2="220" stroke="#EF4444" stroke-width="1"></line>
+                          <text id="blockText4" x="8" y="236" font-size="10" fill="#EF4444">spawn:sub-agents</text>
+                        </g>
+                      </g>
+
+                      <circle id="probeBlocked1" class="probe-dot" cx="180" cy="180" r="5" fill="#EF4444">
+                        <animateMotion id="probeBlockedMotion1" begin="indefinite" dur="0.7s" fill="freeze" path="M0 0 C 44 -58 88 -102 144 -108"></animateMotion>
+                      </circle>
+                      <circle id="probeBlocked2" class="probe-dot" cx="180" cy="180" r="5" fill="#EF4444">
+                        <animateMotion id="probeBlockedMotion2" begin="indefinite" dur="0.7s" fill="freeze" path="M0 0 C 34 -46 80 -92 124 -148"></animateMotion>
+                      </circle>
+                      <circle id="probeMonitored" class="probe-dot" cx="180" cy="180" r="5" fill="#F59E0B">
+                        <animateMotion id="probeMonitoredMotion" begin="indefinite" dur="0.6s" fill="freeze" path="M0 0 C 52 10 86 6 116 0"></animateMotion>
+                      </circle>
+                    </svg>
                   </div>
-                  <div class="panel-note" id="radiusResult">No active containment event. The environment is ready for a dry run.</div>
-                  <div class="actions-row">
-                    <button class="small-btn primary" data-action="run-radius-test">Run containment test</button>
-                    <button class="small-btn" data-action="verify-ledger">Verify ledger proof</button>
+
+                  <div class="legend-row">
+                    <span><span class="legend-dot" style="background:#10B981"></span>Authorized</span>
+                    <span><span class="legend-dot" style="background:#F59E0B"></span>Monitored</span>
+                    <span><span class="legend-dot" style="background:#EF4444"></span>Hard Blocked</span>
+                  </div>
+                </div>
+
+                <div class="demo-card" style="margin-top:18px; max-width:720px; margin-inline:auto;">
+                  <div class="demo-card-head">
+                    <div>
+                      <div class="demo-card-title">Containment Simulator</div>
+                      <div class="demo-card-meta">Test what DataBanq blocks in real time.</div>
+                    </div>
+                  </div>
+                  <div class="demo-card-body">
+                    <div class="simulator-list">
+                      <div class="simulator-row" id="containmentStep1"><div class="sim-label"><span class="sim-icon">💳</span><span>Payment write attempt</span></div><span class="status-badge status-awaiting sim-status">—</span></div>
+                      <div class="simulator-row" id="containmentStep2"><div class="sim-label"><span class="sim-icon">👤</span><span>PII export attempt</span></div><span class="status-badge status-awaiting sim-status">—</span></div>
+                      <div class="simulator-row" id="containmentStep3"><div class="sim-label"><span class="sim-icon">🔗</span><span>Cross-agent escalation</span></div><span class="status-badge status-awaiting sim-status">—</span></div>
+                      <div class="simulator-row" id="containmentStep4"><div class="sim-label"><span class="sim-icon">📋</span><span>Ledger proof</span></div><span class="status-badge status-awaiting sim-status">—</span></div>
+                    </div>
+                    <button id="runContainmentBtn" class="small-btn primary full-width" data-action="run-radius-test">Run Containment Test</button>
+                    <div class="simulation-summary" id="radiusResult">Select an agent to inspect its live access envelope.</div>
                   </div>
                 </div>
               </div>
@@ -2015,6 +2302,7 @@
                 </table>
               </div>
             </div>
+
             <div class="demo-card" style="margin-top:12px;">
               <div class="demo-card-head">
                 <div class="mcp-live-title"><span class="pulse-dot"></span><div class="demo-card-title">Live MCP Call Log</div></div>
@@ -2024,7 +2312,7 @@
             </div>
           </div>
 
-          <div class="tab-pane" id="agent-workflows">
+          <div class="tab-pane" id="agent-workflow">
             <div class="demo-card">
               <div class="demo-card-head">
                 <div>
@@ -2394,14 +2682,14 @@
       <div class="modal-head">
         <div>
           <div class="modal-title">DataBanq Platform Guide</div>
-          <div class="demo-card-meta">Quick guidance for trust review, blast radius, audit exports, and consent controls</div>
+          <div class="demo-card-meta">Ask about trust review, blast radius, audit exports, and consent controls</div>
         </div>
         <button class="icon-close" data-close-modal="supportModal">✕</button>
       </div>
       <div class="modal-body support-layout">
         <div class="list-stack">
           <div class="support-card">
-            <div class="demo-card-title" style="margin-bottom:10px;">Quick navigation</div>
+            <div class="demo-card-title" style="margin-bottom:10px;">Workspace actions</div>
             <div class="status-list">
               <div class="status-item"><strong>Audit</strong><span>Reports and evidence packs</span></div>
               <div class="status-item"><strong>Integrations</strong><span>Connectors, scope, and registry actions</span></div>
@@ -2409,18 +2697,18 @@
             </div>
           </div>
           <div class="support-card">
-            <div class="demo-card-title" style="margin-bottom:10px;">Popular help</div>
+            <div class="demo-card-title" style="margin-bottom:10px;">Suggested prompts</div>
             <div class="quick-replies">
               <button class="small-btn" data-chat-prompt="How do I export the audit pack?">Audit pack help</button>
               <button class="small-btn" data-chat-prompt="Show me integration setup guidance">Integration help</button>
               <button class="small-btn" data-chat-prompt="What does the trust graph mean?">Trust graph help</button>
-              <button class="small-btn" data-chat-prompt="How do I navigate this demo?">Navigation help</button>
+              <button class="small-btn" data-chat-prompt="How do I navigate this demo?">Workspace navigation</button>
             </div>
           </div>
         </div>
         <div class="list-stack">
           <div class="chat-box" id="chatBox">
-            <div class="chat-msg bot">Welcome. I can explain what each screen does, how to navigate the demo, and where to download official-looking reports.</div>
+            <div class="chat-msg bot">Welcome. Ask about audit exports, trust reviews, connector scope, or governance controls.</div>
             <div class="chat-msg bot">Ask about trust boundaries, ledger exports, connector settings, or governance controls.</div>
           </div>
           <div class="chat-input-row">
@@ -2510,8 +2798,78 @@
     </div>
   </div>
 
-  <div class="modal" id="agentModal" aria-hidden="true">
-    <div class="modal-panel compact">
+  <div class="modal" id="issueAgentModal" aria-hidden="true">
+    <div class="modal-panel issue-modal-panel">
+      <div class="modal-head">
+        <div>
+          <div class="modal-title">Issue Agent Identity Token (AIT)</div>
+          <div class="demo-card-meta">All fields are required. Token will be cryptographically signed and registered to the hash ledger.</div>
+        </div>
+        <button class="icon-close" data-close-modal="issueAgentModal">✕</button>
+      </div>
+      <div class="modal-body">
+        <form id="issueAgentForm" class="list-stack">
+          <div class="field">
+            <label>Agent Name</label>
+            <input id="issueAgentName" name="agentName" placeholder="e.g. invoice-processor-v1">
+            <div class="field-note" id="issueAgentNameError" style="display:none;">Required</div>
+          </div>
+          <div class="field">
+            <label>Agent Type</label>
+            <select id="issueAgentType" name="agentType">
+              <option>Orchestrator</option>
+              <option>Sub-agent</option>
+              <option>Tool-agent</option>
+              <option>Monitor</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Authorized Scope</label>
+            <div id="issueAgentScopeGroup" class="checkbox-grid">
+              <label class="checkbox-item"><input type="checkbox" name="scope" value="read:customer-data">read:customer-data</label>
+              <label class="checkbox-item"><input type="checkbox" name="scope" value="read:financial-records">read:financial-records</label>
+              <label class="checkbox-item"><input type="checkbox" name="scope" value="write:decisions">write:decisions</label>
+              <label class="checkbox-item"><input type="checkbox" name="scope" value="write:communications">write:communications</label>
+              <label class="checkbox-item"><input type="checkbox" name="scope" value="read:documents">read:documents</label>
+              <label class="checkbox-item"><input type="checkbox" name="scope" value="call:external-apis">call:external-apis</label>
+              <label class="checkbox-item"><input type="checkbox" name="scope" value="spawn:sub-agents">spawn:sub-agents</label>
+            </div>
+            <div class="field-note" id="issueAgentScopeError" style="display:none;">Required</div>
+          </div>
+          <div class="field">
+            <label>Authorizing Principal</label>
+            <select id="issueAgentPrincipal" name="principal">
+              <option>J. Rivera (CCO)</option>
+              <option>M. Chen (CTO)</option>
+              <option>A. Torres (CCO)</option>
+              <option>Auto-policy</option>
+            </select>
+          </div>
+          <div class="form-grid">
+            <div class="field">
+              <label>Token Expiration</label>
+              <input id="issueAgentExpiration" name="expiration" type="date">
+            </div>
+            <div class="field">
+              <label>MCP Servers</label>
+              <div id="issueAgentMcpGroup" class="list-stack">
+                <label class="checkbox-item"><input type="checkbox" name="mcp" value="doc-retrieval-mcp">doc-retrieval-mcp</label>
+                <label class="checkbox-item"><input type="checkbox" name="mcp" value="crm-mcp">crm-mcp</label>
+                <label class="checkbox-item"><input type="checkbox" name="mcp" value="audit-mcp">audit-mcp</label>
+              </div>
+            </div>
+          </div>
+          <div class="actions-row">
+            <button type="button" class="small-btn ghost" data-close-modal="issueAgentModal">Cancel</button>
+            <button type="submit" class="small-btn primary" id="issueAgentSubmit">Sign &amp; Register Token →</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal side-panel" id="agentModal" aria-hidden="true">
+    <div class="modal-panel">
       <div class="modal-head">
         <div>
           <div class="modal-title">Agent Record</div>
@@ -2520,23 +2878,55 @@
         <button class="icon-close" data-close-modal="agentModal">✕</button>
       </div>
       <div class="modal-body list-stack">
-        <div class="report-hero">
-          <div>
-            <div class="demo-card-title" id="agentModalName">RevenueOps Agent</div>
-            <div class="screen-subtitle" id="agentModalMeta">Production governance profile</div>
+        <div>
+          <div class="demo-card-title" id="agentModalName" style="font-size:20px; margin-bottom:6px;">RevenueOps Agent</div>
+          <div class="screen-subtitle" id="agentModalMeta">Production governance profile</div>
+          <div style="margin-top:10px; display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+            <span class="status-badge ok" id="agentModalStatus">Active</span>
+            <div class="summary-token" id="agentModalToken">AIT-0041</div>
           </div>
-          <span class="status-badge ok" id="agentModalStatus">Active</span>
         </div>
-        <div class="support-card">
-          <div class="demo-card-title" style="margin-bottom:10px;">Recent registry actions</div>
+        <div class="modal-section">
+          <h3>Identity</h3>
+          <div class="status-list" id="agentIdentityDetails"></div>
+        </div>
+        <div class="modal-section">
+          <h3>Authorized Scope</h3>
+          <div class="scope-chip-wrap" id="agentScopeChips"></div>
+        </div>
+        <div class="modal-section">
+          <h3>MCP Servers</h3>
+          <div class="status-list" id="agentMcpList"></div>
+        </div>
+        <div class="modal-section">
+          <h3>Recent Activity</h3>
           <div class="status-list" id="agentModalActions">
-            <div class="status-item"><strong>Token rotation</strong><span>Completed</span></div>
-            <div class="status-item"><strong>Trust review</strong><span>No unsigned delegation</span></div>
+            <div class="status-item"><strong>09:41</strong><span>Token rotation completed</span></div>
           </div>
         </div>
         <div class="actions-row">
           <button class="small-btn primary" data-action="download-agent-summary">Download Summary</button>
+          <button class="small-btn danger" data-action="modal-revoke-agent">Revoke Token</button>
           <button class="small-btn" data-close-modal="agentModal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="revokeConfirmModal" aria-hidden="true">
+    <div class="modal-panel compact">
+      <div class="modal-head">
+        <div>
+          <div class="modal-title" id="revokeModalTitle">Revoke AIT-0041?</div>
+          <div class="demo-card-meta">This will immediately terminate all active sessions for this agent. This action cannot be undone.</div>
+        </div>
+        <button class="icon-close" data-close-modal="revokeConfirmModal">✕</button>
+      </div>
+      <div class="modal-body list-stack">
+        <div class="panel-note" style="margin:0;">Token invalidation is immediate and will be written to the registry and usage ledger.</div>
+        <div class="actions-row">
+          <button class="small-btn ghost" data-close-modal="revokeConfirmModal">Cancel</button>
+          <button class="small-btn danger" id="confirmRevokeBtn" data-action="confirm-revoke-agent">Revoke Token</button>
         </div>
       </div>
     </div>
@@ -2583,6 +2973,11 @@
         </div>
       </div>
     </div>
+  </div>
+
+  <div class="toast" id="demoToast" aria-live="polite">
+    <div class="toast-title" id="toastTitle">Update</div>
+    <div class="toast-desc" id="toastDesc">Status message</div>
   </div>
 
   <div class="toast-stack" id="toastStack"></div>

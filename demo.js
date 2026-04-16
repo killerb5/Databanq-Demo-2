@@ -1,12 +1,22 @@
 document.addEventListener('DOMContentLoaded', () => {
   const screenNames = {
-    dashboard: 'Overview / Dashboard',
-    integrations: 'Connections / Integrations',
-    agents: 'Governance / Agent Governance',
-    ai: 'Governance / AI Governance',
-    audit: 'Compliance / Audit & Compliance',
-    usage: 'Evidence / Usage & Hash Ledger',
-    settings: 'Admin / Settings'
+    dashboard: 'Dashboard',
+    integrations: 'Connected Systems',
+    agents: 'Agent Governance',
+    ai: 'AI Governance',
+    audit: 'Audit & Compliance',
+    usage: 'Usage & Hash Ledger',
+    settings: 'Settings'
+  };
+
+  const breadcrumbMap = {
+    dashboard: 'Acme Fintech Inc.\u00A0\u00A0/\u00A0\u00A0Agent Governance\u00A0\u00A0/\u00A0\u00A0Dashboard',
+    integrations: 'Acme Fintech Inc.\u00A0\u00A0/\u00A0\u00A0Connected Systems',
+    agents: 'Acme Fintech Inc.\u00A0\u00A0/\u00A0\u00A0Agent Governance',
+    ai: 'Acme Fintech Inc.\u00A0\u00A0/\u00A0\u00A0AI Governance',
+    audit: 'Acme Fintech Inc.\u00A0\u00A0/\u00A0\u00A0Audit & Compliance',
+    usage: 'Acme Fintech Inc.\u00A0\u00A0/\u00A0\u00A0Usage & Hash Ledger',
+    settings: 'Acme Fintech Inc.\u00A0\u00A0/\u00A0\u00A0Settings'
   };
 
   const navItems = Array.from(document.querySelectorAll('.demo-nav-item[data-screen]'));
@@ -16,6 +26,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const toastTitle = document.getElementById('toastTitle');
   const toastDesc = document.getElementById('toastDesc');
   const liveFeed = document.getElementById('liveFeed');
+  const mcpCallFeed = document.getElementById('mcpCallFeed');
+  const dashboardAlert = document.getElementById('dashboardAlert');
+  const demoMain = document.querySelector('.demo-main');
+  const trustGraphBox = document.getElementById('trustGraphBox');
   const connectedTableBody = document.getElementById('connectedTableBody');
   const integrationActionLog = document.getElementById('integrationActionLog');
   const registryActionLog = document.getElementById('registryActionLog');
@@ -38,23 +52,212 @@ document.addEventListener('DOMContentLoaded', () => {
   const integrationModalAuth = document.getElementById('integrationModalAuth');
   const integrationModalScope = document.getElementById('integrationModalScope');
   const integrationModalActions = document.getElementById('integrationModalActions');
+  const agentRegistryBody = document.getElementById('agentRegistryBody');
+  const agentRegistryCountBadge = document.getElementById('agentRegistryCountBadge');
+  const issueAgentForm = document.getElementById('issueAgentForm');
+  const issueAgentName = document.getElementById('issueAgentName');
+  const issueAgentType = document.getElementById('issueAgentType');
+  const issueAgentPrincipal = document.getElementById('issueAgentPrincipal');
+  const issueAgentExpiration = document.getElementById('issueAgentExpiration');
+  const issueAgentSubmit = document.getElementById('issueAgentSubmit');
+  const issueAgentNameError = document.getElementById('issueAgentNameError');
+  const issueAgentScopeError = document.getElementById('issueAgentScopeError');
+  const issueAgentScopeGroup = document.getElementById('issueAgentScopeGroup');
+  const agentModal = document.getElementById('agentModal');
   const agentModalName = document.getElementById('agentModalName');
   const agentModalMeta = document.getElementById('agentModalMeta');
   const agentModalStatus = document.getElementById('agentModalStatus');
+  const agentModalToken = document.getElementById('agentModalToken');
+  const agentIdentityDetails = document.getElementById('agentIdentityDetails');
+  const agentScopeChips = document.getElementById('agentScopeChips');
+  const agentMcpList = document.getElementById('agentMcpList');
   const agentModalActions = document.getElementById('agentModalActions');
+  const revokeModalTitle = document.getElementById('revokeModalTitle');
+  const trustGraph = document.getElementById('trustGraphSvg');
+  const trustTooltip = document.getElementById('trustTooltip');
+  const trustNodes = Array.from(document.querySelectorAll('.node-group[data-node]'));
+  const trustEdges = Array.from(document.querySelectorAll('.edge[data-edge]'));
+  const blastAgentSelector = document.getElementById('agentBlastSelector');
+  const blastDiagram = document.getElementById('bullseyeDiagram');
+  const blastCenterName = document.getElementById('blastCenterName');
+  const blastCenterToken = document.getElementById('blastCenterToken');
+  const blastMonitoredRing = document.getElementById('blastMonitoredRing');
+  const blastBlockedRing = document.getElementById('blastBlockedRing');
+  const runContainmentBtn = document.getElementById('runContainmentBtn');
+  const probeBlocked1 = document.getElementById('probeBlocked1');
+  const probeBlocked2 = document.getElementById('probeBlocked2');
+  const probeMonitored = document.getElementById('probeMonitored');
+  const probeBlockedMotion1 = document.getElementById('probeBlockedMotion1');
+  const probeBlockedMotion2 = document.getElementById('probeBlockedMotion2');
+  const probeMonitoredMotion = document.getElementById('probeMonitoredMotion');
 
-  let toastTimer = null;
+  const getSavedTab = (group, fallback) => {
+    try {
+      return sessionStorage.getItem(`databanq-active-tab-${group}`) || fallback;
+    } catch {
+      return fallback;
+    }
+  };
+
+  const saveActiveTab = (group, value) => {
+    try {
+      sessionStorage.setItem(`databanq-active-tab-${group}`, value);
+    } catch {
+      // ignore storage errors in demo mode
+    }
+  };
+
+  const activeTabs = {
+    agent: getSavedTab('agent', 'agent-registry'),
+    ai: getSavedTab('ai', 'ai-overview'),
+    settings: getSavedTab('settings', 'settings-org')
+  };
+
+  const groupToScreen = {
+    agent: 'agents',
+    ai: 'ai',
+    settings: 'settings'
+  };
+
+  const screenToGroup = {
+    agents: 'agent',
+    ai: 'ai',
+    settings: 'settings'
+  };
+
   let demoAgentCount = 18;
+  let nextAgentTokenId = 72;
   let ledgerRows = [];
   let ledgerPage = 0;
+  let containmentRunning = false;
+  let pendingRevoke = null;
 
-  const showToast = (title, description) => {
-    if (!toastEl) return;
-    toastTitle.textContent = title;
-    toastDesc.textContent = description || '';
-    toastEl.classList.add('show');
-    clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => toastEl.classList.remove('show'), 3000);
+  const metricConfigs = {
+    'Governed Agents': { target: 18 },
+    'High-risk Alerts': { target: 2 },
+    'AI Governance Score': { target: 91 },
+    'Audit Readiness': { target: 87 },
+    'Connected Now': { target: 4 },
+    'Pending Requests': { target: 1 },
+    'Needs Scoped Access': { target: 1 },
+    'Catalog Matches': { target: 4 },
+    'SOC 2': { target: 87, suffix: '/100' },
+    'HIPAA': { target: 34, suffix: '/38' },
+    'EU AI Act': { target: 22, suffix: '/27' },
+    'Evidence Packs': { target: 6, suffix: ' ready' },
+    'Total Events': { target: 9847, format: 'comma' },
+    'Hash Verified': { target: 9847, format: 'comma' },
+    'Agent Actions': { target: 3241, format: 'comma' },
+    'AI Inferences': { target: 6606, format: 'comma' }
+  };
+
+  const blastProfiles = {
+    'AIT-0041': {
+      shortName: 'Underwriting',
+      token: 'AIT-0041',
+      authorized: ['read:applications', 'write:decisions', 'read:underwriting-rules'],
+      monitored: ['read:customer-profile', '(logged)'],
+      blocked: ['read:full-PII', 'write:financial-records', 'call:payment-apis', 'spawn:sub-agents']
+    },
+    'AIT-0038': {
+      shortName: 'Contracts',
+      token: 'AIT-0038',
+      authorized: ['read:contracts', 'write:clause-flags', 'read:legal-playbook'],
+      monitored: ['read:counterparty-data', '(logged)'],
+      blocked: ['read:full-PII', 'write:financial-records', 'call:payment-apis', 'spawn:sub-agents']
+    },
+    'AIT-0029': {
+      shortName: 'Support',
+      token: 'AIT-0029',
+      authorized: ['read:tickets', 'write:replies', 'read:knowledge-base'],
+      monitored: ['read:customer-profile', '(logged)'],
+      blocked: ['read:full-PII', 'write:refund-ledger', 'call:payment-apis', 'spawn:sub-agents']
+    },
+    'AIT-0063': {
+      shortName: 'Fraud AI',
+      token: 'AIT-0063',
+      authorized: ['read:transactions', 'write:risk-flags', 'read:fraud-rules'],
+      monitored: ['read:customer-profile', '(logged)'],
+      blocked: ['read:full-PII', 'write:financial-records', 'call:payment-apis', 'spawn:sub-agents']
+    }
+  };
+
+  const agentDirectory = {
+    'RevenueOps Agent': {
+      token: 'AIT-0041', status: 'Active', tone: 'ok', model: 'gpt-4o-2024-11-20', type: 'Orchestrator', environment: 'Production',
+      owner: 'M. Chen (CTO)', issued: '2026-01-14', expires: '2026-07-13',
+      scope: ['read:crm', 'write:notes'], mcpServers: ['crm-mcp', 'audit-mcp'],
+      recent: [{ time: '09:41', text: 'Token rotation completed' }, { time: '09:18', text: 'CRM write scope attested' }, { time: '08:54', text: 'No unsigned delegation' }]
+    },
+    'Contract Reviewer': {
+      token: 'AIT-0038', status: 'Active', tone: 'ok', model: 'claude-3-5-sonnet', type: 'Tool-agent', environment: 'Staging',
+      owner: 'A. Torres (CCO)', issued: '2026-01-08', expires: '2026-07-07',
+      scope: ['read:docs', 'read:legal'], mcpServers: ['doc-retrieval-mcp', 'audit-mcp'],
+      recent: [{ time: '09:13', text: 'Legal owner approval confirmed' }, { time: '08:37', text: 'Model lineage reviewed' }, { time: '07:52', text: 'Staging policy pack verified' }]
+    },
+    'Customer Support AI': {
+      token: 'AIT-0029', status: 'Active', tone: 'ok', model: 'gpt-4o-mini-2024-07-18', type: 'Monitor', environment: 'Production',
+      owner: 'J. Kim (VP Eng)', issued: '2026-01-20', expires: '2026-07-19',
+      scope: ['read:tickets', 'write:replies'], mcpServers: ['doc-retrieval-mcp', 'crm-mcp'],
+      recent: [{ time: '08:44', text: 'Consent evidence mapped' }, { time: '08:17', text: 'PII guardrails active' }, { time: '07:58', text: 'Prompt logging enabled' }]
+    },
+    'Fraud Detection AI': {
+      token: 'AIT-0063', status: '⚠ Warning', tone: 'warn', model: 'gpt-4o-2024-11-20', type: 'Monitor', environment: 'Production',
+      owner: 'D. Williams', issued: '2026-02-02', expires: '2026-08-01',
+      scope: ['read:transactions (review)'], mcpServers: ['audit-mcp'],
+      recent: [{ time: '10:02', text: 'Trust escalation path under oversight' }, { time: '09:46', text: 'Critical risk review open' }, { time: '09:12', text: 'Containment controls verified' }]
+    },
+    'HR Onboarding Bot': {
+      token: 'AIT-0055', status: 'Active', tone: 'ok', model: 'gpt-4o-2024-11-20', type: 'Sub-agent', environment: 'Production',
+      owner: 'J. Rivera (CCO)', issued: '2026-01-30', expires: '2026-07-29',
+      scope: ['read:hr-data', 'write:records'], mcpServers: ['doc-retrieval-mcp'],
+      recent: [{ time: '08:32', text: 'Employee onboarding workflow validated' }, { time: '07:41', text: 'HR access renewal approved' }, { time: '07:06', text: 'Retention controls confirmed' }]
+    },
+    'Legacy Data Agent': {
+      token: 'AIT-0019', status: '✕ Revoked', tone: 'risk', model: 'legacy-runtime', type: 'Tool-agent', environment: 'Production',
+      owner: 'M. Chen (CTO)', issued: '2025-10-12', expires: '2026-01-10',
+      scope: [], mcpServers: [],
+      recent: [{ time: '2 days ago', text: 'Token revoked after legacy policy mismatch' }, { time: '3 days ago', text: 'Unsigned activity detected' }, { time: '4 days ago', text: 'Containment policy escalated' }]
+    },
+    'Compliance Reporter': {
+      token: 'AIT-0071', status: 'Active', tone: 'ok', model: 'gpt-4o-2024-11-20', type: 'Orchestrator', environment: 'Production',
+      owner: 'A. Torres (CCO)', issued: '2026-02-14', expires: '2026-08-13',
+      scope: ['read:audit', 'read:policies'], mcpServers: ['audit-mcp'],
+      recent: [{ time: '08:51', text: 'Evidence pack generated' }, { time: '08:29', text: 'Policy references synchronized' }, { time: '08:02', text: 'Board report draft prepared' }]
+    },
+    'unknown-proc-881': {
+      token: 'NONE', status: '🔴 Unverified', tone: 'risk', model: 'Unknown', type: 'Unknown', environment: 'Unregistered',
+      owner: 'None', issued: 'Unknown', expires: '—',
+      scope: [], mcpServers: [],
+      recent: [{ time: '6 min ago', text: 'Process detected without signed token' }, { time: '7 min ago', text: 'Verification workflow queued' }, { time: '8 min ago', text: 'Registry isolation applied' }]
+    }
+  };
+
+  const toastStack = document.getElementById('toastStack');
+
+  const showToast = (title, description = '', type = 'success') => {
+    if (!toastStack) return;
+    const icons = { success: '✓', warning: '⚠', error: '✕' };
+    const toast = document.createElement('div');
+    toast.className = `toast-item ${type === 'success' ? '' : type}`.trim();
+    toast.innerHTML = `
+      <div class="toast-icon">${icons[type] || '✓'}</div>
+      <div class="toast-copy">
+        <div class="toast-title">${title}</div>
+        ${description ? `<div class="toast-desc">${description}</div>` : ''}
+      </div>
+      <button class="toast-close" aria-label="Close">✕</button>
+    `;
+
+    const dismiss = () => {
+      toast.classList.remove('show');
+      window.setTimeout(() => toast.remove(), 300);
+    };
+
+    toast.querySelector('.toast-close')?.addEventListener('click', dismiss);
+    toastStack.appendChild(toast);
+    requestAnimationFrame(() => toast.classList.add('show'));
+    window.setTimeout(dismiss, 4000);
   };
 
   const openModal = (id) => {
@@ -92,53 +295,62 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   const buildAuditReport = () => {
-    const generatedAt = new Date().toLocaleString();
+    const generatedAt = new Date().toLocaleDateString();
     return `<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>DataBanq Audit Report</title>
+<title>Q1 2026 AI Governance Audit Report</title>
 <style>
-body{font-family:Arial,sans-serif;background:#f4f7f6;color:#132018;margin:0;padding:32px}
-.report{max-width:900px;margin:0 auto;background:#fff;border:1px solid #d7e6dd;border-radius:14px;overflow:hidden;box-shadow:0 16px 40px rgba(0,0,0,.08)}
-.hero{padding:28px 32px;background:linear-gradient(135deg,#0d1a10,#134e34);color:#fff}
-.hero h1{margin:0 0 8px;font-size:28px}.hero p{margin:4px 0;color:#d1fae5}
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding:20px 32px}
-.card{border:1px solid #d7e6dd;border-radius:10px;padding:14px;background:#f9fbfa}
-.section{padding:0 32px 24px}.section h2{font-size:16px;margin:10px 0}.muted{color:#4b6356;font-size:13px}
-table{width:100%;border-collapse:collapse}th,td{padding:10px;border-bottom:1px solid #e5efea;text-align:left;font-size:13px}th{background:#f0f7f4}
-.footer{padding:18px 32px;background:#f7faf8;font-size:12px;color:#4b6356}
+body{font-family:Arial,sans-serif;background:#ffffff;color:#111827;margin:0;padding:32px}
+.report{max-width:980px;margin:0 auto;border:1px solid #d1d5db;border-radius:12px;overflow:hidden}
+.hero{padding:28px 32px;border-bottom:3px solid #10B981;background:#f8fffb}.hero h1{margin:0 0 8px;font-size:30px;color:#065f46}.hero p{margin:4px 0;color:#374151}.badge{display:inline-block;padding:6px 10px;border-radius:999px;border:1px solid #10B981;color:#065f46;background:#ecfdf5;font-size:12px;font-weight:700}.section{padding:24px 32px}.section h2{margin:0 0 12px;font-size:18px;color:#065f46}.muted{color:#374151;line-height:1.65}table{width:100%;border-collapse:collapse;margin-top:10px}th,td{padding:10px 12px;border:1px solid #d1d5db;text-align:left;font-size:13px}th{background:#f0fdf4;color:#065f46;text-transform:uppercase;letter-spacing:.06em}.footer{padding:18px 32px;background:#f9fafb;color:#4b5563;font-size:12px;border-top:1px solid #d1d5db}
 </style>
 </head>
 <body>
 <div class="report">
   <div class="hero">
-    <h1>DataBanq AI Governance Audit Report</h1>
-    <p>Prepared for Acme Fintech Inc.</p>
-    <p>Generated ${generatedAt} · Signed evidence bundle · Regulator-ready summary</p>
-  </div>
-  <div class="grid">
-    <div class="card"><strong>SOC 2</strong><div>87% readiness</div></div>
-    <div class="card"><strong>HIPAA</strong><div>89% readiness</div></div>
-    <div class="card"><strong>EU AI Act</strong><div>81% readiness</div></div>
+    <span class="badge">Hash-verified export</span>
+    <h1>Q1 2026 AI Governance Audit Report</h1>
+    <p>Prepared for Acme Fintech Inc. | Generated by DataBanq</p>
+    <p>Date: ${generatedAt} | Signed badge: Hash-verified export</p>
   </div>
   <div class="section">
     <h2>Executive Summary</h2>
-    <p class="muted">The environment is operating with governed agents, signed connector scopes, active shadow AI controls, and a verified usage ledger. The only elevated review path remains the fraud escalation workflow, which is currently contained and supervised.</p>
+    <p class="muted">This report documents the AI governance posture of Acme Fintech Inc. for Q1 2026. DataBanq platform recorded 9,847 governed events across 18 registered AI agents. Compliance coverage: SOC 2 87%, HIPAA 89%, EU AI Act 81%, NIST AI RMF 86%.</p>
   </div>
   <div class="section">
-    <h2>Control Coverage</h2>
+    <h2>Framework Coverage</h2>
     <table>
-      <thead><tr><th>Area</th><th>Status</th><th>Evidence</th></tr></thead>
+      <thead><tr><th>Framework</th><th>Coverage</th><th>Status</th></tr></thead>
       <tbody>
-        <tr><td>Agent registry</td><td>Operational</td><td>Signed identities and owner approvals</td></tr>
-        <tr><td>Trust boundaries</td><td>Monitored</td><td>Delegation review and escalation controls</td></tr>
-        <tr><td>Usage ledger</td><td>Verified</td><td>Hash-signed AI and agent events</td></tr>
-        <tr><td>Vendor governance</td><td>Active</td><td>Residency review and contract tracking</td></tr>
+        <tr><td>SOC 2</td><td>87/100</td><td>In progress</td></tr>
+        <tr><td>HIPAA</td><td>34/38</td><td>Review transmission safeguards</td></tr>
+        <tr><td>EU AI Act</td><td>22/27</td><td>Human oversight task open</td></tr>
+        <tr><td>NIST</td><td>31/36</td><td>Drift monitoring depth</td></tr>
       </tbody>
     </table>
   </div>
-  <div class="footer">Prepared by DataBanq demo workspace · Official-looking export for presentation use</div>
+  <div class="section">
+    <h2>Registered Agents</h2>
+    <table>
+      <thead><tr><th>Agent</th><th>Token</th><th>Status</th><th>Owner</th></tr></thead>
+      <tbody>
+        <tr><td>RevenueOps Agent</td><td>AIT-0041</td><td>Active</td><td>M. Chen (CTO)</td></tr>
+        <tr><td>Contract Reviewer</td><td>AIT-0038</td><td>Active</td><td>A. Torres (CCO)</td></tr>
+        <tr><td>Customer Support AI</td><td>AIT-0029</td><td>Active</td><td>J. Kim (VP Eng)</td></tr>
+        <tr><td>Fraud Detection AI</td><td>AIT-0063</td><td>Warning</td><td>D. Williams</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="section">
+    <h2>Evidence Summary</h2>
+    <p class="muted">Agent identity registry: 18 records, all hash-signed.</p>
+    <p class="muted">Trust chain review: 42 delegations verified, 0 unsigned.</p>
+    <p class="muted">Usage ledger: 9,847 events, tamper-evident.</p>
+    <p class="muted">Consent evidence: 4 active records.</p>
+  </div>
+  <div class="footer">Report generated by DataBanq | databanqtech.com | Confidential</div>
 </div>
 </body>
 </html>`;
@@ -154,36 +366,132 @@ table{width:100%;border-collapse:collapse}th,td{padding:10px;border-bottom:1px s
 
   const buildGovernanceReport = () => `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Governance Summary</title><style>body{font-family:Arial,sans-serif;background:#f5f8f7;color:#132018;padding:28px}section{background:#fff;border:1px solid #d7e6dd;border-radius:12px;padding:18px;margin-bottom:14px}</style></head><body><section><h1>AI Governance Summary</h1><p>Coverage includes consent evidence, shadow AI monitoring, vendor intelligence, policy enforcement, and the evidence vault.</p></section><section><h2>Current posture</h2><ul><li>Policy score: 94%</li><li>Signed ledger integrity: 100%</li><li>Open tasks: 4 supervised reviews</li></ul></section></body></html>`;
 
+  function countUp(element, target, duration = 1200, suffix = '') {
+    const start = performance.now();
+    const update = (time) => {
+      const elapsed = time - start;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      element.textContent = Math.round(eased * target) + suffix;
+      if (progress < 1) requestAnimationFrame(update);
+    };
+    requestAnimationFrame(update);
+  }
+
+  const applyMetricTargets = () => {
+    document.querySelectorAll('.demo-card.kpi').forEach((card) => {
+      const label = card.querySelector('.kpi-label')?.textContent.trim();
+      const valueEl = card.querySelector('.metric');
+      const config = metricConfigs[label];
+      if (!valueEl || !config) return;
+
+      valueEl.dataset.target = String(config.target);
+      valueEl.dataset.suffix = config.suffix || '';
+      valueEl.dataset.format = config.format || '';
+      valueEl.dataset.animated = 'false';
+      valueEl.textContent = '0';
+    });
+  };
+
   const animateMetric = (el) => {
     if (!el || el.dataset.animated === 'true') return;
+
     const target = Number(el.dataset.target || 0);
     const suffix = el.dataset.suffix || '';
-    const duration = 900;
-    const start = performance.now();
+    const useComma = el.dataset.format === 'comma';
     el.dataset.animated = 'true';
 
-    const step = (now) => {
-      const progress = Math.min((now - start) / duration, 1);
-      const value = Math.round(target * (1 - Math.pow(1 - progress, 3)));
-      el.textContent = `${value.toLocaleString()}${suffix}`;
-      if (progress < 1) requestAnimationFrame(step);
+    if (!useComma) {
+      countUp(el, target, 1200, suffix);
+      return;
+    }
+
+    const start = performance.now();
+    const update = (time) => {
+      const elapsed = time - start;
+      const progress = Math.min(elapsed / 1200, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      el.textContent = Math.round(eased * target).toLocaleString() + suffix;
+      if (progress < 1) requestAnimationFrame(update);
     };
-
-    requestAnimationFrame(step);
+    requestAnimationFrame(update);
   };
 
-  const animateMetricsIn = (screen) => {
-    if (!screen) return;
-    screen.querySelectorAll('.metric').forEach(animateMetric);
+  const metricObserver = new IntersectionObserver((entries, observer) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        animateMetric(entry.target);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.35 });
+
+  const observeMetrics = () => {
+    document.querySelectorAll('.kpi-value.metric').forEach((el) => metricObserver.observe(el));
   };
 
-  const setScreen = (screenId) => {
+  const updateLocationHash = (screenId) => {
+    const group = screenToGroup[screenId];
+    const route = group ? activeTabs[group] : screenId;
+    history.replaceState(null, '', `#${route}`);
+  };
+
+  const activateTab = (group, targetId, updateHash = true) => {
+    const groupTabs = Array.from(document.querySelectorAll(`.subtab[data-tab-group="${group}"]`));
+    if (!groupTabs.length) return;
+
+    const availableTargets = groupTabs.map((btn) => btn.dataset.tabTarget);
+    const nextTarget = availableTargets.includes(targetId) ? targetId : availableTargets[0];
+    activeTabs[group] = nextTarget;
+    saveActiveTab(group, nextTarget);
+
+    groupTabs.forEach((btn) => {
+      btn.classList.toggle('active', btn.dataset.tabTarget === nextTarget);
+    });
+
+    availableTargets.forEach((paneId) => {
+      const pane = document.getElementById(paneId);
+      if (pane) pane.classList.toggle('active', paneId === nextTarget);
+    });
+
+    if (updateHash && document.getElementById(groupToScreen[group])?.classList.contains('active')) {
+      history.replaceState(null, '', `#${nextTarget}`);
+    }
+  };
+
+  const setScreen = (screenId, updateHash = true) => {
     screens.forEach((screen) => screen.classList.toggle('active', screen.id === screenId));
     navItems.forEach((item) => item.classList.toggle('active', item.dataset.screen === screenId));
-    if (breadcrumb) breadcrumb.textContent = screenNames[screenId] || 'Overview / Dashboard';
-    document.title = `DataBanq — ${screenNames[screenId] || 'Platform Demo'}`;
-    history.replaceState(null, '', `#${screenId}`);
-    animateMetricsIn(document.getElementById(screenId));
+
+    const group = screenToGroup[screenId];
+    if (group) activateTab(group, activeTabs[group], false);
+
+    if (breadcrumb) breadcrumb.textContent = breadcrumbMap[screenId] || breadcrumbMap.dashboard;
+    document.title = `${screenNames[screenId] || 'Dashboard'} — DataBanq`;
+
+    if (updateHash) updateLocationHash(screenId);
+    if (demoMain) {
+      demoMain.classList.add('is-loading');
+      window.setTimeout(() => demoMain.classList.remove('is-loading'), 200);
+    }
+    requestAnimationFrame(observeMetrics);
+  };
+
+  const syncRouteFromHash = () => {
+    const route = (window.location.hash || '#dashboard').replace('#', '');
+    const routeTab = document.querySelector(`.subtab[data-tab-target="${route}"]`);
+
+    if (routeTab) {
+      const group = routeTab.dataset.tabGroup;
+      const screenId = groupToScreen[group] || 'dashboard';
+      activeTabs[group] = route;
+      saveActiveTab(group, route);
+      setScreen(screenId, false);
+      activateTab(group, route, false);
+      return;
+    }
+
+    setScreen(screenNames[route] ? route : 'dashboard', false);
   };
 
   navItems.forEach((item) => {
@@ -196,13 +504,7 @@ table{width:100%;border-collapse:collapse}th,td{padding:10px;border-bottom:1px s
 
   document.querySelectorAll('.subtab').forEach((tab) => {
     tab.addEventListener('click', () => {
-      const group = tab.dataset.tabGroup;
-      const targetId = tab.dataset.tabTarget;
-      document.querySelectorAll(`.subtab[data-tab-group="${group}"]`).forEach((btn) => btn.classList.remove('active'));
-      tab.classList.add('active');
-      document.querySelectorAll(`#${tab.closest('.screen').id} .tab-pane`).forEach((pane) => pane.classList.remove('active'));
-      const targetPane = document.getElementById(targetId);
-      if (targetPane) targetPane.classList.add('active');
+      activateTab(tab.dataset.tabGroup, tab.dataset.tabTarget, true);
     });
   });
 
@@ -216,15 +518,71 @@ table{width:100%;border-collapse:collapse}th,td{padding:10px;border-bottom:1px s
     });
   });
 
-  const addFeedItem = (text) => {
+  const formatRelativeTime = (timestamp) => {
+    const delta = Math.max(1, Math.round((Date.now() - timestamp) / 1000));
+    if (delta < 60) return `${delta} sec ago`;
+    const mins = Math.round(delta / 60);
+    return `${mins} min ago`;
+  };
+
+  const formatClockTime = (timestamp) => new Date(timestamp).toLocaleTimeString('en-GB', {
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: false
+  });
+
+  const dashboardFeedEntries = [
+    { timestamp: Date.now() - 45000, html: '<strong>Fraud Detection AI</strong> triggered trust boundary review → compliance' },
+    { timestamp: Date.now() - 120000, html: '<strong>Audit evidence</strong> hash committed for workflow WF-204' },
+    { timestamp: Date.now() - 240000, html: '<strong>New integration request</strong>: GitHub queued for security sign-off' },
+    { timestamp: Date.now() - 420000, html: '<strong>Consent renewal</strong> propagated to downstream model vendors' },
+    { timestamp: Date.now() - 660000, html: '<strong>AIT-0041</strong> token rotated and hash-signed to registry' }
+  ];
+
+  const mcpFeedEntries = [
+    { timestamp: Date.now() - 1000, actor: 'compliance-checker', server: 'audit-mcp', status: '✓ Pass', tone: 'ok' },
+    { timestamp: Date.now() - 4000, actor: 'fraud-detection-ai', server: 'payment-gateway-mcp', status: '⚠ Flagged', tone: 'warn' },
+    { timestamp: Date.now() - 13000, actor: 'revenue-ops-agent', server: 'crm-mcp', status: '✓ Pass', tone: 'ok' },
+    { timestamp: Date.now() - 21000, actor: 'contract-reviewer', server: 'doc-retrieval-mcp', status: '✓ Pass', tone: 'ok' },
+    { timestamp: Date.now() - 34000, actor: 'unknown-proc-881', server: 'external-llm-mcp', status: '✕ Blocked', tone: 'risk' },
+    { timestamp: Date.now() - 48000, actor: 'fraud-detection-ai', server: 'audit-mcp', status: '✓ Pass', tone: 'ok' },
+    { timestamp: Date.now() - 61000, actor: 'customer-support', server: 'crm-mcp', status: '✓ Pass', tone: 'ok' },
+    { timestamp: Date.now() - 73000, actor: 'revenue-ops-agent', server: 'doc-retrieval-mcp', status: '✓ Pass', tone: 'ok' }
+  ];
+
+  const renderDashboardFeed = () => {
     if (!liveFeed) return;
-    const item = document.createElement('div');
-    item.className = 'feed-row';
-    item.innerHTML = `<div class="feed-time">now</div><div class="feed-text">${text}</div>`;
-    liveFeed.prepend(item);
-    while (liveFeed.children.length > 6) {
-      liveFeed.removeChild(liveFeed.lastElementChild);
-    }
+    liveFeed.innerHTML = dashboardFeedEntries.map((entry, index) => `
+      <div class="feed-row ${entry.isNew ? 'feed-entry-new' : ''}"${index === 0 && entry.isNew ? ' style="animation:flashNew .4s ease;"' : ''}>
+        <div class="feed-time">${formatRelativeTime(entry.timestamp)}</div>
+        <div class="feed-text">${entry.html}</div>
+      </div>
+    `).join('');
+    dashboardFeedEntries.forEach((entry) => { entry.isNew = false; });
+  };
+
+  const renderMcpFeed = () => {
+    if (!mcpCallFeed) return;
+    mcpCallFeed.innerHTML = mcpFeedEntries.map((entry, index) => `
+      <div class="feed-row ${entry.isNew ? 'feed-entry-new' : ''}"${index === 0 && entry.isNew ? ' style="animation:flashNew .4s ease;"' : ''}>
+        <div class="feed-time">${formatClockTime(entry.timestamp)}</div>
+        <div class="feed-text"><strong>${entry.actor}</strong> → ${entry.server} <span class="status-badge ${entry.tone}">${entry.status}</span></div>
+      </div>
+    `).join('');
+    mcpFeedEntries.forEach((entry) => { entry.isNew = false; });
+  };
+
+  const addFeedItem = (text, timestamp = Date.now()) => {
+    dashboardFeedEntries.unshift({ timestamp, html: text, isNew: true });
+    while (dashboardFeedEntries.length > 8) dashboardFeedEntries.pop();
+    renderDashboardFeed();
+  };
+
+  const addMcpFeedItem = (actor, server, status, tone) => {
+    mcpFeedEntries.unshift({ timestamp: Date.now(), actor, server, status, tone, isNew: true });
+    while (mcpFeedEntries.length > 12) mcpFeedEntries.pop();
+    renderMcpFeed();
   };
 
   const addActivityRow = (container, text) => {
@@ -252,6 +610,476 @@ table{width:100%;border-collapse:collapse}th,td{padding:10px;border-bottom:1px s
     `;
     connectedTableBody.prepend(row);
   };
+
+  const updateRegistryCount = () => {
+    if (agentRegistryCountBadge) {
+      agentRegistryCountBadge.textContent = `${demoAgentCount} registered`;
+    }
+  };
+
+  const defaultExpiryDate = () => {
+    const dt = new Date();
+    dt.setDate(dt.getDate() + 90);
+    return dt.toISOString().slice(0, 10);
+  };
+
+  const resetIssueAgentForm = () => {
+    issueAgentForm?.reset();
+    if (issueAgentExpiration) issueAgentExpiration.value = defaultExpiryDate();
+    issueAgentName?.classList.remove('field-error');
+    issueAgentScopeGroup?.classList.remove('field-error');
+    if (issueAgentNameError) issueAgentNameError.style.display = 'none';
+    if (issueAgentScopeError) issueAgentScopeError.style.display = 'none';
+    if (issueAgentSubmit) {
+      issueAgentSubmit.disabled = false;
+      issueAgentSubmit.innerHTML = 'Sign &amp; Register Token →';
+    }
+  };
+
+  const wait = (ms) => new Promise((resolve) => window.setTimeout(resolve, ms));
+
+  const getAgentProfileFromRow = (row, fallbackName) => {
+    const name = row?.children?.[0]?.textContent.trim() || fallbackName;
+    const token = row?.children?.[1]?.textContent.trim() || agentDirectory[name]?.token || 'AIT-0000';
+    const statusText = row?.children?.[2]?.textContent.trim() || agentDirectory[name]?.status || 'Active';
+    const scopeText = row?.children?.[3]?.textContent.trim() || '';
+    const owner = row?.children?.[4]?.textContent.trim() || agentDirectory[name]?.owner || 'Unassigned';
+    const lastActive = row?.children?.[5]?.textContent.trim() || 'Just now';
+    const base = agentDirectory[name] || {};
+    const tone = statusText.toLowerCase().includes('warning') ? 'warn' : (statusText.toLowerCase().includes('revoked') || statusText.toLowerCase().includes('unverified')) ? 'risk' : 'ok';
+
+    return {
+      name,
+      token,
+      status: statusText,
+      tone,
+      model: base.model || 'gpt-4o-2024-11-20',
+      type: base.type || 'Orchestrator',
+      environment: base.environment || 'Production',
+      owner,
+      issued: base.issued || new Date().toISOString().slice(0, 10),
+      expires: base.expires || defaultExpiryDate(),
+      scope: scopeText && scopeText !== '—' ? scopeText.split(',').map((item) => item.trim()).filter(Boolean) : (base.scope || []),
+      mcpServers: base.mcpServers || ['audit-mcp'],
+      recent: base.recent || [{ time: 'Just now', text: 'Registry review complete' }],
+      lastActive
+    };
+  };
+
+  const renderAgentRecord = (profile) => {
+    if (!agentModal) return;
+    agentModal.dataset.name = profile.name;
+    agentModal.dataset.token = profile.token;
+
+    if (agentModalName) agentModalName.textContent = profile.name;
+    if (agentModalMeta) agentModalMeta.textContent = `${profile.type} · ${profile.environment} · Last active ${profile.lastActive}`;
+    if (agentModalStatus) {
+      agentModalStatus.textContent = profile.status;
+      agentModalStatus.className = `status-badge ${profile.tone}`;
+    }
+    if (agentModalToken) agentModalToken.textContent = profile.token;
+    if (agentIdentityDetails) {
+      agentIdentityDetails.innerHTML = [
+        ['Model', profile.model],
+        ['Type', profile.type],
+        ['Environment', profile.environment],
+        ['Owner', profile.owner],
+        ['Issued date', profile.issued],
+        ['Expires', profile.expires]
+      ].map(([label, value]) => `<div class="status-item"><strong>${label}</strong><span>${value}</span></div>`).join('');
+    }
+    if (agentScopeChips) {
+      agentScopeChips.innerHTML = profile.scope.length
+        ? profile.scope.map((scope) => `<span class="chip ok">${scope}</span>`).join('')
+        : '<span class="chip risk">No authorized scope</span>';
+    }
+    if (agentMcpList) {
+      agentMcpList.innerHTML = profile.mcpServers.length
+        ? profile.mcpServers.map((server) => `<div class="status-item"><strong>${server}</strong><span>Allowed</span></div>`).join('')
+        : '<div class="status-item"><strong>None</strong><span>No server access</span></div>';
+    }
+    if (agentModalActions) {
+      agentModalActions.innerHTML = profile.recent.slice(0, 3).map((item) => `<div class="status-item"><strong>${item.time}</strong><span>${item.text}</span></div>`).join('');
+    }
+  };
+
+  const prependRegistryRow = ({ name, token, principal, scopes }) => {
+    if (!agentRegistryBody) return null;
+    const row = document.createElement('tr');
+    row.className = 'registry-enter';
+    row.innerHTML = `
+      <td><strong class="agent-name">${name}</strong></td>
+      <td class="mono">${token}</td>
+      <td><span class="status-badge ok">Active</span></td>
+      <td>${scopes.join(', ')}</td>
+      <td>${principal}</td>
+      <td>Just now</td>
+      <td><button class="small-btn" data-action="view-agent" data-name="${name}">View</button> <button class="small-btn" data-action="revoke-agent" data-name="${name}" data-token="${token}">Revoke</button></td>
+    `;
+    agentRegistryBody.prepend(row);
+    requestAnimationFrame(() => row.classList.add('registry-enter-active'));
+    window.setTimeout(() => row.classList.remove('registry-enter', 'registry-enter-active'), 360);
+    return row;
+  };
+
+  const applyRevokeState = ({ name, token, row }) => {
+    if (!row) return;
+    row.classList.add('registry-revoked');
+    row.classList.remove('registry-warning', 'registry-unverified');
+
+    const badge = row.children[2]?.querySelector('.status-badge');
+    if (badge) {
+      badge.className = 'status-badge risk';
+      badge.textContent = '✕ Revoked';
+    }
+
+    const actionsCell = row.children[6];
+    if (actionsCell) {
+      actionsCell.innerHTML = `<button class="small-btn" data-action="view-agent" data-name="${name}">View</button>`;
+    }
+
+    if (agentDirectory[name]) {
+      agentDirectory[name].status = '✕ Revoked';
+      agentDirectory[name].tone = 'risk';
+      agentDirectory[name].recent = [{ time: 'Just now', text: `${token} revoked and invalidated` }, ...(agentDirectory[name].recent || [])];
+    }
+
+    if (agentModal?.dataset.token === token) {
+      if (agentModalStatus) {
+        agentModalStatus.textContent = '✕ Revoked';
+        agentModalStatus.className = 'status-badge risk';
+      }
+    }
+  };
+
+  const openRevokeDialog = ({ name, token, row }) => {
+    pendingRevoke = { name, token, row };
+    if (revokeModalTitle) revokeModalTitle.textContent = `Revoke ${token}?`;
+    openModal('revokeConfirmModal');
+  };
+
+  const setBlastProfile = (token) => {
+    const profile = blastProfiles[token] || blastProfiles['AIT-0041'];
+    if (!blastDiagram) return;
+
+    blastDiagram.classList.add('updating');
+    window.setTimeout(() => {
+      if (blastCenterName) blastCenterName.textContent = profile.shortName;
+      if (blastCenterToken) blastCenterToken.textContent = profile.token;
+
+      profile.authorized.forEach((value, index) => {
+        const el = document.getElementById(`authText${index + 1}`);
+        if (el) el.textContent = value;
+      });
+      profile.monitored.forEach((value, index) => {
+        const el = document.getElementById(`monText${index + 1}`);
+        if (el) el.textContent = value;
+      });
+      profile.blocked.forEach((value, index) => {
+        const el = document.getElementById(`blockText${index + 1}`);
+        if (el) el.textContent = value;
+      });
+
+      blastDiagram.classList.remove('updating');
+    }, 120);
+  };
+
+  const setContainmentRowState = (row, state) => {
+    if (!row) return;
+    const badge = row.querySelector('.status-badge');
+    if (!badge) return;
+
+    const states = {
+      awaiting: { text: '—', className: 'status-awaiting' },
+      running: { text: 'Testing...', className: 'status-running' },
+      blocked: { text: '✕ Blocked', className: 'status-blocked' },
+      passed: { text: '✓ Contained', className: 'status-passed' }
+    };
+
+    const next = states[state] || states.awaiting;
+    badge.className = `status-badge sim-status ${next.className}`;
+    badge.textContent = next.text;
+  };
+
+  const clearProbeDots = () => {
+    [probeBlocked1, probeBlocked2, probeMonitored].forEach((probe) => {
+      if (probe) probe.style.opacity = '0';
+    });
+  };
+
+  const triggerContainmentProbe = (type) => {
+    clearProbeDots();
+
+    const configs = {
+      blocked1: { probe: probeBlocked1, motion: probeBlockedMotion1, ring: blastBlockedRing, ringClass: 'blocked-ring-flash' },
+      blocked2: { probe: probeBlocked2, motion: probeBlockedMotion2, ring: blastBlockedRing, ringClass: 'blocked-ring-flash' },
+      monitored: { probe: probeMonitored, motion: probeMonitoredMotion, ring: blastMonitoredRing, ringClass: 'monitored-ring-flash' }
+    };
+
+    const selected = configs[type];
+    if (!selected?.probe || !selected?.motion) return;
+
+    if (selected.ring) {
+      selected.ring.classList.remove('blocked-ring-flash', 'monitored-ring-flash');
+      void selected.ring.getBBox();
+      selected.ring.classList.add(selected.ringClass);
+      window.setTimeout(() => selected.ring?.classList.remove(selected.ringClass), 500);
+    }
+
+    selected.probe.style.opacity = '1';
+    selected.probe.removeAttribute('transform');
+    try {
+      selected.motion.beginElement();
+    } catch {
+      // animation begin unsupported
+    }
+    window.setTimeout(() => {
+      selected.probe.style.opacity = '0';
+    }, 760);
+  };
+
+  const resetContainmentSimulation = () => {
+    containmentSteps.forEach((row) => setContainmentRowState(row, 'awaiting'));
+    clearProbeDots();
+    blastBlockedRing?.classList.remove('blocked-ring-flash');
+    blastMonitoredRing?.classList.remove('monitored-ring-flash');
+
+    if (containmentStatus) {
+      containmentStatus.textContent = 'Ready';
+      containmentStatus.className = 'status-badge blue';
+    }
+    if (radiusResult) {
+      radiusResult.textContent = 'Select an agent to inspect its live access envelope.';
+    }
+    if (runContainmentBtn) {
+      runContainmentBtn.disabled = false;
+      runContainmentBtn.textContent = 'Run Containment Test';
+    }
+    if (blastAgentSelector) blastAgentSelector.disabled = false;
+    containmentRunning = false;
+  };
+
+  const runContainmentSimulation = async () => {
+    if (containmentRunning) return;
+    containmentRunning = true;
+    resetContainmentSimulation();
+    containmentRunning = true;
+
+    const token = blastAgentSelector?.value || 'AIT-0041';
+
+    if (containmentStatus) {
+      containmentStatus.textContent = 'Testing';
+      containmentStatus.className = 'status-badge warn';
+    }
+    if (runContainmentBtn) {
+      runContainmentBtn.disabled = true;
+      runContainmentBtn.textContent = 'Running simulation...';
+    }
+    if (blastAgentSelector) blastAgentSelector.disabled = true;
+
+    setContainmentRowState(containmentSteps[0], 'running');
+    triggerContainmentProbe('blocked1');
+    await wait(800);
+
+    setContainmentRowState(containmentSteps[0], 'blocked');
+    showToast('🚫 Blocked', `write:financial-records is outside ${token} authorized scope.`);
+    await wait(600);
+
+    setContainmentRowState(containmentSteps[1], 'running');
+    triggerContainmentProbe('blocked2');
+    await wait(600);
+
+    setContainmentRowState(containmentSteps[1], 'blocked');
+    showToast('🚫 Blocked', 'read:full-PII exceeds blast radius.');
+    await wait(600);
+
+    setContainmentRowState(containmentSteps[2], 'running');
+    triggerContainmentProbe('monitored');
+    await wait(600);
+
+    setContainmentRowState(containmentSteps[2], 'passed');
+    showToast('✓ Escalation contained', 'Escalation routed through compliance review.');
+    await wait(600);
+
+    setContainmentRowState(containmentSteps[3], 'running');
+    await wait(400);
+
+    setContainmentRowState(containmentSteps[3], 'passed');
+    showToast('✓ Ledger proof recorded', 'All actions hash-signed to tamper-evident ledger.');
+    await wait(600);
+
+    if (containmentStatus) {
+      containmentStatus.textContent = 'Contained';
+      containmentStatus.className = 'status-badge ok';
+    }
+    if (radiusResult) {
+      radiusResult.innerHTML = 'Simulation complete. 2 attempts blocked · 2 routed to compliance. <a href="#" data-action="reset-simulation">Reset</a>';
+    }
+    if (runContainmentBtn) {
+      runContainmentBtn.disabled = false;
+      runContainmentBtn.textContent = 'Run Containment Test';
+    }
+    if (blastAgentSelector) blastAgentSelector.disabled = false;
+    containmentRunning = false;
+  };
+
+  const positionTrustTooltip = (event) => {
+    if (!trustTooltip || trustTooltip.style.display !== 'block') return;
+    const left = Math.max(12, Math.min(event.clientX - (trustTooltip.offsetWidth / 2), window.innerWidth - trustTooltip.offsetWidth - 12));
+    const top = Math.max(12, event.clientY - trustTooltip.offsetHeight - 16);
+    trustTooltip.style.left = `${left}px`;
+    trustTooltip.style.top = `${top}px`;
+  };
+
+  const showTrustTooltip = (event, node) => {
+    if (!trustTooltip) return;
+    trustTooltip.innerHTML = `
+      <strong>${node.dataset.label}</strong>
+      <div style="color:#86EFAC;font-family:ui-monospace,SFMono-Regular,monospace;margin-bottom:4px;">${node.dataset.token}</div>
+      <div>Owner: ${node.dataset.owner}</div>
+      <div>Status: ${node.dataset.status}</div>
+      <div>Last active: ${node.dataset.last}</div>
+    `;
+    trustTooltip.style.display = 'block';
+    trustTooltip.setAttribute('aria-hidden', 'false');
+    positionTrustTooltip(event);
+  };
+
+  const hideTrustTooltip = () => {
+    if (!trustTooltip) return;
+    trustTooltip.style.display = 'none';
+    trustTooltip.setAttribute('aria-hidden', 'true');
+  };
+
+  const setTrustSelection = (nodes = [], edges = []) => {
+    if (!trustGraph) return;
+    const hasSelection = nodes.length > 0 || edges.length > 0;
+    trustGraph.classList.toggle('dimmed', hasSelection);
+
+    trustNodes.forEach((node) => {
+      node.classList.toggle('active-node', nodes.includes(node.dataset.node));
+    });
+
+    trustEdges.forEach((edge) => {
+      edge.classList.toggle('active-edge', edges.includes(edge.dataset.edge));
+    });
+  };
+
+  const resetTrustSelection = () => setTrustSelection();
+
+  trustNodes.forEach((node) => {
+    node.addEventListener('mouseenter', (event) => showTrustTooltip(event, node));
+    node.addEventListener('mousemove', positionTrustTooltip);
+    node.addEventListener('mouseleave', hideTrustTooltip);
+    node.addEventListener('click', (event) => {
+      event.stopPropagation();
+      const nodeId = node.dataset.node;
+      const isAlreadySolo = trustGraph?.classList.contains('dimmed')
+        && node.classList.contains('active-node')
+        && trustNodes.filter((item) => item.classList.contains('active-node')).length === 1;
+
+      if (isAlreadySolo) {
+        resetTrustSelection();
+        return;
+      }
+
+      setTrustSelection([nodeId]);
+    });
+  });
+
+  if (trustGraph) {
+    trustGraph.addEventListener('click', (event) => {
+      if (event.target === trustGraph || event.target.id === 'trustGraphBg') {
+        resetTrustSelection();
+      }
+    });
+  }
+
+  if (blastAgentSelector) {
+    setBlastProfile(blastAgentSelector.value);
+    blastAgentSelector.addEventListener('change', () => {
+      resetContainmentSimulation();
+      setBlastProfile(blastAgentSelector.value);
+    });
+  }
+
+  if (issueAgentForm) {
+    resetIssueAgentForm();
+    issueAgentForm.addEventListener('submit', async (submitEvent) => {
+      submitEvent.preventDefault();
+
+      const selectedScopes = Array.from(issueAgentForm.querySelectorAll('input[name="scope"]:checked')).map((input) => input.value);
+      const selectedMcps = Array.from(issueAgentForm.querySelectorAll('input[name="mcp"]:checked')).map((input) => input.value);
+      const name = issueAgentName?.value.trim() || '';
+
+      issueAgentName?.classList.remove('field-error');
+      issueAgentScopeGroup?.classList.remove('field-error');
+      if (issueAgentNameError) issueAgentNameError.style.display = 'none';
+      if (issueAgentScopeError) issueAgentScopeError.style.display = 'none';
+
+      let hasError = false;
+      if (!name) {
+        hasError = true;
+        issueAgentName?.classList.add('field-error');
+        if (issueAgentNameError) issueAgentNameError.style.display = 'block';
+      }
+      if (!selectedScopes.length) {
+        hasError = true;
+        issueAgentScopeGroup?.classList.add('field-error');
+        if (issueAgentScopeError) issueAgentScopeError.style.display = 'block';
+      }
+      if (hasError) return;
+
+      if (issueAgentSubmit) {
+        issueAgentSubmit.disabled = true;
+        issueAgentSubmit.innerHTML = '<span class="spin">◌</span> Signing token...';
+      }
+
+      await wait(800);
+
+      const token = `AIT-${String(nextAgentTokenId).padStart(4, '0')}`;
+      nextAgentTokenId += 1;
+      demoAgentCount += 1;
+      updateRegistryCount();
+
+      const principal = issueAgentPrincipal?.value || 'Auto-policy';
+      const agentType = issueAgentType?.value || 'Orchestrator';
+      const expiration = issueAgentExpiration?.value || defaultExpiryDate();
+      const newRow = prependRegistryRow({ name, token, principal, scopes: selectedScopes });
+
+      agentDirectory[name] = {
+        token,
+        status: 'Active',
+        tone: 'ok',
+        model: 'gpt-4o-2024-11-20',
+        type: agentType,
+        environment: 'Production',
+        owner: principal,
+        issued: new Date().toISOString().slice(0, 10),
+        expires: expiration,
+        scope: selectedScopes,
+        mcpServers: selectedMcps,
+        recent: [
+          { time: 'Just now', text: `${token} signed and registered to the hash ledger` },
+          { time: 'Just now', text: `${agentType} permissions issued` },
+          { time: 'Just now', text: 'Initial registry attestation complete' }
+        ]
+      };
+
+      closeModal('issueAgentModal');
+      resetIssueAgentForm();
+
+      addActivityRow(registryActionLog, `<strong>Agent ${name}</strong> issued token ${token}.`);
+      addFeedItem(`<strong>Agent ${name}</strong> issued token ${token}.`);
+      prependLedgerEvent(`EVT-${9900 + demoAgentCount}`, 'Agent', name, 'Identity issuance', 'Pass', Math.random().toString(16).slice(2, 10));
+      showToast(`✓ ${token} signed and registered to the hash ledger.`, '');
+
+      if (newRow) {
+        const button = newRow.querySelector('[data-action="view-agent"]');
+        button?.focus();
+      }
+    });
+  }
 
   const refreshLedgerRows = () => {
     ledgerRows = Array.from(ledgerTableBody?.querySelectorAll('tr') || []);
@@ -300,25 +1128,22 @@ table{width:100%;border-collapse:collapse}th,td{padding:10px;border-bottom:1px s
 
   const botReplyFor = (message) => {
     const lower = message.toLowerCase();
-    if (lower.includes('audit')) {
-      return 'Open the Audit page or the top-right audit button to preview and download the official-looking report package with signed evidence.';
+    if (/(trust|delegation|a2a)/.test(lower)) {
+      return 'The Trust Graph shows every agent-to-agent delegation chain in your environment. Green edges are cryptographically signed authorized handoffs. Amber edges are flagged paths requiring human review before any downstream action can proceed. Navigate to Agent Governance → Trust Graph to see the current state.';
     }
-    if (lower.includes('integration')) {
-      return 'Use the Integrations page to review connected systems, open live connector settings, and download registry actions.';
+    if (/(blast|radius|scope|access)/.test(lower)) {
+      return 'Blast Radius Control limits what each agent can touch — per task, not per lifetime. The bullseye diagram shows authorized (green), monitored (amber), and hard-blocked (red) zones for the selected agent. Run the containment simulator to see it block unauthorized access attempts in real time.';
     }
-    if (lower.includes('trust')) {
-      return 'The trust graph maps signed delegation between agents. Green animated paths are approved flows, while the amber route is contained and awaiting human oversight.';
+    if (/(audit|export|download|report)/.test(lower)) {
+      return 'Your Q1 2026 audit package is ready. Go to Audit & Compliance and click Open Audit Pack to preview the regulator-ready export. Click Download Official Report to save it. The report includes SOC 2, HIPAA, EU AI Act, and NIST coverage with signed evidence from the hash ledger.';
     }
-    if (lower.includes('navigate') || lower.includes('screen')) {
-      return 'Use the left sidebar for major pages. Each screen now starts with a quick guide explaining what it does and the best next step.';
+    if (/(mcp|server|tool call)/.test(lower)) {
+      return 'MCP Server Governance tracks every Model Context Protocol server your agents can invoke. Each server has an authorized agent allowlist, call logging, and policy enforcement. Navigate to Agent Governance → MCP Governance to see the live call feed and server risk classifications.';
     }
-    if (lower.includes('ledger')) {
-      return 'The Usage and Hash Ledger page lets you page through records, verify integrity, and export a clean appendix report.';
+    if (/(consent|privacy|data)/.test(lower)) {
+      return 'The Consent Registry tracks lawful use records for every AI data interaction. DataBanq supports four consent types: Explicit, Implied, Inferred, and Contractual. Records nearing expiry are flagged automatically for renewal. Navigate to AI Governance → Consent Registry to review the current state.';
     }
-    if (lower.includes('settings')) {
-      return 'Settings are organized into company profile, access rules, notifications, and audit defaults with cleaner forms and managed company details.';
-    }
-    return 'I can help with audit exports, governance screens, connector settings, containment tests, and navigation across the demo.';
+    return 'I can help you navigate the demo. Try asking about: trust graph, blast radius, audit exports, MCP governance, or consent registry.';
   };
 
   const sendChat = (customText) => {
@@ -386,7 +1211,7 @@ table{width:100%;border-collapse:collapse}th,td{padding:10px;border-bottom:1px s
     switch (action) {
       case 'open-support':
         openModal('supportModal');
-        showToast('Support assistant opened', 'Quick help is ready for navigation, exports, and controls.');
+        showToast('Platform Guide opened', 'Quick help is ready for navigation, exports, and controls.');
         break;
       case 'open-audit':
         openModal('auditModal');
@@ -398,56 +1223,76 @@ table{width:100%;border-collapse:collapse}th,td{padding:10px;border-bottom:1px s
       case 'open-request-integration':
         openModal('requestModal');
         break;
-      case 'run-radius-test': {
-        const stepLabels = [
-          ['Payment write attempt', 'Blocked by signed finance allowlist'],
-          ['PII export attempt', 'Held for human approval'],
-          ['Cross-agent escalation', 'Contained to supervised review'],
-          ['Ledger proof', 'Hash-signed event committed']
-        ];
-
-        containmentSteps.forEach((step, index) => {
-          const [label, outcome] = stepLabels[index];
-          step.className = 'test-step pass';
-          step.innerHTML = `<strong>${label}</strong><div>${outcome}</div>`;
-        });
-
-        if (containmentStatus) {
-          containmentStatus.textContent = 'Passed';
-          containmentStatus.className = 'status-badge ok';
-        }
-        if (radiusResult) {
-          radiusResult.textContent = 'Containment test passed. Payment APIs remained blocked, sensitive exports stayed supervised, the escalation path stayed contained, and the proof was written to the ledger.';
-        }
-
-        prependLedgerEvent(`EVT-${9900 + demoAgentCount}`, 'Agent', 'Containment Simulator', 'Blocked overreach drill', 'Pass', Math.random().toString(16).slice(2, 10));
-        addActivityRow(registryActionLog, '<strong>Containment test</strong> completed and signed to the registry.');
-        addFeedItem('<strong>Containment test</strong> completed with no permission leakage.');
-        showToast('Containment test complete', 'Blocked systems stayed outside the active scope and the proof was logged.');
+      case 'dismiss-alert':
+        if (dashboardAlert) dashboardAlert.style.display = 'none';
         break;
-      }
+      case 'review-trust-now':
+        setScreen('agents');
+        activateTab('agent', 'agent-trust');
+        setTrustSelection(['fraud-ai', 'case-escalator'], ['fraud-case-review']);
+        requestAnimationFrame(() => trustGraphBox?.scrollIntoView({ behavior: 'smooth', block: 'center' }));
+        showToast('Trust review opened', 'The high-risk delegation path is now in focus.');
+        break;
+      case 'open-agent-registry':
+        setScreen('agents');
+        activateTab('agent', 'agent-registry');
+        requestAnimationFrame(() => agentRegistryBody?.scrollIntoView({ behavior: 'smooth', block: 'start' }));
+        break;
+      case 'open-ai-overview':
+        setScreen('ai');
+        activateTab('ai', 'ai-overview');
+        requestAnimationFrame(() => demoMain?.scrollTo({ top: 0, behavior: 'smooth' }));
+        break;
+      case 'open-containment':
+        setScreen('agents');
+        activateTab('agent', 'agent-blast');
+        requestAnimationFrame(() => runContainmentBtn?.scrollIntoView({ behavior: 'smooth', block: 'center' }));
+        break;
+      case 'run-radius-test':
+        runContainmentSimulation().then(() => {
+          prependLedgerEvent(`EVT-${9900 + demoAgentCount}`, 'Agent', 'Containment Simulator', 'Blocked overreach drill', 'Pass', Math.random().toString(16).slice(2, 10));
+          addActivityRow(registryActionLog, '<strong>Containment test</strong> completed and signed to the registry.');
+          addFeedItem('<strong>Containment test</strong> completed with no permission leakage.');
+        });
+        break;
       case 'trust-audit':
         if (trustNote) {
-          trustNote.textContent = 'Trust boundary audit initiated. Signed parent-child permissions are being revalidated for the flagged escalation path.';
+          trustNote.textContent = 'Trust boundary evidence has been queued for formal audit review and export.';
         }
         addActivityRow(registryActionLog, '<strong>Trust review</strong> launched for the fraud escalation path.');
         addFeedItem('<strong>Trust boundary audit</strong> launched for the fraud escalation path.');
-        showToast('Trust audit started', 'The flagged delegation path is under review.');
+        setScreen('audit');
+        showToast('Audit & Compliance opened', 'Framework evidence for the trust path is ready for review.');
         break;
       case 'focus-risk-path':
+        setScreen('agents');
+        activateTab('agent', 'agent-trust');
+        setTrustSelection(['fraud-ai', 'case-escalator'], ['fraud-case-review']);
         if (trustNote) {
           trustNote.textContent = 'Focused the high-risk path: Fraud AI to Case Escalator. Recommendation: require a second human approval on resolution actions.';
         }
-        showToast('High-risk path focused', 'The professional trust review has been highlighted.');
+        showToast('High-risk path focused', 'The amber review edge is now highlighted.');
         break;
       case 'export-governance':
         createHtmlDownload('databanq-governance-summary.html', buildGovernanceReport());
         showToast('Governance report exported', 'A styled governance summary was downloaded.');
         break;
-      case 'download-report':
-        createHtmlDownload('databanq-audit-report.html', buildAuditReport());
-        showToast('Audit report downloaded', 'The executive audit report was exported.');
+      case 'download-report': {
+        const trigger = target;
+        if (trigger) {
+          trigger.disabled = true;
+          trigger.innerHTML = '<span class="spin">◌</span> Generating report...';
+        }
+        window.setTimeout(() => {
+          createHtmlDownload('DataBanq-Q1-2026-Audit-Report.html', buildAuditReport());
+          showToast('Audit report downloaded', 'The official compliance report was generated and exported.', 'success');
+          if (trigger) {
+            trigger.disabled = false;
+            trigger.textContent = 'Download Official Report';
+          }
+        }, 1000);
         break;
+      }
       case 'verify-ledger':
         showToast('Ledger verified', 'All visible hashes passed integrity checks.');
         break;
@@ -455,9 +1300,21 @@ table{width:100%;border-collapse:collapse}th,td{padding:10px;border-bottom:1px s
         createHtmlDownload('databanq-ledger-appendix.html', buildLedgerReport());
         showToast('Ledger export complete', 'A styled ledger appendix was downloaded.');
         break;
-      case 'save-settings':
-        showToast('Settings saved', 'Organization and audit defaults were updated in the demo workspace.');
+      case 'save-settings': {
+        const trigger = target;
+        if (trigger) {
+          trigger.disabled = true;
+          trigger.innerHTML = '<span class="spin">◌</span> Saving...';
+        }
+        window.setTimeout(() => {
+          showToast('✓ Settings saved successfully.', '', 'success');
+          if (trigger) {
+            trigger.disabled = false;
+            trigger.textContent = 'Save Changes';
+          }
+        }, 600);
         break;
+      }
       case 'integration-settings': {
         const profiles = {
           Salesforce: { sync: 'Every 5 minutes', auth: 'Scoped OAuth', scope: 'Read leads + governed notes', actions: ['Write-note scope approved', 'Credential rotation completed'] },
@@ -512,40 +1369,70 @@ table{width:100%;border-collapse:collapse}th,td{padding:10px;border-bottom:1px s
         break;
       }
       case 'view-agent': {
-        const profiles = {
-          'RevenueOps Agent': { meta: 'DBQ-AGT-0041 · M. Chen · Production', status: 'Active', tone: 'ok', actions: ['Token rotation completed 9:41', 'CRM write scope attested', 'No unsigned delegation'] },
-          'Contract Reviewer': { meta: 'DBQ-AGT-0038 · A. Torres · Staging', status: 'Active', tone: 'ok', actions: ['Legal owner approval confirmed', 'Model lineage reviewed', 'Staging policy pack verified'] },
-          'Customer Support AI': { meta: 'DBQ-AGT-0029 · J. Kim · Production', status: 'Active', tone: 'ok', actions: ['Consent evidence mapped', 'PII guardrails active', 'Prompt logging enabled'] },
-          'Fraud Detection AI': { meta: 'DBQ-AGT-0063 · D. Williams · Production', status: 'Review', tone: 'warn', actions: ['Trust escalation path under oversight', 'Critical risk review open', 'Containment controls verified'] }
-        };
         const name = target.dataset.name;
-        const profile = profiles[name] || { meta: 'Governed agent profile', status: 'Active', tone: 'ok', actions: ['Registry review complete'] };
-        if (agentModalName) agentModalName.textContent = name;
-        if (agentModalMeta) agentModalMeta.textContent = profile.meta;
-        if (agentModalStatus) {
-          agentModalStatus.textContent = profile.status;
-          agentModalStatus.className = `status-badge ${profile.tone}`;
-        }
-        if (agentModalActions) {
-          agentModalActions.innerHTML = profile.actions.map((item) => `<div class="status-item"><strong>${name}</strong><span>${item}</span></div>`).join('');
-        }
+        const row = target.closest('tr');
+        const profile = getAgentProfileFromRow(row, name);
+        renderAgentRecord(profile);
         openModal('agentModal');
-        showToast(`${name} opened`, 'Agent identity, lineage, and registry activity are available for review.');
+        showToast(`${name} opened`, 'Agent identity, scope, and recent registry activity are available for review.');
         break;
       }
       case 'download-agent-summary': {
         const name = agentModalName?.textContent || 'Agent';
+        const token = agentModalToken?.textContent || 'AIT-0000';
         const meta = agentModalMeta?.textContent || 'Governed profile';
-        createHtmlDownload('databanq-agent-summary.html', `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Agent Summary</title><style>body{font-family:Arial,sans-serif;background:#f5f8f7;color:#132018;padding:28px}main{background:#fff;border:1px solid #d7e6dd;border-radius:12px;padding:18px}</style></head><body><main><h1>${name}</h1><p>${meta}</p><p>This summary includes governance posture, trust review status, and recent registry actions.</p></main></body></html>`);
+        createHtmlDownload('databanq-agent-summary.html', `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Agent Summary</title><style>body{font-family:Arial,sans-serif;background:#f5f8f7;color:#132018;padding:28px}main{background:#fff;border:1px solid #d7e6dd;border-radius:12px;padding:18px}</style></head><body><main><h1>${name}</h1><p><strong>${token}</strong></p><p>${meta}</p><p>This summary includes governance posture, trust review status, and recent registry actions.</p></main></body></html>`);
         showToast('Agent summary downloaded', 'The selected agent record was exported.');
         break;
       }
       case 'issue-agent':
-        demoAgentCount += 1;
-        addActivityRow(registryActionLog, `<strong>New identity</strong> issued as DBQ-AGT-00${demoAgentCount}.`);
-        prependLedgerEvent(`EVT-${9900 + demoAgentCount}`, 'Agent', 'Registry Service', 'Agent identity issuance', 'Pass', Math.random().toString(16).slice(2, 10));
-        addFeedItem(`<strong>New agent identity</strong> issued as DBQ-AGT-00${demoAgentCount}.`);
-        showToast('Agent identity issued', 'A new governed agent entry has been created.');
+        resetIssueAgentForm();
+        openModal('issueAgentModal');
+        break;
+      case 'revoke-agent': {
+        openRevokeDialog({
+          name: target.dataset.name,
+          token: target.dataset.token,
+          row: target.closest('tr')
+        });
+        break;
+      }
+      case 'modal-revoke-agent': {
+        const name = agentModal?.dataset.name || agentModalName?.textContent || 'Agent';
+        const token = agentModal?.dataset.token || agentModalToken?.textContent || 'AIT-0000';
+        const row = Array.from(agentRegistryBody?.querySelectorAll('tr') || []).find((entry) => entry.children[1]?.textContent.trim() === token);
+        openRevokeDialog({ name, token, row });
+        break;
+      }
+      case 'confirm-revoke-agent':
+        if (pendingRevoke) {
+          applyRevokeState(pendingRevoke);
+          addActivityRow(registryActionLog, `<strong>${pendingRevoke.name}</strong> token ${pendingRevoke.token} revoked.`);
+          addFeedItem(`<strong>${pendingRevoke.name}</strong> token ${pendingRevoke.token} revoked.`);
+          closeModal('revokeConfirmModal');
+          showToast(`${pendingRevoke.token} has been revoked and invalidated.`, '');
+          pendingRevoke = null;
+        }
+        break;
+      case 'audit-agent':
+        setScreen('audit');
+        showToast('Audit review opened', 'The warning path is ready for executive review.');
+        break;
+      case 'view-mcp':
+        showToast(`${target.dataset.name} opened`, 'Server policy details and recent calls are available for review.');
+        break;
+      case 'edit-mcp':
+        showToast('Policy editor ready', `${target.dataset.name} policy controls can now be updated.`);
+        break;
+      case 'verify-agent':
+        showToast('Verification queued', `${target.dataset.name} has been sent for registry validation.`);
+        break;
+      case 'block-agent':
+        showToast('Process blocked', `${target.dataset.name} has been isolated pending investigation.`);
+        break;
+      case 'reset-simulation':
+        event.preventDefault();
+        resetContainmentSimulation();
         break;
       case 'send-chat':
         sendChat();
@@ -555,21 +1442,61 @@ table{width:100%;border-collapse:collapse}th,td{padding:10px;border-bottom:1px s
     }
   });
 
-  const hash = (window.location.hash || '#dashboard').replace('#', '');
-  setScreen(screenNames[hash] ? hash : 'dashboard');
+  applyMetricTargets();
+  observeMetrics();
+  syncRouteFromHash();
+  window.addEventListener('hashchange', syncRouteFromHash);
 
-  screens.forEach((screen) => animateMetricsIn(screen));
+  updateRegistryCount();
+  renderDashboardFeed();
+  renderMcpFeed();
   refreshLedgerRows();
 
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') {
+      document.querySelectorAll('.modal.open').forEach((modal) => closeModal(modal.id));
+      resetTrustSelection();
+      return;
+    }
+
+    if (event.key === '?') {
+      event.preventDefault();
+      openModal('supportModal');
+      return;
+    }
+
+    if (document.getElementById('agents')?.classList.contains('active') && /^[1-6]$/.test(event.key)) {
+      const mapping = ['agent-registry', 'agent-trust', 'agent-blast', 'agent-lineage', 'agent-mcp', 'agent-workflow'];
+      activateTab('agent', mapping[Number(event.key) - 1]);
+    }
+  });
+
+  setInterval(renderDashboardFeed, 30000);
+
   setInterval(() => {
-    if (!document.getElementById('dashboard')?.classList.contains('active')) return;
     const events = [
-      '<strong>Usage ledger</strong> wrote a new signed event for AI policy enforcement.',
-      '<strong>Agent registry</strong> synced owner metadata from Okta.',
-      '<strong>Audit evidence</strong> package updated with a fresh trust review.',
-      '<strong>Consent registry</strong> recorded a downstream renewal acknowledgment.'
+      'AIT-0029 scope checked against policy P-001',
+      'MCP call logged: crm-mcp → customer-support-ai',
+      'Shadow AI detected: new tool usage flagged in Marketing',
+      'Consent record CNS-2798 flagged for renewal (expires soon)',
+      'RevenueOps Agent completed CRM note sync — 14 records',
+      'Policy P-006 evaluated: no violations',
+      `Audit hash committed: EVT-${String(Math.floor(Math.random() * 9000) + 1000)}`
     ];
     const choice = events[Math.floor(Math.random() * events.length)];
     addFeedItem(choice);
-  }, 9000);
+  }, 20000);
+
+  setInterval(() => {
+    const entries = [
+      ['compliance-checker', 'audit-mcp', '✓ Pass', 'ok'],
+      ['fraud-detection-ai', 'payment-gateway-mcp', '⚠ Flagged', 'warn'],
+      ['revenue-ops-agent', 'crm-mcp', '✓ Pass', 'ok'],
+      ['contract-reviewer', 'doc-retrieval-mcp', '✓ Pass', 'ok'],
+      ['unknown-proc-881', 'external-llm-mcp', '✕ Blocked', 'risk'],
+      ['customer-support', 'crm-mcp', '✓ Pass', 'ok']
+    ];
+    const next = entries[Math.floor(Math.random() * entries.length)];
+    addMcpFeedItem(next[0], next[1], next[2], next[3]);
+  }, 5000);
 });

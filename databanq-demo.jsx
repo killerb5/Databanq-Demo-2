@@ -350,12 +350,12 @@ const css = `
 // ─── MOCK DATA ────────────────────────────────────────────────────────────────
 
 const AGENTS = [
-  { id: "DBQ-AGT-0041", name: "RevenueOps Agent", dept: "Finance", env: "Production", status: "active", scope: ["Salesforce", "NetSuite"], risk: "low", model: "GPT-4o", owner: "M. Chen", icon: "💹" },
-  { id: "DBQ-AGT-0038", name: "Contract Reviewer", dept: "Legal", env: "Staging", status: "active", scope: ["SharePoint", "DocuSign"], risk: "medium", model: "Claude 3.5", owner: "A. Torres", icon: "⚖️" },
-  { id: "DBQ-AGT-0029", name: "Customer Support AI", dept: "CX", env: "Production", status: "active", scope: ["Zendesk", "Slack"], risk: "low", model: "GPT-4o mini", owner: "J. Kim", icon: "🎧" },
-  { id: "DBQ-AGT-0052", name: "Data Pipeline Agent", dept: "Engineering", env: "Production", status: "alert", scope: ["Snowflake", "S3", "Redshift"], risk: "high", model: "Claude 3 Opus", owner: "R. Patel", icon: "🔄" },
-  { id: "DBQ-AGT-0017", name: "HR Onboarding Bot", dept: "HR", env: "Production", status: "active", scope: ["Workday", "Slack"], risk: "low", model: "Gemini 1.5", owner: "S. Johnson", icon: "👥" },
-  { id: "DBQ-AGT-0063", name: "Fraud Detection AI", dept: "Risk", env: "Production", status: "active", scope: ["Core Banking", "Auth0"], risk: "critical", model: "Internal", owner: "D. Williams", icon: "🛡️" },
+  { id: "AIT-0041", name: "RevenueOps Agent", dept: "Finance", env: "Production", status: "active", scope: ["Salesforce", "NetSuite"], risk: "low", model: "GPT-4o", owner: "M. Chen", icon: "💹" },
+  { id: "AIT-0038", name: "Contract Reviewer", dept: "Legal", env: "Staging", status: "active", scope: ["SharePoint", "DocuSign"], risk: "medium", model: "Claude 3.5", owner: "A. Torres", icon: "⚖️" },
+  { id: "AIT-0029", name: "Customer Support AI", dept: "CX", env: "Production", status: "active", scope: ["Zendesk", "Slack"], risk: "low", model: "GPT-4o mini", owner: "J. Kim", icon: "🎧" },
+  { id: "AIT-0052", name: "Data Pipeline Agent", dept: "Engineering", env: "Production", status: "alert", scope: ["Snowflake", "S3", "Redshift"], risk: "high", model: "Claude 3 Opus", owner: "R. Patel", icon: "🔄" },
+  { id: "AIT-0017", name: "HR Onboarding Bot", dept: "HR", env: "Production", status: "active", scope: ["Workday", "Slack"], risk: "low", model: "Gemini 1.5", owner: "S. Johnson", icon: "👥" },
+  { id: "AIT-0063", name: "Fraud Detection AI", dept: "Risk", env: "Production", status: "active", scope: ["Core Banking", "Auth0"], risk: "critical", model: "Internal", owner: "D. Williams", icon: "🛡️" },
 ];
 
 const CONSENT_RECORDS = [
@@ -394,7 +394,7 @@ const MCP_SERVERS = [
 ];
 
 const FEED_EVENTS = [
-  { time: "00:12", text: <><strong>DBQ-AGT-0052</strong> triggered blast radius limit — Snowflake write blocked</>, type: "alert" },
+  { time: "00:12", text: <><strong>AIT-0052</strong> triggered blast radius limit — Snowflake write blocked</>, type: "alert" },
   { time: "00:09", text: <><strong>SOC 2 evidence</strong> auto-tagged for workflow <code style={{fontSize:10,color:'#00d4ff'}}>WF-089</code></>, type: "info" },
   { time: "00:07", text: <><strong>Shadow AI</strong> detected: Kyle Barnes accessed Midjourney (unapproved)</>, type: "warning" },
   { time: "00:04", text: <><strong>Policy P-14</strong> enforced: PII export blocked in staging environment</>, type: "info" },
@@ -436,11 +436,11 @@ const INTEGRATIONS = [
 ];
 
 const AUDIT_EVENTS = [
-  { id: "EVT-9921", time: "2026-04-15 00:12:04", type: "BLAST_RADIUS_TRIGGER", agent: "DBQ-AGT-0052", hash: "a3f9e2b1c4d7", status: "signed", severity: "high" },
+  { id: "EVT-9921", time: "2026-04-15 00:12:04", type: "BLAST_RADIUS_TRIGGER", agent: "AIT-0052", hash: "a3f9e2b1c4d7", status: "signed", severity: "high" },
   { id: "EVT-9920", time: "2026-04-15 00:09:11", type: "POLICY_ENFORCE", agent: "Policy Engine", hash: "b8c1d4e7f2a3", status: "signed", severity: "info" },
   { id: "EVT-9919", time: "2026-04-15 00:07:33", type: "SHADOW_AI_DETECT", agent: "Shadow Monitor", hash: "c2d5e8f1a4b7", status: "signed", severity: "warning" },
   { id: "EVT-9918", time: "2026-04-14 23:58:02", type: "CONSENT_REVOKE", agent: "CNS-2798", hash: "d6e9f2a5b8c1", status: "signed", severity: "medium" },
-  { id: "EVT-9917", time: "2026-04-14 23:41:18", type: "TOKEN_ROTATE", agent: "DBQ-AGT-0029", hash: "e1f4a7b2c5d8", status: "signed", severity: "info" },
+  { id: "EVT-9917", time: "2026-04-14 23:41:18", type: "TOKEN_ROTATE", agent: "AIT-0029", hash: "e1f4a7b2c5d8", status: "signed", severity: "info" },
   { id: "EVT-9916", time: "2026-04-14 23:30:55", type: "VENDOR_ALERT", agent: "Vendor Chain", hash: "f5a8b3c6d9e2", status: "signed", severity: "warning" },
 ];
 
@@ -524,7 +524,7 @@ const OverviewPage = ({ toast }) => {
   useEffect(() => {
     if (tick > 0 && tick % 2 === 0) {
       const newEvents = [
-        { time: "just now", text: <><strong>DBQ-AGT-{String(Math.floor(Math.random()*80)+10).padStart(4,'0')}</strong> identity token refreshed</>, type: "info" },
+        { time: "just now", text: <><strong>AIT-{String(Math.floor(Math.random()*80)+10).padStart(4,'0')}</strong> identity token refreshed</>, type: "info" },
         { time: "just now", text: <><strong>Policy P-{Math.floor(Math.random()*6)+1}</strong> evaluated — {Math.floor(Math.random()*5)+1} decisions</>, type: "success" },
         { time: "just now", text: <><strong>Audit hash</strong> written to immutable ledger</>, type: "info" },
       ];
@@ -928,7 +928,7 @@ const AgentGovernancePage = ({ toast }) => {
                 </select>
               </div>
               <button className="btn btn-primary" style={{ width: "100%", justifyContent: "center", marginTop: 4 }}
-                onClick={() => { setIssueModal(false); toast(`Identity token issued: DBQ-AGT-${String(Math.floor(Math.random()*100)).padStart(4,'0')} — ${newAgentName || "New Agent"}`, "success"); }}>
+                onClick={() => { setIssueModal(false); toast(`Identity token issued: AIT-${String(Math.floor(Math.random()*100)).padStart(4,'0')} — ${newAgentName || "New Agent"}`, "success"); }}>
                 Issue Identity Token
               </button>
             </div>
