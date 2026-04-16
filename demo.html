@@ -2291,7 +2291,7 @@
                 </div>
                 <table>
                   <thead><tr><th>Server Name</th><th>Risk</th><th>Authorized Agents</th><th>Calls Today</th><th>Status</th><th>Actions</th></tr></thead>
-                  <tbody>
+                  <tbody id="mcpRegistryBody">
                     <tr><td>doc-retrieval-mcp</td><td><span class="status-badge ok">Low</span></td><td>3 agents</td><td>412 calls</td><td><span class="status-badge ok">● Active</span></td><td><button class="small-btn" data-action="view-mcp" data-name="doc-retrieval-mcp">View</button> <button class="small-btn" data-action="edit-mcp" data-name="doc-retrieval-mcp">Edit Policy</button></td></tr>
                     <tr><td>crm-mcp</td><td><span class="status-badge warn">Medium</span></td><td>2 agents</td><td>289 calls</td><td><span class="status-badge ok">● Active</span></td><td><button class="small-btn" data-action="view-mcp" data-name="crm-mcp">View</button> <button class="small-btn" data-action="edit-mcp" data-name="crm-mcp">Edit Policy</button></td></tr>
                     <tr><td>audit-mcp</td><td><span class="status-badge ok">Low</span></td><td>4 agents</td><td>103 calls</td><td><span class="status-badge ok">● Active</span></td><td><button class="small-btn" data-action="view-mcp" data-name="audit-mcp">View</button> <button class="small-btn" data-action="edit-mcp" data-name="audit-mcp">Edit Policy</button></td></tr>
@@ -2908,6 +2908,73 @@
           <button class="small-btn primary" data-action="download-agent-summary">Download Summary</button>
           <button class="small-btn danger" data-action="modal-revoke-agent">Revoke Token</button>
           <button class="small-btn" data-close-modal="agentModal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="mcpModal" aria-hidden="true">
+    <div class="modal-panel">
+      <div class="modal-head">
+        <div>
+          <div class="modal-title">MCP Server Policy</div>
+          <div class="demo-card-meta">Server posture, agent allowlist, and enforcement controls</div>
+        </div>
+        <button class="icon-close" data-close-modal="mcpModal">✕</button>
+      </div>
+      <div class="modal-body list-stack">
+        <div>
+          <div class="demo-card-title" id="mcpModalName" style="font-size:20px; margin-bottom:6px;">doc-retrieval-mcp</div>
+          <div class="screen-subtitle" id="mcpModalMeta">Low risk · 3 authorized agents · 412 calls today</div>
+          <div style="margin-top:10px; display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+            <span class="status-badge ok" id="mcpModalStatus">● Active</span>
+            <span class="chip neutral">Signed policy</span>
+          </div>
+        </div>
+        <div class="card-grid-2">
+          <div class="field">
+            <label>Server</label>
+            <input id="mcpModalServer" value="doc-retrieval-mcp" disabled>
+          </div>
+          <div class="field">
+            <label>Status</label>
+            <select id="mcpModalStatusSelect">
+              <option>Active</option>
+              <option>Review</option>
+              <option>Blocked</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Risk level</label>
+            <select id="mcpModalRisk">
+              <option>Low</option>
+              <option>Medium</option>
+              <option>High</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Calls today</label>
+            <input id="mcpModalCalls" type="number" min="0" value="412">
+          </div>
+        </div>
+        <div class="field">
+          <label>Authorized agents</label>
+          <input id="mcpModalAgents" value="Contract Reviewer, Customer Support AI, HR Onboarding Bot">
+        </div>
+        <div class="field">
+          <label>Policy notes</label>
+          <input id="mcpModalPolicy" value="Read-only document retrieval with citation logging and signed audit traces.">
+        </div>
+        <div class="modal-section">
+          <h3>Recent Governance Activity</h3>
+          <div class="status-list" id="mcpModalActivity">
+            <div class="status-item"><strong>09:41</strong><span>Call policy attested and signed</span></div>
+          </div>
+        </div>
+        <div class="actions-row">
+          <button class="small-btn" id="mcpEditBtn" data-action="mcp-edit-mode">Edit Policy</button>
+          <button class="small-btn primary" id="mcpSaveBtn" data-action="save-mcp-policy" style="display:none;">Save Policy</button>
+          <button class="small-btn" data-close-modal="mcpModal">Close</button>
         </div>
       </div>
     </div>

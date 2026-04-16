@@ -90,6 +90,20 @@ document.addEventListener('DOMContentLoaded', () => {
   const probeBlockedMotion1 = document.getElementById('probeBlockedMotion1');
   const probeBlockedMotion2 = document.getElementById('probeBlockedMotion2');
   const probeMonitoredMotion = document.getElementById('probeMonitoredMotion');
+  const mcpRegistryBody = document.getElementById('mcpRegistryBody');
+  const mcpModal = document.getElementById('mcpModal');
+  const mcpModalName = document.getElementById('mcpModalName');
+  const mcpModalMeta = document.getElementById('mcpModalMeta');
+  const mcpModalStatus = document.getElementById('mcpModalStatus');
+  const mcpModalServer = document.getElementById('mcpModalServer');
+  const mcpModalStatusSelect = document.getElementById('mcpModalStatusSelect');
+  const mcpModalRisk = document.getElementById('mcpModalRisk');
+  const mcpModalCalls = document.getElementById('mcpModalCalls');
+  const mcpModalAgents = document.getElementById('mcpModalAgents');
+  const mcpModalPolicy = document.getElementById('mcpModalPolicy');
+  const mcpModalActivity = document.getElementById('mcpModalActivity');
+  const mcpEditBtn = document.getElementById('mcpEditBtn');
+  const mcpSaveBtn = document.getElementById('mcpSaveBtn');
 
   const getSavedTab = (group, fallback) => {
     try {
@@ -131,6 +145,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let ledgerPage = 0;
   let containmentRunning = false;
   let pendingRevoke = null;
+  let currentMcpRecord = null;
 
   const metricConfigs = {
     'Governed Agents': { target: 18 },
@@ -230,6 +245,57 @@ document.addEventListener('DOMContentLoaded', () => {
       owner: 'None', issued: 'Unknown', expires: '—',
       scope: [], mcpServers: [],
       recent: [{ time: '6 min ago', text: 'Process detected without signed token' }, { time: '7 min ago', text: 'Verification workflow queued' }, { time: '8 min ago', text: 'Registry isolation applied' }]
+    }
+  };
+
+  const mcpDirectory = {
+    'doc-retrieval-mcp': {
+      risk: 'Low',
+      status: 'Active',
+      agents: ['Contract Reviewer', 'Customer Support AI', 'HR Onboarding Bot'],
+      calls: 412,
+      policy: 'Read-only document retrieval with citation logging and signed audit traces.',
+      recent: [{ time: '09:41', text: 'Policy attested and citation logging verified' }, { time: '08:56', text: 'Allowlist synced to 3 approved agents' }, { time: '08:11', text: 'Document retrieval scope confirmed read-only' }]
+    },
+    'crm-mcp': {
+      risk: 'Medium',
+      status: 'Active',
+      agents: ['RevenueOps Agent', 'Customer Support AI'],
+      calls: 289,
+      policy: 'Scoped CRM read/write access with notes-only mutation rights.',
+      recent: [{ time: '09:22', text: 'Write scopes narrowed to governed note updates' }, { time: '08:43', text: 'Customer record access sampled and approved' }, { time: '08:05', text: 'OAuth posture revalidated' }]
+    },
+    'audit-mcp': {
+      risk: 'Low',
+      status: 'Active',
+      agents: ['RevenueOps Agent', 'Contract Reviewer', 'Fraud Detection AI', 'Compliance Reporter'],
+      calls: 103,
+      policy: 'Evidence logging only; all calls hash-signed to the registry.',
+      recent: [{ time: '10:02', text: 'Evidence sync completed for Q1 export' }, { time: '09:34', text: 'Ledger proof attached to audit workflow' }, { time: '08:47', text: 'Reviewer access renewed' }]
+    },
+    'payment-gateway-mcp': {
+      risk: 'High',
+      status: 'Review',
+      agents: ['Fraud Detection AI'],
+      calls: 43,
+      policy: 'Human oversight required before any payment action or exception path.',
+      recent: [{ time: '09:58', text: 'High-risk payment path moved to review queue' }, { time: '09:26', text: 'Exception flow requires controller approval' }, { time: '08:19', text: 'Outbound write attempts sampled for oversight' }]
+    },
+    'external-llm-mcp': {
+      risk: 'High',
+      status: 'Blocked',
+      agents: [],
+      calls: 0,
+      policy: 'External model egress disabled pending vendor assurance and approved allowlist.',
+      recent: [{ time: '09:11', text: 'External egress blocked by governance policy' }, { time: '08:54', text: 'Unsigned vendor attestation rejected' }, { time: '08:03', text: 'Connection quarantined pending review' }]
+    },
+    'vector-db-mcp': {
+      risk: 'Medium',
+      status: 'Active',
+      agents: ['Contract Reviewer', 'RevenueOps Agent'],
+      calls: 0,
+      policy: 'Vector retrieval limited to approved indexed collections and metadata-only writes.',
+      recent: [{ time: 'Yesterday', text: 'Index permissions reviewed and retained' }, { time: 'Yesterday', text: 'Cold standby posture confirmed' }, { time: '2 days ago', text: 'No anomalous query fan-out observed' }]
     }
   };
 
@@ -700,6 +766,105 @@ body{font-family:Arial,sans-serif;background:#ffffff;color:#111827;margin:0;padd
     }
     if (agentModalActions) {
       agentModalActions.innerHTML = profile.recent.slice(0, 3).map((item) => `<div class="status-item"><strong>${item.time}</strong><span>${item.text}</span></div>`).join('');
+    }
+  };
+
+  const formatMcpStatus = (status = 'Active') => {
+    const normalized = status.toLowerCase();
+    if (normalized === 'blocked') return '✕ Blocked';
+    if (normalized === 'review') return '⚠ Review';
+    return '● Active';
+  };
+
+  const getMcpStatusTone = (status = 'Active') => {
+    const normalized = status.toLowerCase();
+    if (normalized === 'blocked') return 'risk';
+    if (normalized === 'review') return 'warn';
+    return 'ok';
+  };
+
+  const getRiskTone = (risk = 'Low') => {
+    const normalized = risk.toLowerCase();
+    if (normalized === 'high') return 'risk';
+    if (normalized === 'medium') return 'warn';
+    return 'ok';
+  };
+
+  const setMcpEditState = (editable = false) => {
+    [mcpModalStatusSelect, mcpModalRisk, mcpModalCalls, mcpModalAgents, mcpModalPolicy].forEach((field) => {
+      if (field) field.disabled = !editable;
+    });
+    if (mcpModalServer) mcpModalServer.disabled = true;
+    if (mcpEditBtn) mcpEditBtn.style.display = editable ? 'none' : 'inline-flex';
+    if (mcpSaveBtn) mcpSaveBtn.style.display = editable ? 'inline-flex' : 'none';
+    if (currentMcpRecord && mcpModalMeta) {
+      const label = `${currentMcpRecord.risk} risk · ${currentMcpRecord.agents.length} authorized ${currentMcpRecord.agents.length === 1 ? 'agent' : 'agents'} · ${currentMcpRecord.calls} calls today`;
+      mcpModalMeta.textContent = editable ? `${label} · editing enabled` : label;
+    }
+  };
+
+  const getMcpProfileFromRow = (row, fallbackName) => {
+    const name = row?.children?.[0]?.textContent.trim() || fallbackName;
+    const base = mcpDirectory[name] || {};
+    const risk = row?.children?.[1]?.textContent.trim() || base.risk || 'Low';
+    const callsText = row?.children?.[3]?.textContent.trim() || `${base.calls || 0} calls`;
+    const statusText = row?.children?.[4]?.textContent.trim() || formatMcpStatus(base.status || 'Active');
+    const status = statusText.toLowerCase().includes('block') ? 'Blocked' : statusText.toLowerCase().includes('review') ? 'Review' : 'Active';
+
+    return {
+      name,
+      risk,
+      status,
+      agents: Array.isArray(base.agents) ? [...base.agents] : [],
+      calls: Number((callsText.match(/\d+/) || ['0'])[0]),
+      policy: base.policy || 'Scoped access with signed audit enforcement.',
+      recent: Array.isArray(base.recent) ? [...base.recent] : [{ time: 'Just now', text: 'Policy ready for governance review' }],
+      row
+    };
+  };
+
+  const renderMcpRecord = (record, editable = false) => {
+    currentMcpRecord = {
+      ...record,
+      agents: Array.isArray(record.agents) ? [...record.agents] : [],
+      recent: Array.isArray(record.recent) ? [...record.recent] : []
+    };
+
+    if (!mcpModal) return;
+    mcpModal.dataset.name = currentMcpRecord.name;
+
+    if (mcpModalName) mcpModalName.textContent = currentMcpRecord.name;
+    if (mcpModalStatus) {
+      mcpModalStatus.textContent = formatMcpStatus(currentMcpRecord.status);
+      mcpModalStatus.className = `status-badge ${getMcpStatusTone(currentMcpRecord.status)}`;
+    }
+    if (mcpModalServer) mcpModalServer.value = currentMcpRecord.name;
+    if (mcpModalStatusSelect) mcpModalStatusSelect.value = currentMcpRecord.status;
+    if (mcpModalRisk) mcpModalRisk.value = currentMcpRecord.risk;
+    if (mcpModalCalls) mcpModalCalls.value = String(currentMcpRecord.calls);
+    if (mcpModalAgents) mcpModalAgents.value = currentMcpRecord.agents.join(', ');
+    if (mcpModalPolicy) mcpModalPolicy.value = currentMcpRecord.policy;
+    if (mcpModalActivity) {
+      mcpModalActivity.innerHTML = currentMcpRecord.recent.slice(0, 4).map((item) => `<div class="status-item"><strong>${item.time}</strong><span>${item.text}</span></div>`).join('');
+    }
+
+    setMcpEditState(editable);
+  };
+
+  const updateMcpRow = (record) => {
+    const row = record.row || Array.from(mcpRegistryBody?.querySelectorAll('tr') || []).find((entry) => entry.children[0]?.textContent.trim() === record.name);
+    if (!row) return;
+
+    row.classList.remove('registry-warning', 'registry-unverified', 'registry-revoked');
+    if (record.status === 'Review') row.classList.add('registry-warning');
+    if (record.status === 'Blocked') row.classList.add('registry-unverified', 'registry-revoked');
+
+    if (row.children[1]) row.children[1].innerHTML = `<span class="status-badge ${getRiskTone(record.risk)}">${record.risk}</span>`;
+    if (row.children[2]) row.children[2].textContent = `${record.agents.length} ${record.agents.length === 1 ? 'agent' : 'agents'}`;
+    if (row.children[3]) row.children[3].textContent = `${record.calls} calls`;
+    if (row.children[4]) row.children[4].innerHTML = `<span class="status-badge ${getMcpStatusTone(record.status)}">${formatMcpStatus(record.status)}</span>`;
+    if (row.children[5]) {
+      row.children[5].innerHTML = `<button class="small-btn" data-action="view-mcp" data-name="${record.name}">View</button> <button class="small-btn" data-action="edit-mcp" data-name="${record.name}">${record.status === 'Blocked' ? 'Unblock' : 'Edit Policy'}</button>`;
     }
   };
 
@@ -1418,11 +1583,59 @@ body{font-family:Arial,sans-serif;background:#ffffff;color:#111827;margin:0;padd
         setScreen('audit');
         showToast('Audit review opened', 'The warning path is ready for executive review.');
         break;
-      case 'view-mcp':
-        showToast(`${target.dataset.name} opened`, 'Server policy details and recent calls are available for review.');
+      case 'view-mcp': {
+        const name = target.dataset.name;
+        const profile = getMcpProfileFromRow(target.closest('tr'), name);
+        renderMcpRecord(profile, false);
+        openModal('mcpModal');
+        showToast(`${name} opened`, 'Server policy details and recent call activity are available for review.');
         break;
-      case 'edit-mcp':
-        showToast('Policy editor ready', `${target.dataset.name} policy controls can now be updated.`);
+      }
+      case 'edit-mcp': {
+        const name = target.dataset.name;
+        const profile = getMcpProfileFromRow(target.closest('tr'), name);
+        renderMcpRecord(profile, true);
+        openModal('mcpModal');
+        showToast('Policy editor ready', `${name} governance controls can now be updated.`);
+        break;
+      }
+      case 'mcp-edit-mode':
+        if (currentMcpRecord) {
+          setMcpEditState(true);
+          showToast('Edit mode enabled', `${currentMcpRecord.name} policy is now editable.`);
+        }
+        break;
+      case 'save-mcp-policy':
+        if (currentMcpRecord) {
+          const updated = {
+            ...currentMcpRecord,
+            risk: mcpModalRisk?.value || currentMcpRecord.risk,
+            status: mcpModalStatusSelect?.value || currentMcpRecord.status,
+            calls: Math.max(0, Number(mcpModalCalls?.value || currentMcpRecord.calls || 0)),
+            agents: (mcpModalAgents?.value || '').split(',').map((item) => item.trim()).filter(Boolean),
+            policy: mcpModalPolicy?.value?.trim() || currentMcpRecord.policy,
+            recent: [{
+              time: 'Just now',
+              text: `Policy updated — ${(mcpModalRisk?.value || currentMcpRecord.risk)} risk / ${(mcpModalStatusSelect?.value || currentMcpRecord.status)} status`
+            }, ...(currentMcpRecord.recent || [])].slice(0, 4)
+          };
+
+          mcpDirectory[updated.name] = {
+            ...(mcpDirectory[updated.name] || {}),
+            risk: updated.risk,
+            status: updated.status,
+            agents: [...updated.agents],
+            calls: updated.calls,
+            policy: updated.policy,
+            recent: [...updated.recent]
+          };
+
+          updateMcpRow(updated);
+          renderMcpRecord(updated, false);
+          addMcpFeedItem('policy-admin', updated.name, formatMcpStatus(updated.status), getMcpStatusTone(updated.status));
+          addFeedItem(`<strong>${updated.name}</strong> MCP policy updated with ${updated.agents.length} approved ${updated.agents.length === 1 ? 'agent' : 'agents'}.`);
+          showToast('MCP policy saved', `${updated.name} controls were updated in the governance registry.`);
+        }
         break;
       case 'verify-agent':
         showToast('Verification queued', `${target.dataset.name} has been sent for registry validation.`);
