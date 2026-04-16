@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', () => {
+const initializeDemo = () => {
   const screenNames = {
     dashboard: 'Dashboard',
     integrations: 'Connected Systems',
@@ -149,21 +149,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const metricConfigs = {
     'Governed Agents': { target: 18 },
-    'High-risk Alerts': { target: 2 },
-    'AI Governance Score': { target: 91 },
-    'Audit Readiness': { target: 87 },
+    'High-risk Alerts': { target: 1 },
+    'AI Governance Score': { target: 94, suffix: '%' },
+    'Audit Readiness': { target: 87, suffix: '%' },
     'Connected Now': { target: 4 },
-    'Pending Requests': { target: 1 },
+    'Pending Requests': { target: 2 },
     'Needs Scoped Access': { target: 1 },
-    'Catalog Matches': { target: 4 },
-    'SOC 2': { target: 87, suffix: '/100' },
-    'HIPAA': { target: 34, suffix: '/38' },
-    'EU AI Act': { target: 22, suffix: '/27' },
-    'Evidence Packs': { target: 6, suffix: ' ready' },
+    'Catalog Matches': { target: 12 },
+    'SOC 2': { target: 87, suffix: '%' },
+    'HIPAA': { target: 89, suffix: '%' },
+    'EU AI Act': { target: 81, suffix: '%' },
+    'Evidence Packs': { target: 6 },
     'Total Events': { target: 9847, format: 'comma' },
     'Hash Verified': { target: 9847, format: 'comma' },
-    'Agent Actions': { target: 3241, format: 'comma' },
-    'AI Inferences': { target: 6606, format: 'comma' }
+    'Agent Actions': { target: 4821, format: 'comma' },
+    'AI Inferences': { target: 5026, format: 'comma' }
   };
 
   const blastProfiles = {
@@ -323,7 +323,7 @@ document.addEventListener('DOMContentLoaded', () => {
     toast.querySelector('.toast-close')?.addEventListener('click', dismiss);
     toastStack.appendChild(toast);
     requestAnimationFrame(() => toast.classList.add('show'));
-    window.setTimeout(dismiss, 4000);
+    window.setTimeout(dismiss, 3000);
   };
 
   const openModal = (id) => {
@@ -599,29 +599,32 @@ body{font-family:Arial,sans-serif;background:#ffffff;color:#111827;margin:0;padd
   });
 
   const dashboardFeedEntries = [
-    { timestamp: Date.now() - 45000, html: '<strong>Fraud Detection AI</strong> triggered trust boundary review → compliance' },
-    { timestamp: Date.now() - 120000, html: '<strong>Audit evidence</strong> hash committed for workflow WF-204' },
-    { timestamp: Date.now() - 240000, html: '<strong>New integration request</strong>: GitHub queued for security sign-off' },
-    { timestamp: Date.now() - 420000, html: '<strong>Consent renewal</strong> propagated to downstream model vendors' },
-    { timestamp: Date.now() - 660000, html: '<strong>AIT-0041</strong> token rotated and hash-signed to registry' }
+    { timestamp: Date.now() - 12000, html: '<strong>Fraud Detection AI</strong> triggered a supervised escalation review for case FR-204.' },
+    { timestamp: Date.now() - 28000, html: '<strong>Audit Engine</strong> hash-signed the Q1 evidence bundle for board export.' },
+    { timestamp: Date.now() - 43000, html: '<strong>GitHub</strong> connector request moved to security sign-off.' },
+    { timestamp: Date.now() - 61000, html: '<strong>RevenueOps Agent</strong> rotated AIT-0041 and re-attested scope.' },
+    { timestamp: Date.now() - 77000, html: '<strong>Consent Registry</strong> renewed lawful use checks for lending workflows.' },
+    { timestamp: Date.now() - 98000, html: '<strong>Okta</strong> completed identity sync with no policy drift detected.' },
+    { timestamp: Date.now() - 124000, html: '<strong>Policy Engine</strong> evaluated P-006 with zero enforcement failures.' },
+    { timestamp: Date.now() - 149000, html: '<strong>Compliance Reporter</strong> generated an executive-ready governance summary.' }
   ];
 
   const mcpFeedEntries = [
-    { timestamp: Date.now() - 1000, actor: 'compliance-checker', server: 'audit-mcp', status: '✓ Pass', tone: 'ok' },
-    { timestamp: Date.now() - 4000, actor: 'fraud-detection-ai', server: 'payment-gateway-mcp', status: '⚠ Flagged', tone: 'warn' },
-    { timestamp: Date.now() - 13000, actor: 'revenue-ops-agent', server: 'crm-mcp', status: '✓ Pass', tone: 'ok' },
-    { timestamp: Date.now() - 21000, actor: 'contract-reviewer', server: 'doc-retrieval-mcp', status: '✓ Pass', tone: 'ok' },
-    { timestamp: Date.now() - 34000, actor: 'unknown-proc-881', server: 'external-llm-mcp', status: '✕ Blocked', tone: 'risk' },
-    { timestamp: Date.now() - 48000, actor: 'fraud-detection-ai', server: 'audit-mcp', status: '✓ Pass', tone: 'ok' },
-    { timestamp: Date.now() - 61000, actor: 'customer-support', server: 'crm-mcp', status: '✓ Pass', tone: 'ok' },
-    { timestamp: Date.now() - 73000, actor: 'revenue-ops-agent', server: 'doc-retrieval-mcp', status: '✓ Pass', tone: 'ok' }
+    { timestamp: Date.now() - 1000, actor: 'Compliance Reporter', server: 'audit-mcp', action: 'export evidence pack', result: 'Pass', tone: 'ok' },
+    { timestamp: Date.now() - 4000, actor: 'Fraud Detection AI', server: 'payment-gateway-mcp', action: 'authorize payment', result: 'Warn', tone: 'warn' },
+    { timestamp: Date.now() - 13000, actor: 'RevenueOps Agent', server: 'crm-mcp', action: 'sync opportunity note', result: 'Pass', tone: 'ok' },
+    { timestamp: Date.now() - 21000, actor: 'Contract Reviewer', server: 'doc-retrieval-mcp', action: 'retrieve clause library', result: 'Pass', tone: 'ok' },
+    { timestamp: Date.now() - 34000, actor: 'unknown-proc-881', server: 'external-llm-mcp', action: 'external completion', result: 'Blocked', tone: 'risk' },
+    { timestamp: Date.now() - 48000, actor: 'Fraud Detection AI', server: 'audit-mcp', action: 'write case evidence', result: 'Pass', tone: 'ok' },
+    { timestamp: Date.now() - 61000, actor: 'Customer Support AI', server: 'crm-mcp', action: 'lookup account owner', result: 'Pass', tone: 'ok' },
+    { timestamp: Date.now() - 73000, actor: 'HR Onboarding Bot', server: 'doc-retrieval-mcp', action: 'fetch policy packet', result: 'Pass', tone: 'ok' }
   ];
 
   const renderDashboardFeed = () => {
     if (!liveFeed) return;
     liveFeed.innerHTML = dashboardFeedEntries.map((entry, index) => `
-      <div class="feed-row ${entry.isNew ? 'feed-entry-new' : ''}"${index === 0 && entry.isNew ? ' style="animation:flashNew .4s ease;"' : ''}>
-        <div class="feed-time">${formatRelativeTime(entry.timestamp)}</div>
+      <div class="feed-row ${entry.isNew ? 'feed-entry-new' : ''}"${index === 0 && entry.isNew ? ' style="animation:flashNew .45s ease;"' : ''}>
+        <div class="feed-time">${formatClockTime(entry.timestamp)}</div>
         <div class="feed-text">${entry.html}</div>
       </div>
     `).join('');
@@ -630,12 +633,24 @@ body{font-family:Arial,sans-serif;background:#ffffff;color:#111827;margin:0;padd
 
   const renderMcpFeed = () => {
     if (!mcpCallFeed) return;
-    mcpCallFeed.innerHTML = mcpFeedEntries.map((entry, index) => `
-      <div class="feed-row ${entry.isNew ? 'feed-entry-new' : ''}"${index === 0 && entry.isNew ? ' style="animation:flashNew .4s ease;"' : ''}>
-        <div class="feed-time">${formatClockTime(entry.timestamp)}</div>
-        <div class="feed-text"><strong>${entry.actor}</strong> → ${entry.server} <span class="status-badge ${entry.tone}">${entry.status}</span></div>
+    mcpCallFeed.innerHTML = `
+      <div class="mcp-log-head">
+        <span>Time</span>
+        <span>Agent</span>
+        <span>Server</span>
+        <span>Action</span>
+        <span>Result</span>
       </div>
-    `).join('');
+      ${mcpFeedEntries.map((entry, index) => `
+        <div class="mcp-log-row ${entry.isNew ? 'feed-entry-new' : ''}"${index === 0 && entry.isNew ? ' style="animation:flashNew .45s ease;"' : ''}>
+          <span class="mcp-log-cell">${formatClockTime(entry.timestamp)}</span>
+          <span class="mcp-log-cell"><strong>${entry.actor}</strong></span>
+          <span class="mcp-log-cell">${entry.server}</span>
+          <span class="mcp-log-cell">${entry.action}</span>
+          <span class="mcp-log-cell"><span class="status-badge ${entry.tone}">${entry.result}</span></span>
+        </div>
+      `).join('')}
+    `;
     mcpFeedEntries.forEach((entry) => { entry.isNew = false; });
   };
 
@@ -645,9 +660,9 @@ body{font-family:Arial,sans-serif;background:#ffffff;color:#111827;margin:0;padd
     renderDashboardFeed();
   };
 
-  const addMcpFeedItem = (actor, server, status, tone) => {
-    mcpFeedEntries.unshift({ timestamp: Date.now(), actor, server, status, tone, isNew: true });
-    while (mcpFeedEntries.length > 12) mcpFeedEntries.pop();
+  const addMcpFeedItem = (actor, server, action, result, tone) => {
+    mcpFeedEntries.unshift({ timestamp: Date.now(), actor, server, action, result, tone, isNew: true });
+    while (mcpFeedEntries.length > 10) mcpFeedEntries.pop();
     renderMcpFeed();
   };
 
@@ -955,13 +970,14 @@ body{font-family:Arial,sans-serif;background:#ffffff;color:#111827;margin:0;padd
     if (!badge) return;
 
     const states = {
-      awaiting: { text: '—', className: 'status-awaiting' },
-      running: { text: 'Testing...', className: 'status-running' },
-      blocked: { text: '✕ Blocked', className: 'status-blocked' },
-      passed: { text: '✓ Contained', className: 'status-passed' }
+      ready: { text: 'Ready', className: 'status-awaiting' },
+      running: { text: 'Running...', className: 'status-running' },
+      blocked: { text: 'BLOCKED', className: 'status-blocked' },
+      logged: { text: 'LOGGED', className: 'status-logged' },
+      verified: { text: 'VERIFIED', className: 'status-passed' }
     };
 
-    const next = states[state] || states.awaiting;
+    const next = states[state] || states.ready;
     badge.className = `status-badge sim-status ${next.className}`;
     badge.textContent = next.text;
   };
@@ -1004,7 +1020,7 @@ body{font-family:Arial,sans-serif;background:#ffffff;color:#111827;margin:0;padd
   };
 
   const resetContainmentSimulation = () => {
-    containmentSteps.forEach((row) => setContainmentRowState(row, 'awaiting'));
+    containmentSteps.forEach((row) => setContainmentRowState(row, 'ready'));
     clearProbeDots();
     blastBlockedRing?.classList.remove('blocked-ring-flash');
     blastMonitoredRing?.classList.remove('monitored-ring-flash');
@@ -1014,7 +1030,7 @@ body{font-family:Arial,sans-serif;background:#ffffff;color:#111827;margin:0;padd
       containmentStatus.className = 'status-badge blue';
     }
     if (radiusResult) {
-      radiusResult.textContent = 'Select an agent to inspect its live access envelope.';
+      radiusResult.textContent = 'Containment checks are ready to run for payment, PII, escalation, and ledger controls.';
     }
     if (runContainmentBtn) {
       runContainmentBtn.disabled = false;
@@ -1033,52 +1049,45 @@ body{font-family:Arial,sans-serif;background:#ffffff;color:#111827;margin:0;padd
     const token = blastAgentSelector?.value || 'AIT-0041';
 
     if (containmentStatus) {
-      containmentStatus.textContent = 'Testing';
+      containmentStatus.textContent = 'Running...';
       containmentStatus.className = 'status-badge warn';
     }
     if (runContainmentBtn) {
       runContainmentBtn.disabled = true;
-      runContainmentBtn.textContent = 'Running simulation...';
+      runContainmentBtn.textContent = 'Running...';
     }
     if (blastAgentSelector) blastAgentSelector.disabled = true;
+    containmentSteps.forEach((row) => setContainmentRowState(row, 'running'));
+    if (radiusResult) {
+      radiusResult.textContent = `Running containment checks for ${token}...`;
+    }
 
-    setContainmentRowState(containmentSteps[0], 'running');
+    await wait(1500);
+
     triggerContainmentProbe('blocked1');
-    await wait(800);
-
     setContainmentRowState(containmentSteps[0], 'blocked');
-    showToast('🚫 Blocked', `write:financial-records is outside ${token} authorized scope.`);
-    await wait(600);
+    showToast('Payment write blocked', `write:financial-records is outside ${token} authorized scope.`, 'error');
+    await wait(300);
 
-    setContainmentRowState(containmentSteps[1], 'running');
     triggerContainmentProbe('blocked2');
-    await wait(600);
-
     setContainmentRowState(containmentSteps[1], 'blocked');
-    showToast('🚫 Blocked', 'read:full-PII exceeds blast radius.');
-    await wait(600);
+    showToast('PII export blocked', 'read:full-PII exceeded the allowed access envelope.', 'error');
+    await wait(300);
 
-    setContainmentRowState(containmentSteps[2], 'running');
     triggerContainmentProbe('monitored');
-    await wait(600);
+    setContainmentRowState(containmentSteps[2], 'logged');
+    showToast('Cross-agent escalation logged', 'Escalation was recorded and routed for human review.', 'warning');
+    await wait(300);
 
-    setContainmentRowState(containmentSteps[2], 'passed');
-    showToast('✓ Escalation contained', 'Escalation routed through compliance review.');
-    await wait(600);
-
-    setContainmentRowState(containmentSteps[3], 'running');
-    await wait(400);
-
-    setContainmentRowState(containmentSteps[3], 'passed');
-    showToast('✓ Ledger proof recorded', 'All actions hash-signed to tamper-evident ledger.');
-    await wait(600);
+    setContainmentRowState(containmentSteps[3], 'verified');
+    showToast('Ledger proof verified', 'The evidence chain was hash-verified successfully.', 'success');
 
     if (containmentStatus) {
       containmentStatus.textContent = 'Contained';
       containmentStatus.className = 'status-badge ok';
     }
     if (radiusResult) {
-      radiusResult.innerHTML = 'Simulation complete. 2 attempts blocked · 2 routed to compliance. <a href="#" data-action="reset-simulation">Reset</a>';
+      radiusResult.innerHTML = 'Simulation complete. Payment and PII actions were blocked, escalation was logged, and ledger proof was verified. <a href="#" data-action="reset-simulation">Reset</a>';
     }
     if (runContainmentBtn) {
       runContainmentBtn.disabled = false;
@@ -1292,23 +1301,20 @@ body{font-family:Arial,sans-serif;background:#ffffff;color:#111827;margin:0;padd
   };
 
   const botReplyFor = (message) => {
-    const lower = message.toLowerCase();
-    if (/(trust|delegation|a2a)/.test(lower)) {
-      return 'The Trust Graph shows every agent-to-agent delegation chain in your environment. Green edges are cryptographically signed authorized handoffs. Amber edges are flagged paths requiring human review before any downstream action can proceed. Navigate to Agent Governance → Trust Graph to see the current state.';
+    const lower = message.toLowerCase().trim();
+    if (lower === 'audit pack help' || /audit pack|export the audit/.test(lower)) {
+      return 'Your Q1 2026 audit pack includes signed ledger events, trust chain notes, workflow control mappings, and framework coverage for SOC 2, HIPAA, and EU AI Act. Click Open Audit Pack to preview or download.';
     }
-    if (/(blast|radius|scope|access)/.test(lower)) {
-      return 'Blast Radius Control limits what each agent can touch — per task, not per lifetime. The bullseye diagram shows authorized (green), monitored (amber), and hard-blocked (red) zones for the selected agent. Run the containment simulator to see it block unauthorized access attempts in real time.';
+    if (lower === 'integration help' || /integration|connector/.test(lower)) {
+      return 'You have 4 active connectors: Salesforce, Okta, Slack, and Snowflake. Snowflake is scoped to read-only. GitHub is pending security sign-off.';
     }
-    if (/(audit|export|download|report)/.test(lower)) {
-      return 'Your Q1 2026 audit package is ready. Go to Audit & Compliance and click Open Audit Pack to preview the regulator-ready export. Click Download Official Report to save it. The report includes SOC 2, HIPAA, EU AI Act, and NIST coverage with signed evidence from the hash ledger.';
+    if (lower === 'trust graph help' || /trust graph|trust/.test(lower)) {
+      return 'One high-risk delegation path is active: Fraud Detection AI → Case Escalator. This edge requires a second human reviewer before the escalation can proceed.';
     }
-    if (/(mcp|server|tool call)/.test(lower)) {
-      return 'MCP Server Governance tracks every Model Context Protocol server your agents can invoke. Each server has an authorized agent allowlist, call logging, and policy enforcement. Navigate to Agent Governance → MCP Governance to see the live call feed and server risk classifications.';
+    if (lower === 'workspace navigation' || /navigate|navigation|sidebar/.test(lower)) {
+      return 'Use the left sidebar to move between sections. The Overview gives you the live governance posture. Agent Governance covers identity and trust. AI Governance covers consent, shadow AI, and vendors.';
     }
-    if (/(consent|privacy|data)/.test(lower)) {
-      return 'The Consent Registry tracks lawful use records for every AI data interaction. DataBanq supports four consent types: Explicit, Implied, Inferred, and Contractual. Records nearing expiry are flagged automatically for renewal. Navigate to AI Governance → Consent Registry to review the current state.';
-    }
-    return 'I can help you navigate the demo. Try asking about: trust graph, blast radius, audit exports, MCP governance, or consent registry.';
+    return 'That\'s a great question for your compliance team. DataBanq can generate a governance report or audit pack to support that review.';
   };
 
   const sendChat = (customText) => {
@@ -1316,7 +1322,22 @@ body{font-family:Arial,sans-serif;background:#ffffff;color:#111827;margin:0;padd
     if (!text) return;
     addChatMessage('user', text);
     if (chatInput) chatInput.value = '';
-    setTimeout(() => addChatMessage('bot', botReplyFor(text)), 300);
+
+    if (chatBox) {
+      const typing = document.createElement('div');
+      typing.className = 'chat-msg bot typing';
+      typing.textContent = 'DataBanq Platform Guide is typing…';
+      chatBox.appendChild(typing);
+      chatBox.scrollTop = chatBox.scrollHeight;
+
+      setTimeout(() => {
+        typing.remove();
+        addChatMessage('bot', botReplyFor(text));
+      }, 600);
+      return;
+    }
+
+    setTimeout(() => addChatMessage('bot', botReplyFor(text)), 600);
   };
 
   document.querySelectorAll('[data-chat-prompt]').forEach((button) => {
@@ -1632,7 +1653,7 @@ body{font-family:Arial,sans-serif;background:#ffffff;color:#111827;margin:0;padd
 
           updateMcpRow(updated);
           renderMcpRecord(updated, false);
-          addMcpFeedItem('policy-admin', updated.name, formatMcpStatus(updated.status), getMcpStatusTone(updated.status));
+          addMcpFeedItem('Policy Admin', updated.name, 'policy.update', updated.status === 'Blocked' ? 'Blocked' : updated.status === 'Review' ? 'Warn' : 'Pass', getMcpStatusTone(updated.status));
           addFeedItem(`<strong>${updated.name}</strong> MCP policy updated with ${updated.agents.length} approved ${updated.agents.length === 1 ? 'agent' : 'agents'}.`);
           showToast('MCP policy saved', `${updated.name} controls were updated in the governance registry.`);
         }
@@ -1641,7 +1662,11 @@ body{font-family:Arial,sans-serif;background:#ffffff;color:#111827;margin:0;padd
         showToast('Verification queued', `${target.dataset.name} has been sent for registry validation.`);
         break;
       case 'block-agent':
-        showToast('Process blocked', `${target.dataset.name} has been isolated pending investigation.`);
+        showToast('Process blocked', `${target.dataset.name} has been isolated pending investigation.`, 'error');
+        break;
+      case 'resolve-oversight':
+        showToast('Oversight assigned', 'Oversight step assigned to A. Torres (CCO).', 'success');
+        addFeedItem('<strong>A. Torres (CCO)</strong> assigned the required oversight step for adverse action support.');
         break;
       case 'reset-simulation':
         event.preventDefault();
@@ -1664,6 +1689,10 @@ body{font-family:Arial,sans-serif;background:#ffffff;color:#111827;margin:0;padd
   renderDashboardFeed();
   renderMcpFeed();
   refreshLedgerRows();
+  resetContainmentSimulation();
+  requestAnimationFrame(() => {
+    document.querySelectorAll('.screen.active .kpi-value.metric').forEach((el) => animateMetric(el));
+  });
 
   document.addEventListener('keydown', (event) => {
     if (event.key === 'Escape') {
@@ -1688,28 +1717,35 @@ body{font-family:Arial,sans-serif;background:#ffffff;color:#111827;margin:0;padd
 
   setInterval(() => {
     const events = [
-      'AIT-0029 scope checked against policy P-001',
-      'MCP call logged: crm-mcp → customer-support-ai',
-      'Shadow AI detected: new tool usage flagged in Marketing',
-      'Consent record CNS-2798 flagged for renewal (expires soon)',
-      'RevenueOps Agent completed CRM note sync — 14 records',
-      'Policy P-006 evaluated: no violations',
-      `Audit hash committed: EVT-${String(Math.floor(Math.random() * 9000) + 1000)}`
+      '<strong>RevenueOps Agent</strong> completed a governed CRM note sync for 14 records.',
+      '<strong>Policy Engine</strong> re-evaluated P-006 with no control failures detected.',
+      '<strong>Shadow AI Monitor</strong> flagged new marketing tool usage for review.',
+      '<strong>Consent Registry</strong> refreshed record CNS-2798 through 2026-12-01.',
+      '<strong>Snowflake</strong> remained scoped to read-only after connector review.',
+      `<strong>Audit Engine</strong> committed signed ledger event EVT-${String(Math.floor(Math.random() * 9000) + 1000)}.`,
+      '<strong>Compliance Reporter</strong> published a new governance readiness snapshot.',
+      '<strong>Okta</strong> completed role sync with no privilege drift.'
     ];
     const choice = events[Math.floor(Math.random() * events.length)];
     addFeedItem(choice);
-  }, 20000);
+  }, 4000);
 
   setInterval(() => {
     const entries = [
-      ['compliance-checker', 'audit-mcp', '✓ Pass', 'ok'],
-      ['fraud-detection-ai', 'payment-gateway-mcp', '⚠ Flagged', 'warn'],
-      ['revenue-ops-agent', 'crm-mcp', '✓ Pass', 'ok'],
-      ['contract-reviewer', 'doc-retrieval-mcp', '✓ Pass', 'ok'],
-      ['unknown-proc-881', 'external-llm-mcp', '✕ Blocked', 'risk'],
-      ['customer-support', 'crm-mcp', '✓ Pass', 'ok']
+      ['Compliance Reporter', 'audit-mcp', 'export evidence pack', 'Pass', 'ok'],
+      ['Fraud Detection AI', 'payment-gateway-mcp', 'authorize payment', 'Warn', 'warn'],
+      ['RevenueOps Agent', 'crm-mcp', 'sync account note', 'Pass', 'ok'],
+      ['Contract Reviewer', 'doc-retrieval-mcp', 'retrieve clause library', 'Pass', 'ok'],
+      ['unknown-proc-881', 'external-llm-mcp', 'external completion', 'Blocked', 'risk'],
+      ['Customer Support AI', 'crm-mcp', 'lookup account owner', 'Pass', 'ok']
     ];
     const next = entries[Math.floor(Math.random() * entries.length)];
-    addMcpFeedItem(next[0], next[1], next[2], next[3]);
+    addMcpFeedItem(next[0], next[1], next[2], next[3], next[4]);
   }, 5000);
-});
+};
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initializeDemo);
+} else {
+  initializeDemo();
+}
